@@ -53,7 +53,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2010_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -78,7 +78,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalLibraryDirectories>D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\LeapSDK\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>Leapd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -86,9 +86,9 @@
       <OutputFile>$(IntDir)\Badaboum.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\Leapd.dll "$(TargetDir)" /y
-xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\msvcp100d.dll "$(TargetDir)" /y
-xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
+      <Command>xcopy ..\..\LeapSDK\lib\x86\Leapd.dll "$(TargetDir)" /y
+xcopy ..\..\LeapSDK\lib\x86\msvcp100d.dll "$(TargetDir)" /y
+xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@ xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\msvcr100d.dll "$
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\include;D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2010_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -128,7 +128,7 @@ xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\msvcr100d.dll "$
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalLibraryDirectories>D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\LeapSDK\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>Leap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -136,7 +136,7 @@ xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\msvcr100d.dll "$
       <OutputFile>$(IntDir)\Badaboum.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy D:\Travail\IMAC\IMAC3\RV\LeapDeveloperKit\LeapSDK\lib\x86\Leap.dll "$(TargetDir)" /y</Command>
+      <Command>xcopy ..\..\LeapSDK\lib\x86\Leap.dll "$(TargetDir)" /y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
