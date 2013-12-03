@@ -1416,6 +1416,7 @@
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp">
       <Filter>Badaboum\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h">
@@ -2729,6 +2730,8 @@
     <ClInclude Include="..\..\Source\util\LeapUtil.h">
       <Filter>Badaboum\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Window.h" />
+    <ClInclude Include="..\..\Source\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Badaboum_old\JUCE\modules\juce_audio_basics\juce_module_info">

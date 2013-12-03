@@ -1224,6 +1224,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
+    <ClCompile Include="..\..\Source\Renderer.cpp" />
     <ClCompile Include="..\..\Source\SampleListener.cpp" />
     <ClCompile Include="..\..\Source\util\LeapScene.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtil.cpp" />
@@ -1663,10 +1664,12 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\..\Badaboum_old\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
+    <ClInclude Include="..\..\Source\Renderer.h" />
     <ClInclude Include="..\..\Source\SampleListener.h" />
     <ClInclude Include="..\..\Source\util\LeapScene.h" />
     <ClInclude Include="..\..\Source\util\LeapUtil.h" />
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h" />
+    <ClInclude Include="..\..\Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Badaboum_old\JUCE\modules\juce_audio_basics\juce_module_info" />
