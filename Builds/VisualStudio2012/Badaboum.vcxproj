@@ -1229,6 +1229,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\util\LeapScene.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtil.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp" />
+    <ClCompile Include="..\..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h" />

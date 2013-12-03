@@ -1,17 +1,18 @@
 #include "Renderer.h"
+#include "Window.h"
 
 
-OpenGLCanvas::OpenGLCanvas():Component( "OpenGLCanvas" )
+OpenGLCanvas::OpenGLCanvas(const unsigned int width, const unsigned int height):Component( "OpenGLCanvas" )
 {
+	setBounds(0, 0, width, height);
     m_openGLContext.setRenderer(this);
     m_openGLContext.setComponentPaintingEnabled(true);
     m_openGLContext.attachTo(*this);
-    setBounds(0, 0, 1024, 768);
 
     m_fLastUpdateTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
     m_fLastRenderTimeSeconds = m_fLastUpdateTimeSeconds;
 
-    getController().addListener( *this );
+    BadaboumWindow::getController().addListener( *this );
 
     initColors();
 
@@ -40,7 +41,7 @@ OpenGLCanvas::OpenGLCanvas():Component( "OpenGLCanvas" )
 
 OpenGLCanvas::~OpenGLCanvas()
 {
-    getController().removeListener( *this );
+    BadaboumWindow::getController().removeListener( *this );
     m_openGLContext.detach();
 }
 
@@ -138,8 +139,7 @@ void OpenGLCanvas::mouseDrag (const MouseEvent& e)
     m_openGLContext.triggerRepaint();
 }
 
-void OpenGLCanvas::mouseWheelMove ( const MouseEvent& e,
-                        const MouseWheelDetails& wheel )
+void OpenGLCanvas::mouseWheelMove ( const MouseEvent& e, const MouseWheelDetails& wheel )
 {
     (void)e;
     m_camera.OnMouseWheel( wheel.deltaY );
@@ -230,9 +230,7 @@ void OpenGLCanvas::setupScene()
     OpenGLHelpers::clear (Colours::black.withAlpha (1.0f));
 
     m_camera.SetAspectRatio( getWidth() / static_cast<float>(getHeight()) );
-
     m_camera.SetupGLProjection();
-
     m_camera.ResetGLView();
 
     // left, high, near - corner light
@@ -274,9 +272,9 @@ void OpenGLCanvas::setupScene()
 void OpenGLCanvas::renderOpenGL()
 {
 	{
-			MessageManagerLock mm (Thread::getCurrentThread());
-			if (! mm.lockWasGained())
-				return;
+		MessageManagerLock mm (Thread::getCurrentThread());
+		if (! mm.lockWasGained())
+			return;
 	}
 
     Leap::Frame frame = m_lastFrame;
@@ -293,6 +291,9 @@ void OpenGLCanvas::renderOpenGL()
     LeapUtilGL::GLMatrixScope sceneMatrixScope;
 
     setupScene();
+
+	// draw a box in the middle of the scene
+	LeapUtilGL::drawBox(LeapUtilGL::eStyle::kStyle_Solid);
 
     // draw the grid background
     {

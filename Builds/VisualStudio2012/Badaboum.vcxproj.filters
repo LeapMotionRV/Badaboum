@@ -292,14 +292,17 @@
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Badaboum\Source\util">
+      <UniqueIdentifier>{c82122da-3013-4c00-8a21-3eefc3583ceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\src">
+      <UniqueIdentifier>{81f0f2e6-a927-4b23-9e43-a6aef87b9882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\include">
+      <UniqueIdentifier>{c9494a5b-c348-4a1f-ac98-a48f84fe72ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\MainComponent.cpp">
-      <Filter>Badaboum\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>Badaboum\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
@@ -1404,24 +1407,32 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SampleListener.cpp">
-      <Filter>Badaboum\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\util\LeapScene.cpp">
-      <Filter>Badaboum\Source</Filter>
+      <Filter>Badaboum\Source\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\util\LeapUtil.cpp">
-      <Filter>Badaboum\Source</Filter>
+      <Filter>Badaboum\Source\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp">
-      <Filter>Badaboum\Source</Filter>
+      <Filter>Badaboum\Source\util</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Renderer.cpp" />
+    <ClCompile Include="..\..\Source\Main.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MainComponent.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderer.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SampleListener.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Window.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\MainComponent.h">
-      <Filter>Badaboum\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClInclude>
@@ -2718,20 +2729,27 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h">
       <Filter>Juce Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SampleListener.h">
-      <Filter>Badaboum\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\util\LeapUtilGL.h">
-      <Filter>Badaboum\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\util\LeapScene.h">
-      <Filter>Badaboum\Source</Filter>
+      <Filter>Badaboum\Source\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\util\LeapUtil.h">
-      <Filter>Badaboum\Source</Filter>
+      <Filter>Badaboum\Source\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Window.h" />
-    <ClInclude Include="..\..\Source\Renderer.h" />
+    <ClInclude Include="..\..\Source\util\LeapUtilGL.h">
+      <Filter>Badaboum\Source\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MainComponent.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Renderer.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SampleListener.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Window.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Badaboum_old\JUCE\modules\juce_audio_basics\juce_module_info">

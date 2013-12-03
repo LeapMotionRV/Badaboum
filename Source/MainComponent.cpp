@@ -1,24 +1,31 @@
 #include "MainComponent.h"
 
-MainContentComponent::MainContentComponent()
+MainComponent::MainComponent()
 {
-    setSize (500, 400);
+    //setSize (1024, 600); //don't know the differences with setBounds...
+    setBounds(0, 0, m_WIDTH, m_HEIGHT);//768
+
+	m_pOpenGLRenderer = new OpenGLCanvas(m_WIDTH, m_HEIGHT);
+	addAndMakeVisible(m_pOpenGLRenderer);
 }
 
-MainContentComponent::~MainContentComponent()
+MainComponent::~MainComponent()
 {
+	delete m_pOpenGLRenderer;
 }
 
-void MainContentComponent::paint (Graphics& g)
+void MainComponent::paint (Graphics&)
 {
+	/*
     g.fillAll (Colour (0xffeeddff));
 
     g.setFont (Font (16.0f));
     g.setColour (Colours::black);
     g.drawText ("Hello World!", getLocalBounds(), Justification::centred, true);
+	*/
 }
 
-void MainContentComponent::resized()
+void MainComponent::resized()
 {
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should

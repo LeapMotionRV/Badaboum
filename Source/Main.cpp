@@ -2,24 +2,24 @@
 #include "Window.h"
 
 
-class FingerVisualizerApplication  : public JUCEApplication
+class BadaboumApplication  : public JUCEApplication
 {
 private:
-    ScopedPointer<FingerVisualizerWindow>  m_pMainWindow; 
+    ScopedPointer<BadaboumWindow>  m_pMainWindow; 
 
 public:
-    FingerVisualizerApplication()
-    {
-    }
+    BadaboumApplication()
+	{
+	}
 
-    ~FingerVisualizerApplication()
+    ~BadaboumApplication()
     {
     }
 
     void initialise (const String& commandLine) 
 	{
 		(void) commandLine;
-		m_pMainWindow = new FingerVisualizerWindow();
+		m_pMainWindow = new BadaboumWindow();
 	}
 
     void shutdown()
@@ -54,4 +54,4 @@ public:
 
 
 // This macro generates the main() routine that starts the app.
-START_JUCE_APPLICATION(FingerVisualizerApplication)
+START_JUCE_APPLICATION(BadaboumApplication)

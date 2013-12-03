@@ -5,7 +5,6 @@
 #include "JuceHeader.h"
 #include "util\LeapUtilGL.h"
 #include "Leap.h"
-#include "SampleListener.h"
 
 
 // intermediate class for convenient conversion from JUCE color
@@ -32,7 +31,10 @@ struct GLColor
 	}
 };
 
-
+/**
+	This component is contained in the MainComponent. This is where we manage all the OpenGL environment.
+	This class is also a Listener (from Leap), and so asks the Controller to see what's going on in front of the device.
+*/
 class OpenGLCanvas  : public Component,
                       public OpenGLRenderer,
                       Leap::Listener
@@ -60,18 +62,9 @@ private:
     enum  { kNumColors = 256 };
     Leap::Vector				m_avColors[kNumColors];
 
-	SampleListener*				m_plistener;
-
 public:
-	//return the controller (singleton)
-    static Leap::Controller& getController() 
-    {
-        static Leap::Controller s_controller;
-        return  s_controller;
-    }
-
 	//alloc and desacolloc the openGL context
-    OpenGLCanvas();
+    OpenGLCanvas(const unsigned int width, const unsigned int height);
     ~OpenGLCanvas();
 
 	//create and close the openGL environment
@@ -83,10 +76,12 @@ public:
     void mouseDown (const MouseEvent& e);
     void mouseDrag (const MouseEvent& e);
     void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel);
-    void resized();
-
-	//update renderer
+    
+	//functions from Component
     void paint(Graphics&);
+	void resized();
+
+	//draw the text overlay (the help)
     void renderOpenGL2D();
 
     // calculations that should only be done once per leap data frame but may be drawn many times should go here.
@@ -100,15 +95,17 @@ public:
     // should be handled in update and cached in members.
     void renderOpenGL();
 
+	//draw the fingers
     void drawPointables( Leap::Frame frame );
 
+	//functions from the Listener
     virtual void onInit(const Leap::Controller&);
     virtual void onConnect(const Leap::Controller&);
     virtual void onDisconnect(const Leap::Controller&);
     virtual void onFrame(const Leap::Controller& controller);
 
+	//tools
     void resetCamera();
-
     void initColors();
 };
 

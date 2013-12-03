@@ -2,7 +2,10 @@
 #include <iostream>
 #include "Leap.h"
 
-
+/**
+	Good example of how to get info from the Controller with a Listener.
+	But not used in the current example.
+*/
 class SampleListener : public Leap::Listener 
 {
 public:

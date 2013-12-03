@@ -4,43 +4,29 @@
 
 #include "JuceHeader.h"
 #include "Renderer.h"
+#include "MainComponent.h"
 
 
 /**
 	A resizable window with a title bar and maximise, minimise and close buttons.
+	This class contains the Leap's Controller.
 */
-class FingerVisualizerWindow : public DocumentWindow
+class BadaboumWindow : public DocumentWindow
 {
 private:
-	SampleListener* listener;
-	OpenGLCanvas* m_pOpenGLEnvironment;
+	MainComponent* m_pMainComponent;
 public:
-    FingerVisualizerWindow():DocumentWindow("Leap Finger Visualizer",
-											Colours::darkcyan,
-											DocumentWindow::allButtons,
-											true) 
-	{
-		m_pOpenGLEnvironment = new OpenGLCanvas();
-		setContentOwned (m_pOpenGLEnvironment, true);
-        
-		// Centre the window on the screen
-        centreWithSize (getWidth(), getHeight());
-
-        // And show it!
-        setVisible (true);
-
-        getChildComponent(0)->grabKeyboardFocus();
-    }
-
-    ~FingerVisualizerWindow()
+	//return the controller (singleton)
+    static Leap::Controller& getController() 
     {
-        delete m_pOpenGLEnvironment;
+        static Leap::Controller s_controller;
+        return  s_controller;
     }
 
-    void closeButtonPressed()
-    {
-        JUCEApplication::quit();
-    }
+    BadaboumWindow();
+    ~BadaboumWindow();
+
+    void closeButtonPressed();
 };
 
 #endif //WINDOW_H
