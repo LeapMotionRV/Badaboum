@@ -38,7 +38,7 @@ enum eStyle { kStyle_Outline, kStyle_Solid };
 /// grid is drawn with unlit colored lines.
 void drawGrid( ePlane plane, unsigned int horizSubDivs, unsigned int vertSubDivs );
 
-void drawSphere( eStyle style );
+void drawSphere( eStyle style, float size );
 
 /// quad is double-sided.
 void drawQuad( eStyle style, ePlane plane, float size );

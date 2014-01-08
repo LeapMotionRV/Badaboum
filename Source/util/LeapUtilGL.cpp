@@ -118,7 +118,7 @@ void drawGrid( ePlane plane, unsigned int horizSubdivs, unsigned int vertSubdivs
     glEnd();
 }
 
-void drawSphere( eStyle style )
+void drawSphere( eStyle style, float size )
 {
   switch ( style )
   {
@@ -133,7 +133,7 @@ void drawSphere( eStyle style )
     break;
   }
 
-  gluSphere( s_quadric, 1.0, 32, 32 );
+  gluSphere( s_quadric, size, 32, 32 );
 
   switch ( style )
   {

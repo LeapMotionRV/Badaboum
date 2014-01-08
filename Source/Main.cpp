@@ -1,5 +1,5 @@
-#include "JuceHeader.h"
-#include "Window.h"
+#include "render/Window.h"
+#include <JuceHeader.h>
 
 
 class BadaboumApplication  : public JUCEApplication

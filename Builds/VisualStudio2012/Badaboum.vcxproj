@@ -42,6 +42,7 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Badaboum</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -53,7 +54,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;..\..\glm-0.9.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2010_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -101,7 +102,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\LeapSDK\include;..\..\glm-0.9.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2010_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -144,8 +145,6 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Context.cpp" />
-    <ClCompile Include="..\..\Source\MainComponent.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
@@ -1225,17 +1224,20 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
-    <ClCompile Include="..\..\Source\Renderer.cpp" />
-    <ClCompile Include="..\..\Source\SampleListener.cpp" />
-    <ClCompile Include="..\..\Source\Skybox.cpp" />
+    <ClCompile Include="..\..\Source\old\SampleListener.cpp" />
+    <ClCompile Include="..\..\Source\physical\Force.cpp" />
+    <ClCompile Include="..\..\Source\physical\HookForce.cpp" />
+    <ClCompile Include="..\..\Source\physical\ParticuleManager.cpp" />
+    <ClCompile Include="..\..\Source\render\MainComponent.cpp" />
+    <ClCompile Include="..\..\Source\render\ParticuleRenderer.cpp" />
+    <ClCompile Include="..\..\Source\render\Renderer.cpp" />
+    <ClCompile Include="..\..\Source\render\Skybox.cpp" />
+    <ClCompile Include="..\..\Source\render\Window.cpp" />
     <ClCompile Include="..\..\Source\util\LeapScene.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtil.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp" />
-    <ClCompile Include="..\..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Context.h" />
-    <ClInclude Include="..\..\Source\MainComponent.h" />
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h" />
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h" />
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h" />
@@ -1668,13 +1670,18 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\..\Badaboum_old\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
-    <ClInclude Include="..\..\Source\Renderer.h" />
-    <ClInclude Include="..\..\Source\SampleListener.h" />
-    <ClInclude Include="..\..\Source\Skybox.h" />
+    <ClInclude Include="..\..\Source\old\SampleListener.h" />
+    <ClInclude Include="..\..\Source\physical\Force.hpp" />
+    <ClInclude Include="..\..\Source\physical\HookForce.hpp" />
+    <ClInclude Include="..\..\Source\physical\ParticuleManager.h" />
+    <ClInclude Include="..\..\Source\render\MainComponent.h" />
+    <ClInclude Include="..\..\Source\render\ParticuleRenderer.h" />
+    <ClInclude Include="..\..\Source\render\Renderer.h" />
+    <ClInclude Include="..\..\Source\render\Skybox.h" />
+    <ClInclude Include="..\..\Source\render\Window.h" />
     <ClInclude Include="..\..\Source\util\LeapScene.h" />
     <ClInclude Include="..\..\Source\util\LeapUtil.h" />
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h" />
-    <ClInclude Include="..\..\Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Badaboum_old\JUCE\modules\juce_audio_basics\juce_module_info" />

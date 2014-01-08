@@ -295,10 +295,13 @@
     <Filter Include="Badaboum\Source\util">
       <UniqueIdentifier>{c82122da-3013-4c00-8a21-3eefc3583ceb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Badaboum\Source\src">
-      <UniqueIdentifier>{81f0f2e6-a927-4b23-9e43-a6aef87b9882}</UniqueIdentifier>
+    <Filter Include="Badaboum\Source\physical">
+      <UniqueIdentifier>{5260aeb7-770d-41b9-8d0a-0c122b75da1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Badaboum\Source\include">
+    <Filter Include="Badaboum\Source\Render">
+      <UniqueIdentifier>{58ca66b1-0382-496d-85eb-6ee0af9afa8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\old">
       <UniqueIdentifier>{c9494a5b-c348-4a1f-ac98-a48f84fe72ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1416,26 +1419,35 @@
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp">
       <Filter>Badaboum\Source\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\physical\Force.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\HookForce.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+      <Filter>Badaboum\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MainComponent.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\old\SampleListener.cpp">
+      <Filter>Badaboum\Source\old</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Renderer.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\render\MainComponent.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SampleListener.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\render\Renderer.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Window.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\render\Skybox.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Skybox.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\render\Window.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Context.cpp">
-      <Filter>Badaboum\Source\src</Filter>
+    <ClCompile Include="..\..\Source\physical\ParticuleManager.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\render\ParticuleRenderer.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2744,23 +2756,32 @@
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h">
       <Filter>Badaboum\Source\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MainComponent.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\physical\Force.hpp">
+      <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Renderer.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\physical\HookForce.hpp">
+      <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SampleListener.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\old\SampleListener.h">
+      <Filter>Badaboum\Source\old</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Window.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\render\MainComponent.h">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Skybox.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\render\Renderer.h">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Context.h">
-      <Filter>Badaboum\Source\include</Filter>
+    <ClInclude Include="..\..\Source\render\Skybox.h">
+      <Filter>Badaboum\Source\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\render\Window.h">
+      <Filter>Badaboum\Source\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\ParticuleManager.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\render\ParticuleRenderer.h">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
