@@ -1431,6 +1431,12 @@
     <ClCompile Include="..\..\Source\Window.cpp">
       <Filter>Badaboum\Source\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Skybox.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Context.cpp">
+      <Filter>Badaboum\Source\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2748,6 +2754,12 @@
       <Filter>Badaboum\Source\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Window.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Skybox.h">
+      <Filter>Badaboum\Source\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Context.h">
       <Filter>Badaboum\Source\include</Filter>
     </ClInclude>
   </ItemGroup>

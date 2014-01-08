@@ -4,6 +4,7 @@
 
 #include "JuceHeader.h"
 #include "Renderer.h"
+#include "Context.h"
 
 
 /*
@@ -18,6 +19,7 @@ private:
 	static const unsigned int m_HEIGHT = 600;
 
 	OpenGLCanvas* m_pOpenGLRenderer;
+	Context* m_pOpenGLContext;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 

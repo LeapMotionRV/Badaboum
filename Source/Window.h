@@ -23,7 +23,7 @@ public:
         return  s_controller;
     }
 
-    BadaboumWindow();
+    BadaboumWindow(String applicationName);
     ~BadaboumWindow();
 
     void closeButtonPressed();

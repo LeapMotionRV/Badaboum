@@ -1,15 +1,18 @@
 #include "Window.h"
 
 
-BadaboumWindow::BadaboumWindow()
-	:DocumentWindow("Leap Finger Visualizer",
+BadaboumWindow::BadaboumWindow(String applicationName)
+	:DocumentWindow(applicationName,
 					Colours::darkcyan,
-					DocumentWindow::allButtons,
+					DocumentWindow::closeButton,
 					true) 
 {
 	m_pMainComponent = new MainComponent();
 	setContentOwned(m_pMainComponent, true);
-        
+    
+	// Set an icon
+	//void 	setIcon (const Image &imageToUse)
+
 	// Centre the window on the screen
     centreWithSize(getWidth(), getHeight());
 

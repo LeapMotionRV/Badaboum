@@ -16,10 +16,10 @@ public:
     {
     }
 
-    void initialise (const String& commandLine) 
+    void initialise(const String& commandLine) 
 	{
 		(void) commandLine;
-		m_pMainWindow = new BadaboumWindow();
+		m_pMainWindow = new BadaboumWindow(getApplicationName());
 	}
 
     void shutdown()
@@ -33,7 +33,7 @@ public:
 
     const String getApplicationName()
     {
-        return "RV project - Badaboum";
+        return "RV & MP project - Badaboum";
     }
 
     const String getApplicationVersion()

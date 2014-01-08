@@ -2,11 +2,13 @@
 
 MainComponent::MainComponent()
 {
-    //setSize (1024, 600); //don't know the differences with setBounds...
-    setBounds(0, 0, m_WIDTH, m_HEIGHT);//768
+    setBounds(0, 0, m_WIDTH, m_HEIGHT);
+	setWantsKeyboardFocus(false);
 
 	m_pOpenGLRenderer = new OpenGLCanvas(m_WIDTH, m_HEIGHT);
 	addAndMakeVisible(m_pOpenGLRenderer);
+
+	m_pOpenGLContext = new Context(*m_pOpenGLRenderer);
 }
 
 MainComponent::~MainComponent()
@@ -14,12 +16,12 @@ MainComponent::~MainComponent()
 	delete m_pOpenGLRenderer;
 }
 
-void MainComponent::paint (Graphics&)
+void MainComponent::paint (Graphics& g)
 {
+	// An example of how to display text for a menu before the OpenGL scene
 	/*
-    g.fillAll (Colour (0xffeeddff));
-
-    g.setFont (Font (16.0f));
+	g.fillAll (Colours::grey);
+    g.setFont (Font(16.0f));
     g.setColour (Colours::black);
     g.drawText ("Hello World!", getLocalBounds(), Justification::centred, true);
 	*/

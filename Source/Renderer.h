@@ -5,6 +5,7 @@
 #include "JuceHeader.h"
 #include "util\LeapUtilGL.h"
 #include "Leap.h"
+#include "Skybox.h"
 
 
 // intermediate class for convenient conversion from JUCE color
@@ -32,12 +33,12 @@ struct GLColor
 };
 
 /**
-	This component is contained in the MainComponent. This is where we manage all the OpenGL environment.
+	This component is contained in the MainComponent. This is where we display all frame of openGL.
 	This class is also a Listener (from Leap), and so asks the Controller to see what's going on in front of the device.
 */
-class OpenGLCanvas  : public Component,
-                      public OpenGLRenderer,
-                      Leap::Listener
+class OpenGLCanvas : public Component,
+                     public OpenGLRenderer,
+                     Leap::Listener
 {
 private:
     OpenGLContext               m_openGLContext;
@@ -62,6 +63,8 @@ private:
     enum  { kNumColors = 256 };
     Leap::Vector				m_avColors[kNumColors];
 
+	Skybox*						m_pSkybox;
+
 public:
 	//alloc and desacolloc the openGL context
     OpenGLCanvas(const unsigned int width, const unsigned int height);
@@ -70,6 +73,11 @@ public:
 	//create and close the openGL environment
     void newOpenGLContextCreated();
     void openGLContextClosing();
+
+	// data should be drawn here but no heavy calculations done.
+    // any major calculations that only need to be updated per leap data frame
+    // should be handled in update and cached in members.
+    void renderOpenGL();
 
 	//manage inputs
     bool keyPressed(const KeyPress& keyPress);
@@ -89,11 +97,6 @@ public:
 
     /// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
     void setupScene();
-
-    // data should be drawn here but no heavy calculations done.
-    // any major calculations that only need to be updated per leap data frame
-    // should be handled in update and cached in members.
-    void renderOpenGL();
 
 	//draw the fingers
     void drawPointables( Leap::Frame frame );

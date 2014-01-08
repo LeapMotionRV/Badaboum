@@ -41,9 +41,9 @@ void drawGrid( ePlane plane, unsigned int horizSubDivs, unsigned int vertSubDivs
 void drawSphere( eStyle style );
 
 /// quad is double-sided.
-void drawQuad( eStyle style, ePlane plane );
+void drawQuad( eStyle style, ePlane plane, float size );
 
-void drawBox( eStyle style );
+void drawBox( eStyle style, float size );
 
 void drawCylinder( eStyle style, eAxis axis );
 

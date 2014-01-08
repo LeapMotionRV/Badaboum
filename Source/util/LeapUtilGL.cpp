@@ -146,7 +146,7 @@ void drawSphere( eStyle style )
   }
 }
 
-void drawQuad( eStyle style, ePlane plane )
+void drawQuad( eStyle style, ePlane plane, float size )
 {
   switch ( style )
   {
@@ -173,7 +173,7 @@ void drawQuad( eStyle style, ePlane plane )
     break;
   }
 
-  const float kfHalfSize = 0.5f;
+  const float kfHalfSize = size/2.f;
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glNormal3f( 0, 0, 1 );
@@ -234,20 +234,20 @@ void drawQuad( eStyle style, ePlane plane )
 }
 
 
-void drawBox( eStyle style )
+void drawBox( eStyle style, float size )
 {
   static const float s_afCorners[8][3] = {
                                             // near face - ccw facing origin from face.
-                                            {-0.5f, -0.5f,  0.5f},
-                                            { 0.5f, -0.5f,  0.5f},
-                                            { 0.5f,  0.5f,  0.5f},
-                                            {-0.5f,  0.5f,  0.5f},
+                                            {-size, -size,  size},
+                                            { size, -size,  size},
+                                            { size,  size,  size},
+                                            {-size,  size,  size},
 
                                             // far face - ccw facing origin from face
-                                            { 0.5f, -0.5f,  -0.5f},
-                                            {-0.5f, -0.5f,  -0.5f},
-                                            {-0.5f,  0.5f,  -0.5f},
-                                            { 0.5f,  0.5f,  -0.5f},
+                                            { size, -size,  -size},
+                                            {-size, -size,  -size},
+                                            {-size,  size,  -size},
+                                            { size,  size,  -size},
 
  };
 
