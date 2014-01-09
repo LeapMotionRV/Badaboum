@@ -2,7 +2,7 @@
 #define _IMAC3_FORCE_HPP
 
 
-#include "ParticuleManager.h"
+#include "ParticleManager.h"
 
 
 namespace physical 
@@ -12,7 +12,7 @@ namespace physical
 	{
 	public:
 		virtual ~Force() = 0;
-		virtual void apply(ParticuleManager& pm) = 0;
+		virtual void apply(ParticleManager& pm) = 0;
 	};
 
 }

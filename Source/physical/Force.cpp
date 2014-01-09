@@ -1,4 +1,4 @@
-#include "Force.hpp"
+#include "Force.h"
 
 
 namespace physical 
@@ -7,7 +7,7 @@ namespace physical
 	Force::~Force()
 	{}
 
-	void Force::apply(ParticuleManager&)
+	void Force::apply(ParticleManager&)
 	{}
 
 }

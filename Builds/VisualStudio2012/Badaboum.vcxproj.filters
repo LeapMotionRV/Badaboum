@@ -1443,17 +1443,17 @@
     <ClCompile Include="..\..\Source\render\Window.cpp">
       <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\ParticuleManager.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\render\ParticuleRenderer.cpp">
-      <Filter>Badaboum\Source\Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\physical\LeapfrogSolver.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\physical\Model.cpp">
       <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\ParticleManager.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp">
+      <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2762,12 +2762,6 @@
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h">
       <Filter>Badaboum\Source\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\Force.hpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\physical\HookForce.hpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\old\SampleListener.h">
       <Filter>Badaboum\Source\old</Filter>
     </ClInclude>
@@ -2783,16 +2777,22 @@
     <ClInclude Include="..\..\Source\render\Window.h">
       <Filter>Badaboum\Source\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\ParticuleManager.h">
+    <ClInclude Include="..\..\Source\physical\Model.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\render\ParticuleRenderer.h">
+    <ClInclude Include="..\..\Source\physical\ParticleManager.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\render\ParticleRenderer.h">
       <Filter>Badaboum\Source\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\LeapfrogSolver.hpp">
+    <ClInclude Include="..\..\Source\physical\Force.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\Model.h">
+    <ClInclude Include="..\..\Source\physical\HookForce.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
   </ItemGroup>

@@ -37,7 +37,7 @@ OpenGLCanvas::OpenGLCanvas(const unsigned int width, const unsigned int height):
     m_strPrompt = "Press 'h' for help";
 
 	//set var for physical
-	m_particuleRenderer =  physical::ParticuleRenderer();
+	m_particleRenderer =  physical::ParticleRenderer();
 	m_model = physical::Model(2);
 }
 
@@ -131,7 +131,7 @@ void OpenGLCanvas::renderOpenGL()
     }
 
 	// draw the particules
-	m_model.getParticuleManager().drawParticules(m_particuleRenderer);
+	m_model.getParticuleManager().drawParticles(m_particleRenderer);
 
     // draw fingers/tools as lines with sphere at the tip.
     drawPointables( frame );

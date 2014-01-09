@@ -1,5 +1,5 @@
-#ifndef _IMAC3_PARTICULERENDERER_HPP
-#define _IMAC3_PARTICULERENDERER_HPP
+#ifndef _IMAC3_ParticleRenderer_HPP
+#define _IMAC3_ParticleRenderer_HPP
 
 
 #include <glm/glm.hpp>
@@ -9,18 +9,18 @@
 
 namespace physical {
 
-	class ParticuleRenderer
+	class ParticleRenderer
 	{
 	public:
-		ParticuleRenderer(float massScale = 0.05);
-		~ParticuleRenderer();
+		ParticleRenderer(float massScale = 0.05);
+		~ParticleRenderer();
 		
-		//ParticuleRenderer(const ParticuleRenderer&) = delete; //doesn't work with the VS Compiler...
-		//ParticuleRenderer& operator =(const ParticuleRenderer&) = delete; //doesn't work with the VS Compiler...
+		//ParticleRenderer(const ParticleRenderer&) = delete; //doesn't work with the VS Compiler...
+		//ParticleRenderer& operator =(const ParticleRenderer&) = delete; //doesn't work with the VS Compiler...
 		
 		void clear();
 
-		void drawParticules(uint32_t count,
+		void drawParticles(uint32_t count,
                        const glm::vec3* positionArray,
                        const float* massArray,
                        const glm::vec3* colorArray);
@@ -39,4 +39,4 @@ namespace physical {
 
 }
 
-#endif // _IMAC3_PARTICULERENDERER_HPP
+#endif // _IMAC3_ParticleRenderer_HPP

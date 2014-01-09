@@ -1,13 +1,12 @@
 #include <algorithm>
 
-#include "HookForce.hpp"
-#include "ParticuleManager.h"
+#include "HookForce.h"
 
 
 namespace physical 
 {
 
-	void HookForce::apply(ParticuleManager& pm)
+	void HookForce::apply(ParticleManager& pm)
 	{
 		const float epsilon = 0.001f;
 		std::vector<glm::vec3> positionArray = pm.getPositionArray();
@@ -23,7 +22,7 @@ namespace physical
 					float dP1P2 = glm::length(positionArray[otherParticleIdx] - positionArray[particleIdx]);
 					glm::vec3 newForce = m_fK * (1-(m_fL / std::max (dP1P2, epsilon))) * (P1P2);
 					//est-ce qu'il faut vraiment adder ou plutôt setter ?
-					pm.addForceToParticule(newForce, particleIdx);
+					pm.addForceToParticle(newForce, particleIdx);
 				}
 			}
 		}

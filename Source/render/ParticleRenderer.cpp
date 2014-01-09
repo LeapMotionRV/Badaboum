@@ -1,4 +1,4 @@
-#include "ParticuleRenderer.h"
+#include "ParticleRenderer.h"
 #include "../util/LeapUtilGL.h"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -6,16 +6,16 @@
 
 namespace physical 
 {
-	ParticuleRenderer::ParticuleRenderer(float massScale):m_fMassScale(massScale) 
+	ParticleRenderer::ParticleRenderer(float massScale):m_fMassScale(massScale) 
 	{}
 
-	ParticuleRenderer::~ParticuleRenderer() 
+	ParticleRenderer::~ParticleRenderer() 
 	{}
 
-	void ParticuleRenderer::clear() 
+	void ParticleRenderer::clear() 
 	{}
 
-	void ParticuleRenderer::drawParticules(uint32_t count,
+	void ParticleRenderer::drawParticles(uint32_t count,
 							const glm::vec3* positionArray,
 							const float* massArray,
 							const glm::vec3* colorArray) 
@@ -26,32 +26,9 @@ namespace physical
 			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
 			LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massArray[i]);
 		}
-		/*
-		// Active la gestion de la transparence
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		glDisable(GL_DEPTH_TEST);
-
-		glUseProgram(m_ProgramID);
-
-		glBindVertexArray(m_VAOID);
-
-		// Dessine chacune des particules
-		for(unsigned int i = 0; i < count; ++i) {
-			glUniform3fv(m_uParticleColor, 1, glm::value_ptr(colorArray[i]));
-			glUniform2fv(m_uParticlePosition, 1, glm::value_ptr(positionArray[i]));
-			glUniform1f(m_uParticleScale, m_fMassScale * massArray[i]);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		}
-
-		glBindVertexArray(0);
-
-		glDisable(GL_BLEND);
-		*/
 	}
 
-	void ParticuleRenderer::drawLines(
+	void ParticleRenderer::drawLines(
                            uint32_t lineCount,
                            const std::pair<unsigned int, unsigned int>* lines,
                            uint32_t vertexCount,

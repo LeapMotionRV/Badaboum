@@ -7,7 +7,7 @@
 #include "../util/LeapUtilGL.h"
 
 #include "Skybox.h"
-#include "ParticuleRenderer.h"
+#include "ParticleRenderer.h"
 #include "../physical/Model.h"
 
 
@@ -70,7 +70,7 @@ private:
     bool                        m_bShowHelp;
 	//var for physical
 	physical::Model				m_model;
-	physical::ParticuleRenderer m_particuleRenderer;
+	physical::ParticleRenderer	m_particleRenderer;
 
 public:
 	//alloc and desacolloc the openGL context
