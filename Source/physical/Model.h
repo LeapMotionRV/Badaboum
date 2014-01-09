@@ -5,6 +5,7 @@
 //c'est ParticleManager qui contient la structure ParticleState permettant d'accéder à l'état suivant de la particule
 #include "ParticleManager.h" 
 #include "LeapfrogSolver.h"
+#include "ConstantForce.h"
 #include "HookForce.h"
 
 
@@ -13,11 +14,12 @@ namespace physical {
 	class Model {
 	public:
 		Model(unsigned int countParticules = 0){
-			m_particleManager =  physical::ParticleManager();
+			m_particleManager =  ParticleManager();
 			//m_particuleManager.addParticule(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), 0.2f, glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.f, 0.f, 1.f));
 			m_particleManager.addRandomParticles(countParticules);
-			m_leapfrogSolver = physical::LeapfrogSolver();
-			m_hookForce = physical::HookForce(0.2f, 0.4f);
+			m_leapfrogSolver = LeapfrogSolver();
+			m_gravity = ConstantForce(glm::vec3(0.f, -0.01f, 0.f));
+			m_hookForce = HookForce(0.2f, 0.4f);
 		}
 
 		void startSimulation(float dt);
@@ -28,6 +30,7 @@ namespace physical {
 	private:
 		ParticleManager		m_particleManager;
 		LeapfrogSolver		m_leapfrogSolver;
+		ConstantForce		m_gravity;
 		HookForce			m_hookForce;
 	};
 

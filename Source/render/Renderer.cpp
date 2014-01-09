@@ -38,7 +38,7 @@ OpenGLCanvas::OpenGLCanvas(const unsigned int width, const unsigned int height):
 
 	//set var for physical
 	m_particleRenderer =  physical::ParticleRenderer();
-	m_model = physical::Model(2);
+	m_model = physical::Model(3);
 }
 
 OpenGLCanvas::~OpenGLCanvas()

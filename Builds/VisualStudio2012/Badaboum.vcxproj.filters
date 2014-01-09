@@ -1455,6 +1455,9 @@
     <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp">
       <Filter>Badaboum\Source\Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\physical\ConstantForce.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2793,6 +2796,9 @@
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\ConstantForce.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
   </ItemGroup>
