@@ -1458,6 +1458,12 @@
     <ClCompile Include="..\..\Source\physical\ConstantForce.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\physical\PolygonForce.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\Polygon.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2799,6 +2805,15 @@
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\ConstantForce.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\maths.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\PolygonForce.h">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\Polygon.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
   </ItemGroup>

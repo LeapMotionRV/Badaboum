@@ -3,37 +3,38 @@
 
 
 //c'est ParticleManager qui contient la structure ParticleState permettant d'accéder à l'état suivant de la particule
-#include "ParticleManager.h" 
+#include "ParticleManager.h"
+#include "Polygon.h"
 #include "LeapfrogSolver.h"
 #include "ConstantForce.h"
+#include "PolygonForce.h"
 #include "HookForce.h"
 
 
-namespace physical {
-
-	class Model {
+namespace physical 
+{
+	class Model 
+	{
 	public:
-		Model(unsigned int countParticules = 0){
-			m_particleManager =  ParticleManager();
-			//m_particuleManager.addParticule(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), 0.2f, glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.f, 0.f, 1.f));
-			m_particleManager.addRandomParticles(countParticules);
-			m_leapfrogSolver = LeapfrogSolver();
-			m_gravity = ConstantForce(glm::vec3(0.f, -0.01f, 0.f));
-			m_hookForce = HookForce(0.2f, 0.4f);
-		}
-
+		Model(unsigned int countParticles = 0);
 		void startSimulation(float dt);
 
 		ParticleManager getParticuleManager(){return m_particleManager;}
+		Polygon getGround(){return m_ground;}
 		LeapfrogSolver getLeapfrogSolver(){return m_leapfrogSolver;}
+		ConstantForce getGravity(){return m_gravity;}
+		PolygonForce getPolygonForce(){return m_polygonForce;}
 		HookForce getHookForce(){return m_hookForce;}
 	private:
+		//data on the scene
 		ParticleManager		m_particleManager;
+		Polygon				m_ground;
+		//forces
 		LeapfrogSolver		m_leapfrogSolver;
 		ConstantForce		m_gravity;
+		PolygonForce		m_polygonForce;
 		HookForce			m_hookForce;
 	};
-
 }
 
 #endif

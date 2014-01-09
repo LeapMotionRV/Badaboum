@@ -109,12 +109,13 @@ void OpenGLCanvas::renderOpenGL()
 	*/
 
 	// draw the ground
-	{
+	/*{
         LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f( 0, 1, 0 );
         glTranslatef( 0.f, -1.5f, 0.f );
 		LeapUtilGL::drawQuad(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::ePlane::kPlane_ZX, 6.f);
-    }
+    }*/
+	m_model.getGround().draw();
 
 	// draw columns
 	{

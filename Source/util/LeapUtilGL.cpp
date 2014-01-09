@@ -7,6 +7,7 @@
 \******************************************************************************/
 
 #include "LeapUtilGL.h"
+#include <glm/glm.hpp>
 
 #if !defined(__GLU_H__)
   #if defined(WIN32)
@@ -146,7 +147,7 @@ void drawSphere( eStyle style, float size )
   }
 }
 
-void drawQuad( eStyle style, ePlane plane, float size )
+void drawQuad( eStyle style, ePlane plane, float width, float height )
 {
   switch ( style )
   {
@@ -173,44 +174,44 @@ void drawQuad( eStyle style, ePlane plane, float size )
     break;
   }
 
-  const float kfHalfSize = size/2.f;
+  //const float kfHalfSize = size/2.f;
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glNormal3f( 0, 0, 1 );
   glTexCoord2f( 0, 0 );
-  glVertex3f( -kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f( -width,  -height, 0 );
   glTexCoord2f( 1, 0 );
-  glVertex3f(  kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f(  width,  -height, 0 );
   glTexCoord2f( 1, 1 );
-  glVertex3f(  kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f(  width,   height, 0 );
   glEnd();
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glTexCoord2f( 1, 1 );
-  glVertex3f(  kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f(  width,   height, 0 );
   glTexCoord2f( 0, 1 );
-  glVertex3f( -kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f( -width,   height, 0 );
   glTexCoord2f( 0, 0 );
-  glVertex3f( -kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f( -width,  -height, 0 );
   glEnd();
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glNormal3f( 0, 0, -1 );
   glTexCoord2f( 0, 0 );
-  glVertex3f(  kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f(  width,  -height, 0 );
   glTexCoord2f( 1, 0 );
-  glVertex3f( -kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f( -width,  -height, 0 );
   glTexCoord2f( 1, 1 );
-  glVertex3f( -kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f( -width,   height, 0 );
   glEnd();
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glTexCoord2f( 1, 1 );
-  glVertex3f( -kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f( -width,   height, 0 );
   glTexCoord2f( 0, 1 );
-  glVertex3f(  kfHalfSize,   kfHalfSize, 0 );
+  glVertex3f(  width,   height, 0 );
   glTexCoord2f( 0, 0 );
-  glVertex3f(  kfHalfSize,  -kfHalfSize, 0 );
+  glVertex3f(  width,  -height, 0 );
   glEnd();
 
   switch ( plane )

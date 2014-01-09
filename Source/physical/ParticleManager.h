@@ -1,5 +1,5 @@
-#ifndef _IMAC3_ParticleManager_HPP
-#define _IMAC3_ParticleManager_HPP
+#ifndef _IMAC3_PARTICLEMANAGER_HPP
+#define _IMAC3_PARTICLEMANAGER_HPP
 
 
 #include <vector>
@@ -41,11 +41,11 @@ namespace physical
 		std::vector<glm::vec3> m_colorArray;
 	};
 
-	struct ParticuleState {
+	struct ParticleState {
 		glm::vec3 m_position;
 		glm::vec3 m_speed;
 	};
 
 }
 
-#endif // IMAC3_ParticleManager_HPP
+#endif // IMAC3_PARTICLEMANAGER_HPP

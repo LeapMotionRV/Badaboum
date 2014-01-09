@@ -15,8 +15,8 @@ namespace physical {
 		}
 	}
 
-	ParticuleState LeapfrogSolver::getNextState(uint32_t particleIdx, ParticleManager& pm, float dt) const {
-		ParticuleState particleState;
+	ParticleState LeapfrogSolver::getNextState(uint32_t particleIdx, ParticleManager& pm, float dt) const {
+		ParticleState particleState;
 		
 		glm::vec3 nextSpeed = pm.getSpeedArray()[particleIdx] + dt * (pm.getForceArray()[particleIdx] / pm.getMassArray()[particleIdx]);
 		glm::vec3 nextPosition = pm.getPositionArray()[particleIdx] + dt * nextSpeed;

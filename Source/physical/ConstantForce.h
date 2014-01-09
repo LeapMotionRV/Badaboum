@@ -6,8 +6,8 @@
 #include "Force.h"
 #include "ParticleManager.h"
 
-namespace physical {
-
+namespace physical 
+{
 	class ConstantForce : public Force
 	{
 		glm::vec3 m_force;
@@ -19,7 +19,6 @@ namespace physical {
 		void apply(ParticleManager& pm);
 
 	};
-
 }
 
 #endif // IMAC3_CONSTANTFORCE_HPP
