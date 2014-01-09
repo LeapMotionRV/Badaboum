@@ -38,9 +38,7 @@ OpenGLCanvas::OpenGLCanvas(const unsigned int width, const unsigned int height):
 
 	//set var for physical
 	m_particuleRenderer =  physical::ParticuleRenderer();
-	m_particuleManager =  physical::ParticuleManager();
-	//m_particuleManager.addParticule(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), 0.2f, glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.f, 0.f, 1.f));
-	m_particuleManager.addRandomParticles(20);
+	m_model = physical::Model(2);
 }
 
 OpenGLCanvas::~OpenGLCanvas()
@@ -82,28 +80,25 @@ void OpenGLCanvas::openGLContextClosing()
 
 void OpenGLCanvas::renderOpenGL()
 {
-	//calculations for Leap Motion
 	{
 		MessageManagerLock mm (Thread::getCurrentThread());
 		if (! mm.lockWasGained())
 			return;
 	}
 
+	//calculations for Leap Motion
     Leap::Frame frame = m_lastFrame;
-
     double  curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
     float   fRenderDT = static_cast<float>(curSysTimeSeconds - m_fLastRenderTimeSeconds);
     fRenderDT = m_avgRenderDeltaTime.AddSample( fRenderDT );
     m_fLastRenderTimeSeconds = curSysTimeSeconds;
-
     float fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
-
     m_strRenderFPS = String::formatted( "RenderFPS: %4.2f", fRenderFPS );
 
-	// Draw with OpenGL
-
+	// ******************** //
+	//   Draw with OpenGL   //
+	// ******************** //
     LeapUtilGL::GLMatrixScope sceneMatrixScope;
-
     setupScene();
 	
 	// draw skybox (with a texture)
@@ -115,39 +110,40 @@ void OpenGLCanvas::renderOpenGL()
 
 	// draw the ground
 	{
-            LeapUtilGL::GLMatrixScope gridMatrixScope;
-			glColor3f( 0, 1, 0 );
-            glTranslatef( 0.f, -1.5f, 0.f );
-			LeapUtilGL::drawQuad(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::ePlane::kPlane_ZX, 6.f);
+        LeapUtilGL::GLMatrixScope gridMatrixScope;
+		glColor3f( 0, 1, 0 );
+        glTranslatef( 0.f, -1.5f, 0.f );
+		LeapUtilGL::drawQuad(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::ePlane::kPlane_ZX, 6.f);
     }
 
 	// draw columns
 	{
-            LeapUtilGL::GLMatrixScope gridMatrixScope;
-
-			glColor3f( 1, 0, 0 );
-
-            glTranslatef( -2.5f, -1.f, -2.5f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( 5.f, 0.f, 0.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( 0.f, 0.f, 5.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( -5.f, 0.f, 0.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
+        LeapUtilGL::GLMatrixScope gridMatrixScope;
+		glColor3f( 1, 0, 0 );
+        glTranslatef( -2.5f, -1.f, -2.5f );
+		LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
+		glTranslatef( 5.f, 0.f, 0.f );
+		LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
+		glTranslatef( 0.f, 0.f, 5.f );
+		LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
+		glTranslatef( -5.f, 0.f, 0.f );
+		LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
     }
 
-	// draw particules
-	m_particuleManager.drawParticules(m_particuleRenderer);
+	// draw the particules
+	m_model.getParticuleManager().drawParticules(m_particuleRenderer);
 
     // draw fingers/tools as lines with sphere at the tip.
     drawPointables( frame );
-
+	
     {
         ScopedLock renderLock(m_renderMutex);
         // draw the text overlay
         renderOpenGL2D();
     }
+
+	// Simulation
+	m_model.startSimulation(fRenderDT);
 }
 
 bool OpenGLCanvas::keyPressed( const KeyPress& keyPress )

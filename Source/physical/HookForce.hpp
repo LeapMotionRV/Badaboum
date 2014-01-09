@@ -10,11 +10,11 @@
 
 namespace physical 
 {
-	
 	//force d'oscillation entre deux particules
 	class HookForce : public Force
 	{
 	public:
+		HookForce(){m_fK = 0.f;m_fL = 0.f;}
 		HookForce(float fK, float fL):m_fK(fK), m_fL(fL){};
 		~HookForce();
 		void apply(ParticuleManager& pm);

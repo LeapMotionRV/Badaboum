@@ -1227,6 +1227,8 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\old\SampleListener.cpp" />
     <ClCompile Include="..\..\Source\physical\Force.cpp" />
     <ClCompile Include="..\..\Source\physical\HookForce.cpp" />
+    <ClCompile Include="..\..\Source\physical\LeapfrogSolver.cpp" />
+    <ClCompile Include="..\..\Source\physical\Model.cpp" />
     <ClCompile Include="..\..\Source\physical\ParticuleManager.cpp" />
     <ClCompile Include="..\..\Source\render\MainComponent.cpp" />
     <ClCompile Include="..\..\Source\render\ParticuleRenderer.cpp" />
@@ -1673,6 +1675,8 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\old\SampleListener.h" />
     <ClInclude Include="..\..\Source\physical\Force.hpp" />
     <ClInclude Include="..\..\Source\physical\HookForce.hpp" />
+    <ClInclude Include="..\..\Source\physical\LeapfrogSolver.hpp" />
+    <ClInclude Include="..\..\Source\physical\Model.h" />
     <ClInclude Include="..\..\Source\physical\ParticuleManager.h" />
     <ClInclude Include="..\..\Source\render\MainComponent.h" />
     <ClInclude Include="..\..\Source\render\ParticuleRenderer.h" />

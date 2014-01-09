@@ -8,7 +8,7 @@
 
 #include "Skybox.h"
 #include "ParticuleRenderer.h"
-#include "../physical/ParticuleManager.h"
+#include "../physical/Model.h"
 
 
 // intermediate class for convenient conversion from JUCE color
@@ -69,7 +69,7 @@ private:
     Font                        m_fixedFont;
     bool                        m_bShowHelp;
 	//var for physical
-	physical::ParticuleManager  m_particuleManager;
+	physical::Model				m_model;
 	physical::ParticuleRenderer m_particuleRenderer;
 
 public:
