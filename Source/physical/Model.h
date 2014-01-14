@@ -9,6 +9,7 @@
 #include "ConstantForce.h"
 #include "PolygonForce.h"
 #include "HookForce.h"
+#include "../shape/Cube.h"
 
 
 namespace physical 
@@ -21,10 +22,12 @@ namespace physical
 
 		ParticleManager getParticuleManager(){return m_particleManager;}
 		Polygon getGround(){return m_ground;}
+		Cube getCube(){return m_cube;}
 		LeapfrogSolver getLeapfrogSolver(){return m_leapfrogSolver;}
 		ConstantForce getGravity(){return m_gravity;}
 		PolygonForce getPolygonForce(){return m_polygonForce;}
 		HookForce getHookForce(){return m_hookForce;}
+
 	private:
 		//data on the scene
 		ParticleManager		m_particleManager;
@@ -34,6 +37,7 @@ namespace physical
 		ConstantForce		m_gravity;
 		PolygonForce		m_polygonForce;
 		HookForce			m_hookForce;
+		Cube				m_cube;
 	};
 }
 

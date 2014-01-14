@@ -429,6 +429,65 @@ void drawCylinder( eStyle style, eAxis axis )
   }
 }
 
+void drawCylinder( eStyle style, float size, glm::vec3 dir)
+{
+  GLMatrixScope matrixScope;
+
+  switch ( style )
+  {
+   case kStyle_Outline:
+    gluQuadricDrawStyle(s_quadric, GLU_SILHOUETTE);
+    glPushAttrib( GL_LIGHTING_BIT );
+    glDisable(GL_LIGHTING);
+    break;
+
+   case kStyle_Solid:
+    gluQuadricDrawStyle(s_quadric, GLU_FILL);
+    break;
+  }
+
+  /*switch ( axis )
+  {
+  case kAxis_X:
+    glRotatef( 90.0f, 0, 1, 0 );
+    break;
+  case kAxis_Y:
+    glRotatef( 90.0f, 1, 0, 0 );
+    break;
+  case kAxis_Z:
+    break;
+  }*/
+  //glRotatef( 90.0f, 0, 1, 0 );
+  // draw end caps
+  /*if ( style != kStyle_Outline )
+  {
+    GLMatrixScope matrixScope;
+
+    glTranslatef( 0, 0, 0.5f );
+    drawDisk( style, kPlane_XY );
+
+    glTranslatef( 0, 0, -1.0f );
+    drawDisk( style, kPlane_XY );
+  }*/
+
+ // glTranslatef( 0, 0, -0.5f );
+  glRotatef( dir.x, 1, 0, 0);
+  glRotatef( -90.f, 0, 1, 0);
+  glRotatef( dir.z, 0, 0, 1);
+  gluCylinder( s_quadric, 0.001f, 0.001f, size, 32, 32 );
+
+  switch ( style )
+  {
+   case kStyle_Outline:
+    glPopAttrib();
+    break;
+
+   case kStyle_Solid:
+    break;
+  }
+}
+
+
 void drawDisk( eStyle style, ePlane plane )
 {
   GLMatrixScope matrixScope;

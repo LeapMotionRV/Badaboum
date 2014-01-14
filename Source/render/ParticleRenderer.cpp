@@ -36,28 +36,21 @@ namespace physical
                            const glm::vec3* colorArray,
                            float lineWidth) 
 	{
-		/*
-		glBindBuffer(GL_ARRAY_BUFFER, m_LinePositionVBOID);
-		glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(positionArray[0]), positionArray, GL_DYNAMIC_DRAW);
-
-		glBindBuffer(GL_ARRAY_BUFFER, m_LineColorVBOID);
-		glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(colorArray[0]), colorArray, GL_DYNAMIC_DRAW);
-
-		glDisable(GL_DEPTH_TEST);
-
-		glLineWidth(lineWidth);
-
-		glUseProgram(m_LineProgramID);
-
-		glBindVertexArray(m_LineVAOID);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_LineIBOID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, lineCount * sizeof(lines[0]), lines, GL_DYNAMIC_DRAW);
-
-		glDrawElements(GL_LINES, lineCount * 2, GL_UNSIGNED_INT, 0);
-
-		glBindVertexArray(0);
-		*/
+		/*for(uint32_t i = 0; i < lineCount; ++i) {
+			glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
+			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
+			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, );
+		}*/
+		float distance = 0.f;
+		glm::vec3 dir = glm::vec3(0.f);
+		for(uint32_t i = 0; i < lineCount; i+=2) {
+			glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
+			//glTranslatef(-positionArray[i].x,  -positionArray[i].y, -positionArray[i].z);
+			dir = positionArray[i+1] - positionArray[i];
+			dir = glm::normalize(dir);
+			distance = sqrt(pow(positionArray[i+1].x-positionArray[i].x, 2)+pow(positionArray[i+1].y-positionArray[i].y, 2)+pow(positionArray[i+1].z-positionArray[i].z, 2));
+			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, distance, dir);
+		}
 	}
 
 }

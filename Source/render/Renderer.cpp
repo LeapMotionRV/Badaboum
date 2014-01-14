@@ -38,7 +38,7 @@ OpenGLCanvas::OpenGLCanvas(const unsigned int width, const unsigned int height):
 
 	//set var for physical
 	m_particleRenderer =  physical::ParticleRenderer();
-	m_model = physical::Model(3);
+	m_model = physical::Model(10);
 }
 
 OpenGLCanvas::~OpenGLCanvas()
@@ -133,7 +133,7 @@ void OpenGLCanvas::renderOpenGL()
 
 	// draw the particules
 	m_model.getParticuleManager().drawParticles(m_particleRenderer);
-
+	m_model.getParticuleManager().drawParticleGraph(m_model.getCube().getCubeGraph(), m_particleRenderer); 
     // draw fingers/tools as lines with sphere at the tip.
     drawPointables( frame );
 	

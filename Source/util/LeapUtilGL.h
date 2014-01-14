@@ -21,6 +21,7 @@
 #endif // !__GL_H__
 
 #include "LeapUtil.h"
+#include <glm/glm.hpp>
 
 namespace LeapUtilGL {
 
@@ -46,6 +47,7 @@ void drawQuad( eStyle style, ePlane plane, float width, float height );
 void drawBox( eStyle style, float size );
 
 void drawCylinder( eStyle style, eAxis axis );
+void drawCylinder( eStyle style, float size, glm::vec3 dir);
 
 /// disk is double-side
 void drawDisk( eStyle style, ePlane plane );
