@@ -301,13 +301,11 @@
     <Filter Include="Badaboum\Source\old">
       <UniqueIdentifier>{c9494a5b-c348-4a1f-ac98-a48f84fe72ed}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="Badaboum\Source\shape">
       <UniqueIdentifier>{8a864ce4-7b70-4cbe-bbb2-33bf1e746ce6}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="Badaboum\Source\render">
       <UniqueIdentifier>{58ca66b1-0382-496d-85eb-6ee0af9afa8a}</UniqueIdentifier>
->>>>>>> dbcb00c67b52dc527067ca78cf539a3cd495562b
     </Filter>
   </ItemGroup>
   <ItemGroup>
