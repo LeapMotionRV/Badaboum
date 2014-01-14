@@ -25,14 +25,14 @@ namespace physical
         }
 	}
 	
-	void ParticleManager::drawParticles(ParticleRenderer& renderer) {
+	void ParticleManager::drawParticles(render::ParticleRenderer& renderer) {
         renderer.drawParticles(m_positionArray.size(),
                         &m_positionArray[0],
                         &m_massArray[0],
                         &m_colorArray[0]);
     }
 
-	void ParticleManager::drawParticleGraph(ParticleGraph& graph, ParticleRenderer& renderer){
+	void ParticleManager::drawParticleGraph(ParticleGraph& graph, render::ParticleRenderer& renderer){
     	renderer.drawLines(graph.size(),
                    &graph[0],
                    m_positionArray.size(),

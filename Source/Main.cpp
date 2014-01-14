@@ -5,7 +5,7 @@
 class BadaboumApplication  : public JUCEApplication
 {
 private:
-    ScopedPointer<BadaboumWindow>  m_pMainWindow; 
+    ScopedPointer<render::BadaboumWindow>  m_pMainWindow; 
 
 public:
     BadaboumApplication()
@@ -19,7 +19,7 @@ public:
     void initialise(const String& commandLine) 
 	{
 		(void) commandLine;
-		m_pMainWindow = new BadaboumWindow(getApplicationName());
+		m_pMainWindow = new render::BadaboumWindow(getApplicationName());
 	}
 
     void shutdown()

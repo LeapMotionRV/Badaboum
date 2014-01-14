@@ -6,28 +6,30 @@
 #include "Renderer.h"
 
 
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content (other components...).
-	Usefull to display a menu before or after the openGL context (manage by an other component, in Renderer file).
-*/
-class MainComponent : public Component
+namespace render
 {
-private:
-	static const unsigned int m_WIDTH = 1024;
-	static const unsigned int m_HEIGHT = 600;
+	/*
+		This component lives inside our window, and this is where you should put all
+		your controls and content (other components...).
+		Usefull to display a menu before or after the openGL context (manage by an other component, in Renderer file).
+	*/
+	class MainComponent : public Component
+	{
+	private:
+		static const unsigned int m_WIDTH = 1024;
+		static const unsigned int m_HEIGHT = 600;
 
-	OpenGLCanvas* m_pOpenGLRenderer;
+		Renderer* m_pOpenGLRenderer;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 
-public:
-    MainComponent();
-    ~MainComponent();
+	public:
+		MainComponent();
+		~MainComponent();
 
-    void paint (Graphics&);
-    void resized();
-};
-
+		void paint (Graphics&);
+		void resized();
+	};
+}
 
 #endif  // MAINCOMPONENT_H_INCLUDED
