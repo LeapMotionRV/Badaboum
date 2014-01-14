@@ -3,8 +3,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-
-namespace physical 
+namespace render
 {
 	ParticleRenderer::ParticleRenderer(float massScale):m_fMassScale(massScale) 
 	{}
@@ -22,19 +21,22 @@ namespace physical
 	{
 		// Dessine chacune des particules
 		for(uint32_t i = 0; i < count; ++i) {
-			glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
-			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
-			LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massArray[i]);
+			{
+				LeapUtilGL::GLMatrixScope gridMatrixScope;
+				glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
+				glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
+				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massArray[i]);
+			}
 		}
 	}
 
 	void ParticleRenderer::drawLines(
-                           uint32_t lineCount,
-                           const std::pair<unsigned int, unsigned int>* lines,
-                           uint32_t vertexCount,
-                           const glm::vec3* positionArray,
-                           const glm::vec3* colorArray,
-                           float lineWidth) 
+							uint32_t lineCount,
+							const std::pair<unsigned int, unsigned int>* lines,
+							uint32_t vertexCount,
+							const glm::vec3* positionArray,
+							const glm::vec3* colorArray,
+							float lineWidth) 
 	{
 		/*
 		glBindBuffer(GL_ARRAY_BUFFER, m_LinePositionVBOID);
@@ -59,5 +61,4 @@ namespace physical
 		glBindVertexArray(0);
 		*/
 	}
-
 }

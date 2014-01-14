@@ -26,8 +26,8 @@ namespace physical
 		unsigned int addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
 		void addRandomParticles(unsigned int count);
 
-		void drawParticles(ParticleRenderer& renderer);
-		void drawParticleGraph(ParticleGraph& graph, ParticleRenderer& renderer);
+		void drawParticles(render::ParticleRenderer& renderer);
+		void drawParticleGraph(ParticleGraph& graph, render::ParticleRenderer& renderer);
 		
 		void move(float maxDist);
 

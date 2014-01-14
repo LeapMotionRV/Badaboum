@@ -1,5 +1,5 @@
-#ifndef _IMAC3_ParticleRenderer_HPP
-#define _IMAC3_ParticleRenderer_HPP
+#ifndef _IMAC3_PARTICULE_RENDERER_HPP
+#define _IMAC3_PARTICULE_RENDERER_HPP
 
 
 #include <glm/glm.hpp>
@@ -7,8 +7,8 @@
 #include <stdint.h>
 
 
-namespace physical {
-
+namespace render
+{
 	class ParticleRenderer
 	{
 	public:
@@ -21,22 +21,21 @@ namespace physical {
 		void clear();
 
 		void drawParticles(uint32_t count,
-                       const glm::vec3* positionArray,
-                       const float* massArray,
-                       const glm::vec3* colorArray);
+						const glm::vec3* positionArray,
+						const float* massArray,
+						const glm::vec3* colorArray);
 
 		void drawLines(uint32_t lineCount,
-                   const std::pair<unsigned int, unsigned int>* lines,
-                   uint32_t vertexCount,
-                   const glm::vec3* positionArray,
-                   const glm::vec3* colorArray,
-                   float lineWidth = 1.f);
+					const std::pair<unsigned int, unsigned int>* lines,
+					uint32_t vertexCount,
+					const glm::vec3* positionArray,
+					const glm::vec3* colorArray,
+					float lineWidth = 1.f);
 
 	private:
 		// Scale appliqué sur la masse de chaque particule pour obtenir sa taille
 		float m_fMassScale;
 	};
-
 }
 
-#endif // _IMAC3_ParticleRenderer_HPP
+#endif // _IMAC3_PARTICULE_RENDERER_HPP

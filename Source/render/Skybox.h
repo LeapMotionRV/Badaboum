@@ -5,15 +5,16 @@
 #include <JuceHeader.h>
 #include "..\util\LeapUtilGL.h"
 
-
-class Skybox : public OpenGLTexture
+namespace render
 {
-public:
-	Skybox(String imagePath);
-	~Skybox();
+	class Skybox : public OpenGLTexture
+	{
+	public:
+		Skybox(String imagePath);
+		~Skybox();
 
-	void draw();
-};
-
+		void draw();
+	};
+}
 
 #endif
