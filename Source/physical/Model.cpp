@@ -22,10 +22,10 @@ namespace physical
 	void Model::startSimulation(float dt) 
 	{
 		if(dt !=0) {
-			m_pGravity->apply(m_pParticleManager);
+			//m_pGravity->apply(m_pParticleManager);
 			m_pHookForce->apply(m_pParticleManager);
-			m_pPolygonForce->setDt(dt);
-			m_pPolygonForce->apply(m_pParticleManager);
+			//m_pPolygonForce->setDt(dt);
+			//m_pPolygonForce->apply(m_pParticleManager;
 		}
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}

@@ -429,7 +429,7 @@ void drawCylinder( eStyle style, eAxis axis )
   }
 }
 
-void drawCylinder( eStyle style, float size, glm::vec3 dir)
+void drawCylinder(eStyle style, float size)
 {
   GLMatrixScope matrixScope;
 
@@ -471,9 +471,6 @@ void drawCylinder( eStyle style, float size, glm::vec3 dir)
   }*/
 
  // glTranslatef( 0, 0, -0.5f );
-  glRotatef( dir.x, 1, 0, 0);
-  glRotatef( dir.y, 0, 1, 0);
-  glRotatef( dir.z, 0, 0, 1);
   gluCylinder( s_quadric, 0.001f, 0.001f, size, 32, 32 );
 
   switch ( style )

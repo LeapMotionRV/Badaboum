@@ -43,15 +43,28 @@ namespace render
 			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
 			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, );
 		}*/
-		float distance = 0.f;
-		glm::vec3 direction = glm::vec3(0.f);
+		glm::vec3 p1;
+		glm::vec3 p2;
+		glm::vec3 direction;
 		for(uint32_t i = 0; i < lineCount; i+=2) {
-			glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
-			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
-			direction = positionArray[i+1] - positionArray[i];
-			direction = glm::normalize(direction);
-			distance = sqrt(pow(positionArray[i+1].x-positionArray[i].x, 2)+pow(positionArray[i+1].y-positionArray[i].y, 2)+pow(positionArray[i+1].z-positionArray[i].z, 2));
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, distance, direction);
+			{
+				//compute norme and direction
+				p1 = positionArray[i];
+				p2 = positionArray[i+1];
+				float norme = sqrt(pow(p2.x-p1.x, 2)+pow(p2.y-p1.y, 2)+pow(p2.z-p1.z, 2));
+				direction = p2 + p1;
+				float t = glm::atan(direction.y/direction.x);
+				float p = glm::acos(direction.z/norme);
+				//tranformations
+				LeapUtilGL::GLMatrixScope gridMatrixScope;
+				glTranslatef(p1.x, p1.y, p1.z);
+				glRotatef(t, 1, 0, 0);
+				glRotatef(t, 0, 1, 0);
+				glRotatef(p, 0, 0, 1);
+				//draw
+				glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
+				LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, norme);
+			}
 		}
 	}
 }
