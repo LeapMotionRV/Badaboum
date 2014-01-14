@@ -7,7 +7,7 @@ namespace physical
 	Force::~Force()
 	{}
 
-	void Force::apply(ParticleManager&)
+	void Force::apply(ParticleManager*)
 	{}
 
 }

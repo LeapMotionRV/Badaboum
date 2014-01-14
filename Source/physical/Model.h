@@ -2,14 +2,13 @@
 #define _IMAC3_MODEL_HPP
 
 
-//c'est ParticleManager qui contient la structure ParticleState permettant d'accéder à l'état suivant de la particule
 #include "ParticleManager.h"
-#include "Polygon.h"
 #include "LeapfrogSolver.h"
-#include "ConstantForce.h"
-#include "PolygonForce.h"
-#include "HookForce.h"
-#include "../shape/Cube.h"
+#include "forces/ConstantForce.h"
+#include "forces/PolygonForce.h"
+#include "forces/HookForce.h"
+#include "shapes/Polygon.h"
+#include "shapes/Cube.h"
 
 
 namespace physical 
@@ -18,26 +17,31 @@ namespace physical
 	{
 	public:
 		Model(unsigned int countParticles = 0);
+
+		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
 
-		ParticleManager getParticuleManager(){return m_particleManager;}
-		Polygon getGround(){return m_ground;}
-		Cube getCube(){return m_cube;}
-		LeapfrogSolver getLeapfrogSolver(){return m_leapfrogSolver;}
-		ConstantForce getGravity(){return m_gravity;}
-		PolygonForce getPolygonForce(){return m_polygonForce;}
-		HookForce getHookForce(){return m_hookForce;}
+		//getters - physical objects
+		ParticleManager*	getParticuleManager(){return m_pParticleManager;}
+		Polygon*			getGround(){return m_pGround;}
+		Cube*				getCube(){return m_pCube;}
+		
+		//getters - forces
+		LeapfrogSolver*		getLeapfrogSolver(){return m_pLeapfrogSolver;}
+		ConstantForce*		getGravity(){return m_pGravity;}
+		PolygonForce*		getPolygonForce(){return m_pPolygonForce;}
+		HookForce*			getHookForce(){return m_pHookForce;}
 
 	private:
-		//data on the scene
-		ParticleManager		m_particleManager;
-		Polygon				m_ground;
+		//physical objects
+		ParticleManager*	m_pParticleManager;
+		Polygon*			m_pGround;
+		Cube*				m_pCube;
 		//forces
-		LeapfrogSolver		m_leapfrogSolver;
-		ConstantForce		m_gravity;
-		PolygonForce		m_polygonForce;
-		HookForce			m_hookForce;
-		Cube				m_cube;
+		LeapfrogSolver*		m_pLeapfrogSolver;
+		ConstantForce*		m_pGravity;
+		PolygonForce*		m_pPolygonForce;
+		HookForce*			m_pHookForce;
 	};
 }
 

@@ -10,7 +10,7 @@ namespace render
 	class Skybox : public OpenGLTexture
 	{
 	public:
-		Skybox(String imagePath);
+		Skybox(std::string imagePath);
 		~Skybox();
 
 		void draw();

@@ -301,11 +301,14 @@
     <Filter Include="Badaboum\Source\old">
       <UniqueIdentifier>{c9494a5b-c348-4a1f-ac98-a48f84fe72ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Badaboum\Source\shape">
-      <UniqueIdentifier>{8a864ce4-7b70-4cbe-bbb2-33bf1e746ce6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Badaboum\Source\render">
       <UniqueIdentifier>{58ca66b1-0382-496d-85eb-6ee0af9afa8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\physical\forces">
+      <UniqueIdentifier>{9138db1e-1bf7-40e6-8316-175dbf1f48f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\physical\shapes">
+      <UniqueIdentifier>{8a864ce4-7b70-4cbe-bbb2-33bf1e746ce6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1422,12 +1425,6 @@
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp">
       <Filter>Badaboum\Source\util</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\Force.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\physical\HookForce.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>Badaboum\Source</Filter>
     </ClCompile>
@@ -1458,17 +1455,23 @@
     <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp">
       <Filter>Badaboum\Source\render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\ConstantForce.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
+    <ClCompile Include="..\..\Source\physical\forces\ConstantForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\PolygonForce.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
+    <ClCompile Include="..\..\Source\physical\forces\Force.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\Polygon.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
+    <ClCompile Include="..\..\Source\physical\forces\HookForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\shape\Cube.cpp">
-      <Filter>Badaboum\Source\shape</Filter>
+    <ClCompile Include="..\..\Source\physical\forces\PolygonForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\shapes\Cube.cpp">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2801,29 +2804,29 @@
     <ClInclude Include="..\..\Source\render\ParticleRenderer.h">
       <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\Force.h">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\physical\HookForce.h">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\physical\ConstantForce.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\maths.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\PolygonForce.h">
-      <Filter>Badaboum\Source\physical</Filter>
+    <ClInclude Include="..\..\Source\physical\forces\ConstantForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\Polygon.h">
-      <Filter>Badaboum\Source\physical</Filter>
+    <ClInclude Include="..\..\Source\physical\forces\Force.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\shape\Cube.h">
-      <Filter>Badaboum\Source\shape</Filter>
+    <ClInclude Include="..\..\Source\physical\forces\HookForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\forces\PolygonForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\shapes\Cube.h">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\shapes\Polygon.h">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

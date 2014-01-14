@@ -14,17 +14,17 @@ namespace physical
 
 	class ParticleManager {
 	public:
-		inline std::vector<glm::vec3> getForceArray() const {return m_forceArray;}
-		inline std::vector<glm::vec3> getSpeedArray() const {return m_speedArray;}
-		inline std::vector<glm::vec3> getPositionArray() const {return m_positionArray;}
-		inline std::vector<float> getMassArray() const {return m_massArray;}
+		inline std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
+		inline std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
+		inline std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
+		inline std::vector<float>		getMassArray() const {return m_massArray;}
 
 		inline void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		inline void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		inline void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
-		unsigned int addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
-		void addRandomParticles(unsigned int count);
+		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
+		void			addRandomParticles(unsigned int count);
 
 		void drawParticles(render::ParticleRenderer& renderer);
 		void drawParticleGraph(ParticleGraph& graph, render::ParticleRenderer& renderer);

@@ -6,6 +6,8 @@
 namespace physical 
 {
 
+	//AB correspond à une arrête du polygon tandis que p1p2 correspond à p1 la position de la particule en t et p2 en t+dt
+	//On considère M le point d'intersection entre P1P2 et AB, n la normale à AB en M
 	inline bool intersect(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& A, const glm::vec3& B,
 		glm::vec3* intersection, glm::vec3* normal) 
 	{

@@ -10,8 +10,8 @@ namespace physical {
 
 	class LeapfrogSolver {
 	public:
-		void solve(ParticleManager& pm, float dt);
-		ParticleState getNextState(uint32_t particleIdx, ParticleManager& pm, float dt) const;
+		void solve(ParticleManager* pm, float dt);
+		ParticleState getNextState(uint32_t particleIdx, ParticleManager* pm, float dt) const;
 	};
 
 }

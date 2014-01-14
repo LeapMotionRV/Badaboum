@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 #include "Force.h"
-#include "ParticleManager.h"
+#include "../ParticleManager.h"
 
 namespace physical 
 {
@@ -16,8 +16,8 @@ namespace physical
 		ConstantForce(){m_force = glm::vec3(0.f, 0.9f, 0.f);};
 		ConstantForce(glm::vec3 force):m_force(force){};
 		~ConstantForce();
-		void apply(ParticleManager& pm);
 
+		void apply(ParticleManager* pm);
 	};
 }
 

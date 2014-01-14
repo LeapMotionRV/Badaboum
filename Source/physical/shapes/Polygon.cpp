@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "Polygon.h"
-#include "../util/LeapUtilGL.h"
+#include "../../util/LeapUtilGL.h"
 
 
 namespace physical 

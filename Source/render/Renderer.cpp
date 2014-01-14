@@ -100,22 +100,14 @@ namespace render
 		// ******************** //
 		LeapUtilGL::GLMatrixScope sceneMatrixScope;
 		setupScene();
-	
+
 		// draw skybox (with a texture)
-		/*
-		m_pSkybox->bind();
-		m_pSkybox->draw();
-		m_pSkybox->unbind();
-		*/
+		//m_pSkybox->bind();
+		//m_pSkybox->draw();
+		//m_pSkybox->unbind();
 
 		// draw the ground
-		/*{
-			LeapUtilGL::GLMatrixScope gridMatrixScope;
-			glColor3f( 0, 1, 0 );
-			glTranslatef( 0.f, -1.5f, 0.f );
-			LeapUtilGL::drawQuad(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::ePlane::kPlane_ZX, 6.f);
-		}*/
-		m_model.getGround().draw();
+		m_model.getGround()->draw();
 
 		// draw columns
 		{
@@ -132,18 +124,19 @@ namespace render
 		}
 
 		// draw the particules
-		m_model.getParticuleManager().drawParticles(m_particleRenderer);
-		m_model.getParticuleManager().drawParticleGraph(m_model.getCube().getCubeGraph(), m_particleRenderer);
+		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
+		m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
 	
+		
+		// draw the text overlay
 		{
 			ScopedLock renderLock(m_renderMutex);
-			// draw the text overlay
 			renderOpenGL2D();
 		}
 
-		// Simulation
+		// Physical simulation
 		m_model.startSimulation(fRenderDT);
 	}
 
@@ -296,7 +289,7 @@ namespace render
 		m_strUpdateFPS = String::formatted( "UpdateFPS: %4.2f", fUpdateFPS );
 	}
 
-	// affects model view matrix.  needs to be inside a glPush/glPop matrix block!
+	// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
 	void Renderer::setupScene()
 	{
 		OpenGLHelpers::clear(Colours::black.withAlpha(1.0f));
