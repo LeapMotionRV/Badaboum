@@ -21,8 +21,20 @@ namespace physical
 		{
 			ParticleState nextParticleState = m_Solver->getNextState(particleIndex, pm, m_fDt);
 			
+			/*INTERSECTION BETWEEN VECTOR AND PLANE*/
+			if(intersectPlane(m_pPolygon, pm->getPositionArray()[particleIndex], nextParticleState.m_position, &intersection, &normal ))
+ 			{
+				//il y a intersection alors on applique une force pour repousser la particule
+				glm::vec3 forceRepulse;
+				//formule fournie dans l'énoncé
+				forceRepulse = m_fElasticity * glm::dot(nextParticleState.m_speed, -normal) * (pm->getMassArray()[particleIndex]/m_fDt) * normal;
+				//pm.resetForceOfParticle(particleIndex);
+				pm->setForceOfParticle(forceRepulse, particleIndex);
+			}
+
+			/*INTERSECTION BETWEEN TWO VECTORS*/
 			//boucle sur les aretes du polygone, on ne va pas jusqu'au dernier point puisqu'il n'en possède pas de suivant
-			for (unsigned int indexPointOfThePolygon = 0 ; indexPointOfThePolygon < m_pPolygon->getPointArray().size(); indexPointOfThePolygon++) 
+		/*	for (unsigned int indexPointOfThePolygon = 0 ; indexPointOfThePolygon < m_pPolygon->getPointArray().size(); indexPointOfThePolygon++) 
 			{
 				//si le polygon est interne
 				if(m_pPolygon->isInner())
@@ -54,7 +66,7 @@ namespace physical
 					}
 				}
 				
-			}
+			}*/
 
 			// //il faut aussi tester entre le dernier et le premier point du polygone
 			// if(intersect(pm.getPositionArray()[particleIndex], nextParticleState.m_position, m_Polygon->getPointArray()[m_Polygon->getPointArray().size() - 1], m_Polygon->getPointArray()[0], &intersection, &normal )){

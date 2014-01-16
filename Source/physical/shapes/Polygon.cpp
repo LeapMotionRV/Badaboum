@@ -19,8 +19,8 @@ namespace physical
 		m_bIsInner = isInner;
 		m_pointArray.push_back(position);
 		m_pointArray.push_back(glm::vec3(position.x + width, position.y, position.z));
-		m_pointArray.push_back(glm::vec3(position.x + width, position.y + height, position.z));
-		m_pointArray.push_back(glm::vec3(position.x, position.y + height, position.z));
+		m_pointArray.push_back(glm::vec3(position.x + width, position.y, position.z + height));
+		m_pointArray.push_back(glm::vec3(position.x, position.y, position.z + height));
 		m_width = width;
 		m_height = height;
 	}
