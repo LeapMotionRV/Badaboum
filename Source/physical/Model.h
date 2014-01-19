@@ -9,6 +9,8 @@
 #include "forces/HookForce.h"
 #include "shapes/Polygon.h"
 #include "shapes/Cube.h"
+#include "forces/GraphHookForce.h"
+#include "forces/GraphBrakeForce.h"
 
 
 namespace physical 
@@ -42,6 +44,8 @@ namespace physical
 		ConstantForce*		m_pGravity;
 		PolygonForce*		m_pPolygonForce;
 		HookForce*			m_pHookForce;
+		GraphHookForce*		m_pGraphHookForce;
+		GraphBrakeForce*	m_pGraphBrakeForce;
 	};
 }
 

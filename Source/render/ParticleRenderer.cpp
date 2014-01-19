@@ -32,7 +32,7 @@ namespace render
 
 	void ParticleRenderer::drawLines(
 							uint32_t lineCount,
-							const std::pair<unsigned int, unsigned int>* lines,
+							const ParticleGraph* lines,
 							uint32_t vertexCount,
 							const glm::vec3* positionArray,
 							const glm::vec3* colorArray,
