@@ -24,7 +24,7 @@ namespace physical
 	private:
 		//pointe sur le polygone repoussant les particules
 		const Polygon* m_pPolygon;
-		//coef d'élasticité
+		//coef d'élasticité (1 -> éléments collés au sol / 2 -> éléments rebondissent sans perte d'énergie
 		float m_fElasticity;
 		//servira à tester l'état suivant des particules
 		const LeapfrogSolver* m_Solver;

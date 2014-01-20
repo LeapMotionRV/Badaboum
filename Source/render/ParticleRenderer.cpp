@@ -38,11 +38,6 @@ namespace render
 							const glm::vec3* colorArray,
 							float lineWidth) 
 	{
-		/*for(uint32_t i = 0; i < lineCount; ++i) {
-			glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
-			glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, );
-		}*/
 		glm::vec3 p1;
 		glm::vec3 p2;
 		glm::vec3 direction;
@@ -53,14 +48,15 @@ namespace render
 				p2 = positionArray[i+1];
 				float norme = sqrt(pow(p2.x-p1.x, 2)+pow(p2.y-p1.y, 2)+pow(p2.z-p1.z, 2));
 				direction = p2 + p1;
-				float t = glm::atan(direction.y/direction.x);
-				float p = glm::acos(direction.z/norme);
+				float radians_t = glm::atan(direction.y/direction.x);
+				float radians_p = glm::acos(direction.z/norme);
+				float degrees_t = radians_t * (180/3.14);
+				float degrees_p = radians_p * (180/3.14);
 				//tranformations
 				LeapUtilGL::GLMatrixScope gridMatrixScope;
 				glTranslatef(p1.x, p1.y, p1.z);
-				glRotatef(t, 1, 0, 0);
-				glRotatef(t, 0, 1, 0);
-				glRotatef(p, 0, 0, 1);
+				glRotatef(degrees_t, 1, 1, 0);
+				glRotatef(degrees_p, 0, 0, 1);
 				//draw
 				glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
 				LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, norme);
