@@ -38,7 +38,7 @@ namespace render
 
 		//set var for physical
 		m_particleRenderer =  ParticleRenderer();
-		m_model = physical::Model();
+		m_model = physical::Model(100);
 	}
 
 	Renderer::~Renderer()
@@ -125,7 +125,7 @@ namespace render
 
 		// draw the particules
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
 		
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );

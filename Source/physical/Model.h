@@ -31,6 +31,7 @@ namespace physical
 		//getters - forces
 		LeapfrogSolver*		getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ConstantForce*		getGravity(){return m_pGravity;}
+		ConstantForce*		getWind(){return m_pWind;}
 		PolygonForce*		getPolygonForce(){return m_pPolygonForce;}
 		HookForce*			getHookForce(){return m_pHookForce;}
 		BrakeForce*			getBrakeForce(){return m_pBrakeForce;}
@@ -45,6 +46,7 @@ namespace physical
 		//forces
 		LeapfrogSolver*		m_pLeapfrogSolver;
 		ConstantForce*		m_pGravity;
+		ConstantForce*		m_pWind;
 		PolygonForce*		m_pPolygonForce;
 		HookForce*			m_pHookForce;
 		BrakeForce*			m_pBrakeForce;
