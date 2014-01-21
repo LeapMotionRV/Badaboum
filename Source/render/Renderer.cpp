@@ -110,6 +110,7 @@ namespace render
 
 		// draw the ground
 		m_model.getGround()->draw();
+		LeapUtilGL::drawPolygon(LeapUtilGL::kStyle_Outline, glm::vec3(3,2,4), glm::vec3(2,3,3), glm::vec3(1,1,5), glm::vec3(1,0,0));
 
 		// draw columns
 		{
