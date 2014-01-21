@@ -28,7 +28,6 @@ namespace physical
 	void Polygon::draw() const {
 		LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f(m_color.x, m_color.y, m_color.z);
-		//glTranslatef(m_pointArray[0].x,  m_pointArray[0].y, m_pointArray[0].z);
 		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, m_pointArray[0], m_pointArray[1], m_pointArray[2], m_pointArray[3]);
 	}
 }

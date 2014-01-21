@@ -127,8 +127,11 @@ namespace render
 
 		// draw the particules
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
+		m_model.getCube()->drawCube(m_model.getParticuleManager());
+
 		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getGraph(), m_particleRenderer);
-		
+	
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
 		
