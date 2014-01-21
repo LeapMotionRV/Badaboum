@@ -10,6 +10,7 @@
 #include "forces/BrakeForce.h"
 #include "shapes/Polygon.h"
 #include "shapes/Cube.h"
+#include "shapes/Line.h"
 #include "forces/GraphHookForce.h"
 #include "forces/GraphBrakeForce.h"
 
@@ -28,6 +29,7 @@ namespace physical
 		ParticleManager*	getParticuleManager(){return m_pParticleManager;}
 		Polygon*			getGround(){return m_pGround;}
 		Cube*				getCube(){return m_pCube;}
+		Line*				getLine(){return m_pLine;}
 		//getters - forces
 		LeapfrogSolver*		getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ConstantForce*		getGravity(){return m_pGravity;}
@@ -43,6 +45,7 @@ namespace physical
 		ParticleManager*	m_pParticleManager;
 		Polygon*			m_pGround;
 		Cube*				m_pCube;
+		Line*				m_pLine;
 		//forces
 		LeapfrogSolver*		m_pLeapfrogSolver;
 		ConstantForce*		m_pGravity;

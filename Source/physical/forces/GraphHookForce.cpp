@@ -27,8 +27,8 @@ namespace physical {
 			d = sqrt(glm::dot(p1p2, p1p2));
 			forceHook = (m_fK * (1-(m_fL/std::max(d, epsilon)))) * p1p2;
 
-			pm->addForce(iP1, forceHook);
-			pm->addForce(iP2, -forceHook);	
+			pm->addForceToParticle(forceHook, iP1);
+			pm->addForceToParticle(-forceHook, iP2);	
 		}
 	}
 }

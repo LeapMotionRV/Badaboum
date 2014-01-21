@@ -12,7 +12,7 @@ namespace physical
 	{
 	public:
 		Polygon();
-		Polygon(glm::vec3 color, glm::vec3 center, float width, float height);
+		Polygon(glm::vec3 positionTopLeft, glm::vec3 positionTopRight, glm::vec3 positionBottomLeft, glm::vec3 positionBottomRight, glm::vec3 color);
 		
 		void draw() const;
 		//nécessaire de mettre const pour assurer qu'on va pas modifier l'objet sinon si on appelle sur un polygon const comme c'est le cas dans PolygonForce ça passe pas

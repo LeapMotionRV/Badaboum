@@ -23,8 +23,8 @@ namespace physical {
 
 			brakeForce = m_fV/m_fDt * (pm->getVelocity(iP2) - pm->getVelocity(iP1));
 
-			pm->addForce(iP1, brakeForce);
-			pm->addForce(iP2, -brakeForce);
+			pm->addForceToParticle(brakeForce, iP1);
+			pm->addForceToParticle(-brakeForce, iP2);
 		}
 	}
 }

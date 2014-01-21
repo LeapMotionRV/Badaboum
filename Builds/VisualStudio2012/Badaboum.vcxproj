@@ -1236,7 +1236,9 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\physical\Model.cpp" />
     <ClCompile Include="..\..\Source\physical\ParticleManager.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Cube.cpp" />
+    <ClCompile Include="..\..\Source\physical\shapes\Line.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp" />
+    <ClCompile Include="..\..\Source\physical\shapes\Shape.cpp" />
     <ClCompile Include="..\..\Source\render\MainComponent.cpp" />
     <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp" />
     <ClCompile Include="..\..\Source\render\Renderer.cpp" />
@@ -1692,7 +1694,9 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\physical\Model.h" />
     <ClInclude Include="..\..\Source\physical\ParticleManager.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Cube.h" />
+    <ClInclude Include="..\..\Source\physical\shapes\Line.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Polygon.h" />
+    <ClInclude Include="..\..\Source\physical\shapes\Shape.h" />
     <ClInclude Include="..\..\Source\render\MainComponent.h" />
     <ClInclude Include="..\..\Source\render\ParticleRenderer.h" />
     <ClInclude Include="..\..\Source\render\Renderer.h" />

@@ -8,9 +8,11 @@
 
 #include <vector>
 
+
 namespace render
 {
-		typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+	typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
+
 	class ParticleRenderer
 	{
 	public:

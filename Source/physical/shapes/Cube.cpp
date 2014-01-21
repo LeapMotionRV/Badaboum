@@ -5,7 +5,6 @@ namespace physical
 
 	Cube::Cube(physical::ParticleManager* pParticuleManager)
 	{
-		m_cubeGraph = new ParticleGraph();
 		glm::vec3 speed = glm::vec3(0.f);
 		float mass = 0.2f;
 		glm::vec3 force = glm::vec3(0.f);
@@ -19,42 +18,43 @@ namespace physical
 		m_part7 = pParticuleManager->addParticle(glm::vec3(1.f, 1.f, 1.f), speed, mass, force, glm::vec3(0.7f, 0.f, 0.f));
 		m_part8 = pParticuleManager->addParticle(glm::vec3(0.f, 1.f, 1.f), speed, mass, force, glm::vec3(0.8f, 0.f, 0.f));
 		//face 1
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part2));
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part3));
-		m_cubeGraph->push_back(std::make_pair(m_part3,m_part4));
-		m_cubeGraph->push_back(std::make_pair(m_part4,m_part1));
+
+		m_graph->push_back(std::make_pair(m_part1,m_part2));
+		m_graph->push_back(std::make_pair(m_part2,m_part3));
+		m_graph->push_back(std::make_pair(m_part3,m_part4));
+		m_graph->push_back(std::make_pair(m_part4,m_part1));
 		//face 2
-		m_cubeGraph->push_back(std::make_pair(m_part5,m_part6));
-		m_cubeGraph->push_back(std::make_pair(m_part6,m_part7));
-		m_cubeGraph->push_back(std::make_pair(m_part7,m_part8));
-		m_cubeGraph->push_back(std::make_pair(m_part5,m_part8));
+		m_graph->push_back(std::make_pair(m_part5,m_part6));
+		m_graph->push_back(std::make_pair(m_part6,m_part7));
+		m_graph->push_back(std::make_pair(m_part7,m_part8));
+		m_graph->push_back(std::make_pair(m_part5,m_part8));
 		//faces 3, 4, 5 and 6
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part5));
-		m_cubeGraph->push_back(std::make_pair(m_part4,m_part8));
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part6));
-		m_cubeGraph->push_back(std::make_pair(m_part3,m_part7));
+		m_graph->push_back(std::make_pair(m_part1,m_part5));
+		m_graph->push_back(std::make_pair(m_part4,m_part8));
+		m_graph->push_back(std::make_pair(m_part2,m_part6));
+		m_graph->push_back(std::make_pair(m_part3,m_part7));
 
 		//diagonales interieures
-		m_cubeGraph->push_back(std::make_pair(m_part3,m_part5));
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part8));
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part7));
-		m_cubeGraph->push_back(std::make_pair(m_part4,m_part6));
+		m_graph->push_back(std::make_pair(m_part3,m_part5));
+		m_graph->push_back(std::make_pair(m_part2,m_part8));
+		m_graph->push_back(std::make_pair(m_part1,m_part7));
+		m_graph->push_back(std::make_pair(m_part4,m_part6));
 
 		//diagonales faces
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part3));
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part4));
-		m_cubeGraph->push_back(std::make_pair(m_part5,m_part7));
-		m_cubeGraph->push_back(std::make_pair(m_part6,m_part8));
+		m_graph->push_back(std::make_pair(m_part1,m_part3));
+		m_graph->push_back(std::make_pair(m_part2,m_part4));
+		m_graph->push_back(std::make_pair(m_part5,m_part7));
+		m_graph->push_back(std::make_pair(m_part6,m_part8));
 
-		m_cubeGraph->push_back(std::make_pair(m_part5,m_part4));
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part8));
-		m_cubeGraph->push_back(std::make_pair(m_part6,m_part3));
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part7));
+		m_graph->push_back(std::make_pair(m_part5,m_part4));
+		m_graph->push_back(std::make_pair(m_part1,m_part8));
+		m_graph->push_back(std::make_pair(m_part6,m_part3));
+		m_graph->push_back(std::make_pair(m_part2,m_part7));
 
-		m_cubeGraph->push_back(std::make_pair(m_part2,m_part5));
-		m_cubeGraph->push_back(std::make_pair(m_part1,m_part6));
-		m_cubeGraph->push_back(std::make_pair(m_part3,m_part8));
-		m_cubeGraph->push_back(std::make_pair(m_part4,m_part7));
+		m_graph->push_back(std::make_pair(m_part2,m_part5));
+		m_graph->push_back(std::make_pair(m_part1,m_part6));
+		m_graph->push_back(std::make_pair(m_part3,m_part8));
+		m_graph->push_back(std::make_pair(m_part4,m_part7));
 	}
 
 	Cube::~Cube()

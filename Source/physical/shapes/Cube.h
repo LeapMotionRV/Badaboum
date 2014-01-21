@@ -2,12 +2,13 @@
 #define CUBE_H
 
 
+#include "Shape.h"
 #include "../ParticleManager.h"
 #include "../../util/LeapUtilGL.h"
 
 namespace physical
 {
-	class Cube
+	class Cube : public Shape
 	{
 	public:
 		Cube(ParticleManager* pParticuleManager);
@@ -15,11 +16,7 @@ namespace physical
 
 		void drawCube(physical::ParticleManager* pParticuleManager);
 
-		//getter
-		const ParticleGraph* getCubeGraph(){return m_cubeGraph;}
-
 	private:
-		ParticleGraph* m_cubeGraph;
 
 		unsigned int m_part1;
 		unsigned int m_part2;

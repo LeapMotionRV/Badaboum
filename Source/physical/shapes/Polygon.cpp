@@ -13,14 +13,12 @@ namespace physical
 		m_height = 0;
 	}
 
-	Polygon::Polygon(glm::vec3 color, glm::vec3 position, float width, float height) {
+	Polygon::Polygon(glm::vec3 positionTopLeft, glm::vec3 positionTopRight, glm::vec3 positionBottomLeft, glm::vec3 positionBottomRight, glm::vec3 color) {
 		m_color = color;
-		m_pointArray.push_back(position);
-		m_pointArray.push_back(glm::vec3(position.x + width, position.y, position.z));
-		m_pointArray.push_back(glm::vec3(position.x + width, position.y, position.z + height));
-		m_pointArray.push_back(glm::vec3(position.x, position.y, position.z + height));
-		m_width = width;
-		m_height = height;
+		m_pointArray.push_back(positionTopLeft);
+		m_pointArray.push_back(positionTopRight);
+		m_pointArray.push_back(positionBottomLeft);
+		m_pointArray.push_back(positionBottomRight);
 	}
 
 	std::vector<glm::vec3> Polygon::getPointArray() const {
@@ -30,7 +28,6 @@ namespace physical
 	void Polygon::draw() const {
 		LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f(m_color.x, m_color.y, m_color.z);
-		glTranslatef(m_pointArray[0].x,  m_pointArray[0].y, m_pointArray[0].z);
-		LeapUtilGL::drawQuad(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::ePlane::kPlane_ZX, m_width, m_height);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, m_pointArray[0], m_pointArray[1], m_pointArray[2], m_pointArray[3]);
 	}
 }
