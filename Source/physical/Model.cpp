@@ -16,16 +16,16 @@ namespace physical
 		
 		//forces
 		m_pLeapfrogSolver = new LeapfrogSolver();
-		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.1f, 0.f));
+		m_pGravity = new ConstantForce(glm::vec3(-0.01f, 0.f, 0.f));
 		m_pPolygonForce = new PolygonForce(m_pGround, 2.f, m_pLeapfrogSolver);
-		m_pHookForce = new HookForce(0.01f, 0.01f);
-		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
+		//m_pHookForce = new HookForce(0.01f, 0.01f);
+		//m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
 
-		//m_pGraphHookForce = new GraphHookForce(0.01f, 0.01f);
-		//m_pGraphBrakeForce = new GraphBrakeForce(0.1f);
+		m_pGraphHookForce = new GraphHookForce(0.01f, 1.f); //0.01f 1.f
+		m_pGraphBrakeForce = new GraphBrakeForce(0.001f); //0.001f
 
-		//m_pGraphHookForce->setGraph(m_pCube->getCubeGraph());
-		//m_pGraphBrakeForce->setGraph(m_pCube->getCubeGraph());
+		m_pGraphHookForce->setGraph(m_pCube->getCubeGraph());
+		m_pGraphBrakeForce->setGraph(m_pCube->getCubeGraph());
 	}
 
 	void Model::startSimulation(float dt) 
@@ -35,9 +35,9 @@ namespace physical
 			//m_pHookForce->apply(m_pParticleManager);
 			//m_pBrakeForce->apply(m_pParticleManager);
 
-			//m_pGraphHookForce->apply(m_pParticleManager);
-			//m_pGraphBrakeForce->setDt(dt);
-			//m_pGraphBrakeForce->apply(m_pParticleManager);
+			m_pGraphHookForce->apply(m_pParticleManager);
+			m_pGraphBrakeForce->setDt(dt);
+			m_pGraphBrakeForce->apply(m_pParticleManager);
 
 			m_pPolygonForce->setDt(dt);
 			m_pPolygonForce->apply(m_pParticleManager);

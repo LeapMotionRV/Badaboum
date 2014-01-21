@@ -101,6 +101,8 @@ namespace render
 		LeapUtilGL::GLMatrixScope sceneMatrixScope;
 		setupScene();
 
+		LeapUtilGL::drawAxes();
+
 		// draw skybox (with a texture)
 		//m_pSkybox->bind();
 		//m_pSkybox->draw();
@@ -124,8 +126,9 @@ namespace render
 		}
 
 		// draw the particules
+		//glTranslatef(5.f, 5.f, 5.f);
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
 		
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
