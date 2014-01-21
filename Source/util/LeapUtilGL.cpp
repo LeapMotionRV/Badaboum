@@ -234,6 +234,69 @@ void drawQuad( eStyle style, ePlane plane, float width, float height )
   }
 }
 
+void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 forthPoint )
+{
+  switch ( style )
+  {
+   case kStyle_Outline:
+    glPushAttrib( GL_LIGHTING_BIT );
+    glDisable(GL_LIGHTING);
+    break;
+
+   case kStyle_Solid:
+    break;
+  }
+
+  //const float kfHalfSize = size/2.f;
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glNormal3f( 0, 0, 1 );
+  glTexCoord2f( 0, 0 );
+  glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
+  glTexCoord2f( 1, 0 );
+  glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );
+  glTexCoord2f( 1, 1 );
+  glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
+  glEnd();
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glTexCoord2f( 1, 1 );
+  glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
+  glTexCoord2f( 0, 1 );
+  glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
+  glTexCoord2f( 0, 0 );
+  glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
+  glEnd();
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glNormal3f( 0, 0, -1 );
+  glTexCoord2f( 0, 0 );
+  glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );
+  glTexCoord2f( 1, 0 );
+  glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
+  glTexCoord2f( 1, 1 );
+  glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
+  glEnd();
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glTexCoord2f( 1, 1 );
+  glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
+  glTexCoord2f( 0, 1 );
+  glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
+  glTexCoord2f( 0, 0 );
+  glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );
+  glEnd();
+
+  switch ( style )
+  {
+  case kStyle_Outline:
+    glPopAttrib();
+    break;
+  case kStyle_Solid:
+    break;
+  }
+}
+
 
 void drawBox( eStyle style, float size )
 {

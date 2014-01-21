@@ -101,6 +101,8 @@ namespace render
 		LeapUtilGL::GLMatrixScope sceneMatrixScope;
 		setupScene();
 
+		LeapUtilGL::drawAxes();
+
 		// draw skybox (with a texture)
 		//m_pSkybox->bind();
 		//m_pSkybox->draw();
@@ -108,6 +110,7 @@ namespace render
 
 		// draw the ground
 		m_model.getGround()->draw();
+		LeapUtilGL::drawPolygon(LeapUtilGL::kStyle_Outline, glm::vec3(3,2,4), glm::vec3(2,3,3), glm::vec3(1,1,5), glm::vec3(1,0,0));
 
 		// draw columns
 		{
@@ -124,6 +127,7 @@ namespace render
 		}
 
 		// draw the particules
+		//glTranslatef(5.f, 5.f, 5.f);
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
 		m_model.getParticuleManager()->drawParticleGraph(m_model.getLine()->getGraph(), m_particleRenderer);
 		
