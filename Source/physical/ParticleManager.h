@@ -14,29 +14,31 @@ namespace physical
 
 	class ParticleManager {
 	public:
+		//getters
 		inline std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
 		inline std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
 		inline std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
 		inline std::vector<float>		getMassArray() const {return m_massArray;}
 
+		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
+		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
+
+		//setters
 		inline void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		inline void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		inline void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
-		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
-		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
-		inline void addForce(int idParticule, glm::vec3 vecForce) { m_forceArray[idParticule] += vecForce; }
-
+		//add particles and manipulate them
 		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
 		void			addRandomParticles(unsigned int count);
+		void			addForceToParticle(glm::vec3 force, size_t index);
+		void			resetForceOfParticle(size_t index);
+		void			move(float maxDist);
 
+		//draw
 		void drawParticles(render::ParticleRenderer& renderer);
 		void drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer);
 		
-		void move(float maxDist);
-
-		void addForceToParticle(glm::vec3 force, size_t index);
-		void resetForceOfParticle(size_t index);
 	private:
 		std::vector<glm::vec3> m_positionArray;
 		std::vector<glm::vec3> m_speedArray;
@@ -49,7 +51,6 @@ namespace physical
 		glm::vec3 m_position;
 		glm::vec3 m_speed;
 	};
-	ParticleGraph* createString(glm::vec3 A, glm::vec3 B, glm::vec3 color, uint32_t uiDiscFactor, ParticleManager& pm);
 }
 
 #endif // IMAC3_PARTICLEMANAGER_HPP
