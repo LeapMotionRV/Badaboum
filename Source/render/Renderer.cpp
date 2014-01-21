@@ -38,7 +38,7 @@ namespace render
 
 		//set var for physical
 		m_particleRenderer =  ParticleRenderer();
-		m_model = physical::Model(3);
+		m_model = physical::Model();
 	}
 
 	Renderer::~Renderer()

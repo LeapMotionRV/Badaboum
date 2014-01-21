@@ -2,6 +2,7 @@
 
 namespace physical
 {
+
 	Cube::Cube(physical::ParticleManager* pParticuleManager)
 	{
 		m_cubeGraph = new ParticleGraph();
@@ -38,6 +39,7 @@ namespace physical
 		m_cubeGraph->push_back(std::make_pair(part1,part7));
 		m_cubeGraph->push_back(std::make_pair(part6,part4));
 		*/
+
 	}
 
 	Cube::~Cube()
