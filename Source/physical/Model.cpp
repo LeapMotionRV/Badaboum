@@ -31,7 +31,7 @@ namespace physical
 	{
 		if(dt !=0) {
 			m_pGravity->apply(m_pParticleManager);
-			m_pWind->apply(m_pParticleManager);
+			//m_pWind->apply(m_pParticleManager);
 
 			//m_pHookForce->apply(m_pParticleManager);
 			//m_pBrakeForce->apply(m_pParticleManager);

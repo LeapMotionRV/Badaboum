@@ -2,22 +2,16 @@
 #define CUBE_H
 
 
+#include "Shape.h"
 #include "../ParticleManager.h"
 
 
 namespace physical
 {
-	class Cube
+	class Cube : public Shape
 	{
 	public:
 		Cube(ParticleManager* pParticuleManager);
-		~Cube();
-
-		//getter
-		const ParticleGraph* getCubeGraph(){return m_cubeGraph;}
-
-	private:
-		ParticleGraph* m_cubeGraph;
 	};
 }
 
