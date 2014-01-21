@@ -7,9 +7,10 @@ namespace physical
 	{
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
+		//m_pParticleManager->addParticle(glm::vec3(0,5,0), glm::vec3(0,0,0), 0.1, glm::vec3(0,0,0), glm::vec3(1,0,0));
 		m_pParticleManager->addRandomParticles(countParticles);
 		
-		m_pGround = new Polygon(glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, -2.f, 0.f), 100.f, 100.f);
+		m_pGround = new Polygon(glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), glm::vec3(-25.f, -10.f, 25.f), glm::vec3(25.f, -10.f, 25.f), glm::vec3(0.f, 1.f, 0.f));
 		m_pCube = new Cube(m_pParticleManager);
 		//m_pLine = new Line(m_pParticleManager);
 		
