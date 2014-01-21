@@ -32,9 +32,9 @@ namespace physical
                         &m_colorArray[0]);
     }
 
-	void ParticleManager::drawParticleGraph(ParticleGraph& graph, render::ParticleRenderer& renderer){
-    	renderer.drawLines(graph.size(),
-                   &graph[0],
+	void ParticleManager::drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer){
+    	renderer.drawLines(graph->size(),
+                   graph,
                    m_positionArray.size(),
                    &m_positionArray[0],
                    &m_colorArray[0],
@@ -54,4 +54,22 @@ namespace physical
     void ParticleManager::resetForceOfParticle(size_t index){
     		m_forceArray[index] = glm::vec3(0.f, 0.f, 0.f);
     }
+	
+ParticleGraph* createString(glm::vec3 A, glm::vec3 B, glm::vec3 color, uint32_t uiDiscFactor, ParticleManager& pm) {
+  float distAB = glm::distance(A, B);
+  glm::vec3 dirAB = glm::normalize(B-A);
+  float step = distAB/static_cast<float>(uiDiscFactor);
+
+  ParticleGraph* pg = new ParticleGraph();
+
+  for(int i = 0; i<uiDiscFactor+1; ++i){
+    unsigned int idxAdded = pm.addParticle(A+(i*step*dirAB), glm::vec3(0.f), 0.6f,  glm::vec3(0.f), color);
+
+    if(i > 0) {
+      pg->push_back(std::make_pair(idxAdded, idxAdded-1));
+    }
+  }
+
+    return pg;
+}
 }

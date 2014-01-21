@@ -1446,9 +1446,6 @@
     <ClCompile Include="..\..\Source\physical\LeapfrogSolver.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\Model.cpp">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\physical\ParticleManager.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
@@ -1472,6 +1469,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp">
       <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\Model.cpp">
+      <Filter>Badaboum\Source\physical</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\forces\GraphBrakeForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\forces\GraphHookForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\physical\forces\BrakeForce.cpp">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2827,6 +2836,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\shapes\Polygon.h">
       <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\forces\GraphHookForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\forces\GraphBrakeForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\forces\BrakeForce.h">
+      <Filter>Badaboum\Source\physical\forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

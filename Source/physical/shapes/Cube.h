@@ -14,10 +14,10 @@ namespace physical
 		~Cube();
 
 		//getter
-		ParticleGraph getCubeGraph(){return m_cubeGraph;}
+		const ParticleGraph* getCubeGraph(){return m_cubeGraph;}
 
 	private:
-		ParticleGraph m_cubeGraph;
+		ParticleGraph* m_cubeGraph;
 	};
 }
 

@@ -23,11 +23,15 @@ namespace physical
 		inline void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		inline void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
+		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
+		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
+		inline void addForce(int idParticule, glm::vec3 vecForce) { m_forceArray[idParticule] += vecForce; }
+
 		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
 		void			addRandomParticles(unsigned int count);
 
 		void drawParticles(render::ParticleRenderer& renderer);
-		void drawParticleGraph(ParticleGraph& graph, render::ParticleRenderer& renderer);
+		void drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer);
 		
 		void move(float maxDist);
 
@@ -45,7 +49,7 @@ namespace physical
 		glm::vec3 m_position;
 		glm::vec3 m_speed;
 	};
-
+	ParticleGraph* createString(glm::vec3 A, glm::vec3 B, glm::vec3 color, uint32_t uiDiscFactor, ParticleManager& pm);
 }
 
 #endif // IMAC3_PARTICLEMANAGER_HPP

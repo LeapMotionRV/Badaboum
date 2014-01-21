@@ -6,9 +6,11 @@
 #include <utility>
 #include <stdint.h>
 
+#include <vector>
 
 namespace render
 {
+		typedef std::vector<std::pair<unsigned int, unsigned int>> ParticleGraph;
 	class ParticleRenderer
 	{
 	public:
@@ -26,7 +28,7 @@ namespace render
 						const glm::vec3* colorArray);
 
 		void drawLines(uint32_t lineCount,
-					const std::pair<unsigned int, unsigned int>* lines,
+					const ParticleGraph* lines,
 					uint32_t vertexCount,
 					const glm::vec3* positionArray,
 					const glm::vec3* colorArray,
