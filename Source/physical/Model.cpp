@@ -12,9 +12,9 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -10.f, -25.f), glm::vec3(25.f, -10.f, -25.f), glm::vec3(-25.f, -10.f, 25.f), glm::vec3(25.f, -10.f, 25.f), glm::vec3(0.f, 1.f, 0.f), 2.f);
+		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -1.f, -25.f), glm::vec3(25.f, -1.f, -25.f), glm::vec3(-25.f, -1.f, 25.f), glm::vec3(25.f, -1.f, 25.f), glm::vec3(0.f, 1.f, 0.f), 2.f);
 
-		m_pCube = new Cube(m_pParticleManager);
+		m_pCube = new Cube(m_pParticleManager, 2.f, glm::vec3(0.f, 4.f, 0.f));
 		//m_pLine = new Line(m_pParticleManager);
 		
 		//forces

@@ -99,26 +99,24 @@ namespace render
 		LeapUtilGL::GLMatrixScope sceneMatrixScope;
 		setupScene();
 
-		LeapUtilGL::drawAxes();
-
 		// draw skybox (with a texture)
 		/*
 		m_pSkybox->bind();
 		m_pSkybox->draw();
 		m_pSkybox->unbind();
 		*/
-
+		
+		//draw axis
+		LeapUtilGL::drawAxes();
 		// draw the ground
 		m_model.getGround()->draw();
-
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getGraph(), m_particleRenderer);
+		//draw cubes
 		m_model.getCube()->drawCube(m_model.getParticuleManager());
 
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
-		
 		// draw the text overlay
 		{
 			ScopedLock renderLock(m_renderMutex);
