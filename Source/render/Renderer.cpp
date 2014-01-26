@@ -2,7 +2,7 @@
 #include "Window.h"
 namespace render
 {
-	Renderer::Renderer(const unsigned int width, const unsigned int height):Component( "Renderer" )
+	Renderer::Renderer(const unsigned int width, const unsigned int height)
 	{
 		//set the openGL context
 		setBounds(0, 0, width, height);
@@ -35,22 +35,20 @@ namespace render
 					"Arrow Keys  - Rotate camera\n"
 					"Space       - Reset camera";
 		m_strPrompt = "Press 'h' for help";
-
-		//set var for physical
-		m_particleRenderer =  ParticleRenderer();
-		m_model = physical::Model();
 	}
 
 	Renderer::~Renderer()
 	{
 		BadaboumWindow::getController().removeListener(*this);
 		m_openGLContext.detach();
+
+		delete m_pSkybox;
 	}
 
 	void Renderer::newOpenGLContextCreated()
 	{
 		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);//
+		glEnable(GL_DEPTH_TEST);//added by us
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -104,34 +102,20 @@ namespace render
 		LeapUtilGL::drawAxes();
 
 		// draw skybox (with a texture)
-		//m_pSkybox->bind();
-		//m_pSkybox->draw();
-		//m_pSkybox->unbind();
+		/*
+		m_pSkybox->bind();
+		m_pSkybox->draw();
+		m_pSkybox->unbind();
+		*/
 
 		// draw the ground
 		m_model.getGround()->draw();
 
-		// draw columns
-		{
-			LeapUtilGL::GLMatrixScope gridMatrixScope;
-			glColor3f( 1, 0, 0 );
-			glTranslatef( -2.5f, -1.f, -2.5f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( 5.f, 0.f, 0.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( 0.f, 0.f, 5.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-			glTranslatef( -5.f, 0.f, 0.f );
-			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid, LeapUtilGL::eAxis::kAxis_Y);
-		}
-
-		// draw the particules
+		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getGraph(), m_particleRenderer);
 		m_model.getCube()->drawCube(m_model.getParticuleManager());
 
-		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getGraph(), m_particleRenderer);
-	
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
 		

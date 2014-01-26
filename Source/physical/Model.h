@@ -20,6 +20,7 @@ namespace physical
 	{
 	public:
 		Model(unsigned int countParticles = 0);
+		~Model();
 
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
@@ -40,12 +41,12 @@ namespace physical
 		Ground*				getGround(){return m_pGround;}
 
 	private:
+		LeapfrogSolver*		m_pLeapfrogSolver;
 		//physical objects
 		ParticleManager*	m_pParticleManager;
 		Cube*				m_pCube;
 		Line*				m_pLine;
 		//forces
-		LeapfrogSolver*		m_pLeapfrogSolver;
 		ConstantForce*		m_pGravity;
 		ConstantForce*		m_pWind;
 		HookForce*			m_pHookForce;

@@ -13,10 +13,12 @@ namespace physical
 	class Ground 
 	{
 	public:
-		Ground(){};
+		Ground(LeapfrogSolver* pLeapfrogSolver);
+		~Ground();
 
 		void apply(ParticleManager* pm, float dt);
 		void addPolygonAndForce(Polygon* pPolygon, PolygonForce* pPolygonForce);
+		void addPolygonAndForce(glm::vec3 pos1, glm::vec3 pos2, glm::vec3 pos3, glm::vec3 pos4, glm::vec3 color, float elasticity);
 
 		void draw();
 
@@ -25,6 +27,7 @@ namespace physical
 		std::vector<PolygonForce*>	getPolygonForce(){return m_polygonForceArray;}
 
 	private:
+		LeapfrogSolver*				m_pLeapfrogSolver;
 		std::vector<Polygon*>		m_polygonArray;
 		std::vector<PolygonForce*>	m_polygonForceArray;
 	};

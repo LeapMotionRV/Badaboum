@@ -45,35 +45,6 @@ namespace render
 					 public OpenGLRenderer,
 					 Leap::Listener
 	{
-	private:
-		enum  { kNumColors = 256 };
-		Leap::Vector				m_avColors[kNumColors];
-		//var for openGL
-		OpenGLContext               m_openGLContext;
-		Skybox*						m_pSkybox;
-		LeapUtilGL::CameraGL        m_camera;
-		CriticalSection             m_renderMutex;
-		bool                        m_bPaused;
-		//var for Leap Motion
-		Leap::Frame                 m_lastFrame;
-		double                      m_fLastUpdateTimeSeconds;
-		double                      m_fLastRenderTimeSeconds;
-		Leap::Matrix                m_mtxFrameTransform;
-		float                       m_fFrameScale;
-		float                       m_fPointableRadius;
-		LeapUtil::RollingAverage<>  m_avgUpdateDeltaTime;
-		LeapUtil::RollingAverage<>  m_avgRenderDeltaTime;
-		String                      m_strUpdateFPS;
-		String                      m_strRenderFPS;
-		String                      m_strPrompt;
-		//var for help
-		String                      m_strHelp;
-		Font                        m_fixedFont;
-		bool                        m_bShowHelp;
-		//var for physical
-		physical::Model				m_model;
-		ParticleRenderer			m_particleRenderer;
-
 	public:
 		//alloc and desacolloc the openGL context
 		Renderer(const unsigned int width, const unsigned int height);
@@ -119,6 +90,35 @@ namespace render
 		//tools
 		void resetCamera();
 		void initColors();
+
+	private:
+		enum  { kNumColors = 256 };
+		Leap::Vector				m_avColors[kNumColors];
+		//var for openGL
+		OpenGLContext               m_openGLContext;
+		Skybox*						m_pSkybox;
+		LeapUtilGL::CameraGL        m_camera;
+		CriticalSection             m_renderMutex;
+		bool                        m_bPaused;
+		//var for Leap Motion
+		Leap::Frame                 m_lastFrame;
+		double                      m_fLastUpdateTimeSeconds;
+		double                      m_fLastRenderTimeSeconds;
+		Leap::Matrix                m_mtxFrameTransform;
+		float                       m_fFrameScale;
+		float                       m_fPointableRadius;
+		LeapUtil::RollingAverage<>  m_avgUpdateDeltaTime;
+		LeapUtil::RollingAverage<>  m_avgRenderDeltaTime;
+		String                      m_strUpdateFPS;
+		String                      m_strRenderFPS;
+		String                      m_strPrompt;
+		//var for help
+		String                      m_strHelp;
+		Font                        m_fixedFont;
+		bool                        m_bShowHelp;
+		//var for physical
+		physical::Model				m_model;
+		ParticleRenderer			m_particleRenderer;
 	};
 }
 
