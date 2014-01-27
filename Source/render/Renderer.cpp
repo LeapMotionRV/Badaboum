@@ -111,9 +111,11 @@ namespace render
 		// draw the ground
 		m_model.getGround()->draw();
 		// draw particles
-		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticles(m_particleRenderer);
 		//draw cubes
-		m_model.getCube()->drawCube(m_model.getParticuleManager());
+		//m_model.getCube()->drawCube(m_model.getParticuleManager());
+
+		m_model.getFlag()->getFlagParticles().drawParticles(m_particleRenderer);
 
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );

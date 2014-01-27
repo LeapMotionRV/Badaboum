@@ -12,7 +12,7 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -1.f, -25.f), glm::vec3(25.f, -1.f, -25.f), glm::vec3(-25.f, -1.f, 25.f), glm::vec3(25.f, -1.f, 25.f), glm::vec3(0.f, 1.f, 0.f), 2.f);
+		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), glm::vec3(1.f, 1.f, 0.f), 2.f);
 
 		m_pCube = new Cube(m_pParticleManager, 2.f, glm::vec3(0.f, 4.f, 0.f));
 		//m_pLine = new Line(m_pParticleManager);
@@ -28,6 +28,8 @@ namespace physical
 		m_pGraphHookForce->setGraph(m_pCube->getGraph());
 		m_pGraphBrakeForce = new GraphBrakeForce(0.01f); //0.001f // for the line : 0.01f
 		m_pGraphBrakeForce->setGraph(m_pCube->getGraph());
+
+		m_pFlag = new Flag(1.f, 3.f, 3.f, 3.f, 3, 3, 3);
 	}
 
 	Model::~Model(){
@@ -45,6 +47,7 @@ namespace physical
 		delete m_pGraphBrakeForce;
 		//getters - physical object + forces
 		delete m_pGround;
+		delete m_pFlag;
 	}
 
 	void Model::startSimulation(float dt) 
