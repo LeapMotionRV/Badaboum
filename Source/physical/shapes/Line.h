@@ -15,4 +15,4 @@ namespace physical
 	};
 }
 
-#endif //CUBE_H
+#endif //LINE_H

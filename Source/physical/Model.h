@@ -11,6 +11,7 @@
 #include "shapes/Polygon.h"
 #include "shapes/Cube.h"
 #include "shapes/Line.h"
+#include "shapes/Flag.h"
 #include "forces/GraphHookForce.h"
 #include "forces/GraphBrakeForce.h"
 
@@ -30,6 +31,7 @@ namespace physical
 		Polygon*			getGround(){return m_pGround;}
 		Cube*				getCube(){return m_pCube;}
 		Line*				getLine(){return m_pLine;}
+		Flag*				getFlag(){return m_pFlag;}
 		//getters - forces
 		LeapfrogSolver*		getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ConstantForce*		getGravity(){return m_pGravity;}
@@ -40,12 +42,14 @@ namespace physical
 		GraphHookForce*		getGraphHookForce(){return m_pGraphHookForce;}
 		GraphBrakeForce*	getGraphBrakeForce(){return m_pGraphBrakeForce;}
 
+
 	private:
 		//physical objects
 		ParticleManager*	m_pParticleManager;
 		Polygon*			m_pGround;
 		Cube*				m_pCube;
 		Line*				m_pLine;
+		Flag*				m_pFlag;
 		//forces
 		LeapfrogSolver*		m_pLeapfrogSolver;
 		ConstantForce*		m_pGravity;
