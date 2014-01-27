@@ -26,6 +26,13 @@ namespace physical
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
 
+		//create data for the scene
+		//called when press "P"
+		void addRandomParticle();
+		//called when press "C"
+		void addRandomCube();
+		//called when press "L"
+		void addRandomLine();
 		void addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV);
 
 		//getters
@@ -39,7 +46,7 @@ namespace physical
 		std::vector<GraphHookForce*>	getGraphHookForceArray(){return m_pGraphHookForceArray;}
 		std::vector<GraphBrakeForce*>	getGraphBrakeForceArray(){return m_pGraphBrakeForceArray;}
 		Ground*							getGround(){return m_pGround;}
-		Flag*							getFlag(){return dynamic_cast<physical::Flag*>(m_pShapeArray[m_pShapeArray.size()-1]);}
+		Flag*							getFlag(){return dynamic_cast<physical::Flag*>(m_pShapeArray[0]);}
 
 	private:
 		LeapfrogSolver*					m_pLeapfrogSolver;

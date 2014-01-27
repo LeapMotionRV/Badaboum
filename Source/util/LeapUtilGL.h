@@ -38,24 +38,17 @@ enum eStyle { kStyle_Outline, kStyle_Solid };
 
 /// grid is drawn with unlit colored lines.
 void drawGrid( ePlane plane, unsigned int horizSubDivs, unsigned int vertSubDivs );
-
 void drawSphere( eStyle style, float size );
-
 /// quad is double-sided.
 void drawQuad( eStyle style, ePlane plane, float width, float height );
-
 void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 forthPoint);
 void drawBox( eStyle style, float size );
-
 void drawCylinder( eStyle style, eAxis axis );
 void drawCylinder( eStyle style, float size );
-
 /// disk is double-side
 void drawDisk( eStyle style, ePlane plane );
-
 /// arrow is drawn with unlit colored lines.
 void drawArrow( eAxis axis );
-
 void drawAxes();
 
 /// convenience structure for easy conversion from Leap::Vector to const float*

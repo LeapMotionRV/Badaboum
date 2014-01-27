@@ -19,7 +19,7 @@ namespace physical
 		inline std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
 		inline std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
 		inline std::vector<float>		getMassArray() const {return m_massArray;}
-
+		
 		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
 		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
 
@@ -37,7 +37,7 @@ namespace physical
 
 		//draw
 		void drawParticles(render::ParticleRenderer& renderer);
-		void drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer);
+		//void drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer);
 		
 	private:
 		std::vector<glm::vec3> m_positionArray;

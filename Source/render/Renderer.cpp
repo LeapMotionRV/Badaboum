@@ -28,12 +28,17 @@ namespace render
 		//set var for the help
 		m_bShowHelp = false;
 		m_strHelp = "ESC - quit\n"
-					"h - Toggle help and frame rate display\n"
-					"p - Toggle pause\n"
+					"h     - Toggle help and frame rate display\n"
+					"Space - Toggle pause\n"
+					"r     - Reset camera\n"
+					"\n"
 					"Mouse Drag  - Rotate camera\n"
 					"Mouse Wheel - Zoom camera\n"
 					"Arrow Keys  - Rotate camera\n"
-					"Space       - Reset camera";
+					"\n"
+					"p  - Create a random particle\n"
+					"l  - Create a random line\n"
+					"c  - Create a random cube\n";
 		m_strPrompt = "Press 'h' for help";
 	}
 
@@ -172,17 +177,32 @@ namespace render
 			m_camera.RotateOrbit( 0, LeapUtil::kfHalfPi * 0.05f, 0 );
 			return true;
 		}
+		//ESCAPE
+		if ( iKeyCode == KeyPress::escapeKey )
+		{
+			m_bPaused = !m_bPaused;
+			return true;
+		}
 		//Caracters
 		switch( iKeyCode )
 		{
 			case ' ':
+				m_bPaused = !m_bPaused;
+				break;
+			case 'R':
 				resetCamera();
 				break;
 			case 'H':
 				m_bShowHelp = !m_bShowHelp;
 				break;
-			case 'P':
-				m_bPaused = !m_bPaused;
+			case 'P': //add a particle
+				m_model.addRandomParticle();
+				break;
+			case 'C': //add a cube
+				m_model.addRandomCube();
+				break;
+			case 'L': //add a line
+				m_model.addRandomLine();
 				break;
 			default:
 				return false;

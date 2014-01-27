@@ -30,7 +30,7 @@ namespace render
 		}
 	}
 
-	void ParticleRenderer::drawLines(
+	/*void ParticleRenderer::drawLines(
 							uint32_t lineCount,
 							const ParticleGraph* lines,
 							uint32_t vertexCount,
@@ -83,5 +83,5 @@ namespace render
 			glColor3f(colorArray[idParticule1].x, colorArray[idParticule1].y, colorArray[idParticule1].z);
 			LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Outline, norm);
 		}
-	}
+	}*/
 }

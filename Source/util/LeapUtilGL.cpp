@@ -566,6 +566,23 @@ void drawDisk( eStyle style, ePlane plane )
   }
 }
 
+void drawAxes()
+{
+    GLAttribScope attribScope( GL_CURRENT_BIT|GL_LIGHTING_BIT|GL_DEPTH_BUFFER_BIT );
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+
+    glColor3f( 1, 0, 0 );
+    drawArrow( kAxis_X );
+
+    glColor3f( 0, 1, 0 );
+    drawArrow( kAxis_Y );
+
+    glColor3f( 0, 0, 1 );
+    drawArrow( kAxis_Z );
+}
+
 void drawArrow( eAxis axis )
 {
   glBegin( GL_LINES );
@@ -607,23 +624,6 @@ void drawArrow( eAxis axis )
   }
 
   glEnd();
-}
-
-void drawAxes()
-{
-    GLAttribScope attribScope( GL_CURRENT_BIT|GL_LIGHTING_BIT|GL_DEPTH_BUFFER_BIT );
-
-    glDisable(GL_LIGHTING);
-    glDisable(GL_DEPTH_TEST);
-
-    glColor3f( 1, 0, 0 );
-    drawArrow( kAxis_X );
-
-    glColor3f( 0, 1, 0 );
-    drawArrow( kAxis_Y );
-
-    glColor3f( 0, 0, 1 );
-    drawArrow( kAxis_Z );
 }
 
 

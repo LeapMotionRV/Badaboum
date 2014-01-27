@@ -8,14 +8,19 @@
 
 namespace physical
 {
+	/**
+		This shape describes a L.
+	*/
 	class Line : public Shape
 	{
 	public:
-		Line(ParticleManager* pParticuleManager);
+		Line(ParticleManager* pParticuleManager, float size, glm::vec3 startedPoint);
 
-		void draw(physical::ParticleManager* pParticuleManager);
+		void draw(ParticleManager* pParticuleManager);
 
 	private:
+		float			m_size;
+		glm::vec3		m_startedPoint;
 		glm::vec3		m_color;
 		unsigned int	m_part1;
 		unsigned int	m_part2;
