@@ -29,7 +29,7 @@ namespace physical
 		//this->addHookAndBrakeForceToShape(pCube1, 0.02f, 2.f, 0.01f);
 		//this->addHookAndBrakeForceToShape(pCube2, 0.02f, 2.f, 0.01f);
 
-		Flag* pFlag = new Flag(1.f, 3.f, 3.f, 3.f, 3, 3, 3);
+		Flag* pFlag = new Flag(0.4f, 3.f, 3.f, 3.f, 3, 3, 3);
 		m_pShapeArray.push_back(pFlag);
 	}
 
@@ -58,23 +58,27 @@ namespace physical
 	void Model::startSimulation(float dt) 
 	{
 		if(dt != 0) {
-			m_pGravity->apply(m_pParticleManager);
+			//m_pGravity->apply(m_pParticleManager);
 			//m_pWind->apply(m_pParticleManager);
 
 			//m_pHookForce->apply(m_pParticleManager);
 			//m_pBrakeForce->apply(m_pParticleManager);
 
-			for(unsigned int i = 0; i < m_pGraphHookForceArray.size(); ++i){
+			/*for(unsigned int i = 0; i < m_pGraphHookForceArray.size(); ++i){
 				m_pGraphHookForceArray[i]->apply(m_pParticleManager);
 			}
 			for(unsigned int i = 0; i < m_pGraphBrakeForceArray.size(); ++i){
 				m_pGraphBrakeForceArray[i]->setDt(dt);
 				m_pGraphBrakeForceArray[i]->apply(m_pParticleManager);
 			}
+			*/
+			//m_pGround->apply(this->getFlag()->getParticleManager(), dt);
 
-			m_pGround->apply(m_pParticleManager, dt);
+			//flag
+			this->getFlag()->applyInternalForces(dt);
+			this->getFlag()->update(dt);
 		}
-		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
+		//m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
 
 	void Model::addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV){

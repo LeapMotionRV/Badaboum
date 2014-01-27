@@ -25,7 +25,7 @@ namespace render
 				LeapUtilGL::GLMatrixScope gridMatrixScope;
 				glColor3f(colorArray[i].x, colorArray[i].y, colorArray[i].z);
 				glTranslatef(positionArray[i].x,  positionArray[i].y, positionArray[i].z);
-				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massArray[i]);
+				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, 0.1f);
 			}
 		}
 	}

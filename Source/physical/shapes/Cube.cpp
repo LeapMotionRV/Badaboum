@@ -5,7 +5,7 @@
 namespace physical
 {
 
-	Cube::Cube(physical::ParticleManager* pParticuleManager, float size, glm::vec3 center, size_t discFactor, glm::vec3 color)
+	Cube::Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, size_t discFactor, glm::vec3 color)
 	{
 		m_name = "Cube";
 		m_size = size;

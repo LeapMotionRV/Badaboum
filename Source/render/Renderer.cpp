@@ -112,7 +112,7 @@ namespace render
 		m_model.getGround()->draw();
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		m_model.getFlag()->getFlagParticles().drawParticles(m_particleRenderer);
+		m_model.getFlag()->getParticleManager()->drawParticles(m_particleRenderer);
 		//draw shapes
 		for(unsigned int i = 0; i < m_model.getShapeArray().size(); ++i){
 			physical::Shape* pShape = m_model.getShapeArray()[i];

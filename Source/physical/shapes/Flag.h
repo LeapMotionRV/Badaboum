@@ -14,17 +14,17 @@ namespace physical{
 
 			glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2);
 			glm::vec3 brakeForce(float V, float dt, const glm::vec3& v1, const glm::vec3& v2);
+			
 			void applyInternalForces(float dt);
 			void update(float dt);
 
 			void draw(ParticleManager* pParticuleManager);
 
 			//getters
-			ParticleManager getFlagParticles();
+			ParticleManager* getParticleManager(){return m_pParticleManager;}
 
 		private:
-			//manager dedicated to the flag
-			ParticleManager m_flagParticles;
+			ParticleManager* m_pParticleManager;
 			//number of Particles in width and height
 			unsigned int m_gridWidth, m_gridHeight, m_gridDepth; // Dimensions de la grille de points
 
