@@ -24,9 +24,6 @@ namespace physical{
 				currentIndex += 1;
 			}
         }
-
-		//on peut appliquer les forces sur cette face déjà
-
 		
 		//création de la face arrière
 		for(int j = 0; j < gridHeight; ++j) { //j corresponds to y 
