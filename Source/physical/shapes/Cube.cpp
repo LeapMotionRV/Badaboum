@@ -1,10 +1,13 @@
 #include "Cube.h"
 
+#include "../../util/LeapUtilGL.h"
+
 namespace physical
 {
 
 	Cube::Cube(physical::ParticleManager* pParticuleManager, float size, glm::vec3 center, size_t discFactor, glm::vec3 color)
 	{
+		m_name = "Cube";
 		m_size = size;
 		m_center = center;
 		m_discFactor = discFactor;
@@ -131,7 +134,7 @@ namespace physical
 	{
 	}
 
-	void Cube::drawCube(physical::ParticleManager* pParticuleManager){
+	void Cube::draw(physical::ParticleManager* pParticuleManager){
 		LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f(m_color.r, m_color.g, m_color.b);
 		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, pParticuleManager->getPosition(m_part1),pParticuleManager->getPosition(m_part2), pParticuleManager->getPosition(m_part3), pParticuleManager->getPosition(m_part4));

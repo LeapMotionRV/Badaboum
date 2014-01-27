@@ -4,7 +4,6 @@
 
 #include "Shape.h"
 #include "../ParticleManager.h"
-#include "../../util/LeapUtilGL.h"
 
 namespace physical
 {
@@ -20,7 +19,7 @@ namespace physical
 		}
 
 		//draw
-		void drawCube(physical::ParticleManager* pParticuleManager);
+		void draw(ParticleManager* pParticuleManager);
 
 	private:
 		glm::vec3		m_center;

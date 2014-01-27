@@ -12,6 +12,14 @@ namespace physical
 	{
 	public:
 		Line(ParticleManager* pParticuleManager);
+
+		void draw(physical::ParticleManager* pParticuleManager);
+
+	private:
+		glm::vec3		m_color;
+		unsigned int	m_part1;
+		unsigned int	m_part2;
+		unsigned int	m_part3;
 	};
 }
 

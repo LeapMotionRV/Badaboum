@@ -16,11 +16,15 @@ namespace physical
 		Shape();
 		~Shape();
 
+		virtual void draw(ParticleManager* pParticuleManager) = 0;
+
 		//getter
-		const ParticleGraph* getGraph(){return m_graph;}
+		ParticleGraph*	getGraph() const{return m_graph;}
+		std::string		getName() const{return m_name;}
 
 	protected:
-		ParticleGraph* m_graph;
+		ParticleGraph*	m_graph;
+		std::string		m_name;
 	};
 }
 

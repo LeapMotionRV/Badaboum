@@ -112,8 +112,16 @@ namespace render
 		m_model.getGround()->draw();
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		//draw cubes
-		m_model.getCube()->drawCube(m_model.getParticuleManager());
+		//draw shapes
+		for(unsigned int i = 0; i < m_model.getShapeArray().size(); ++i){
+			physical::Shape* pShape = m_model.getShapeArray()[i];
+			if(m_model.getShapeArray()[i]->getName() == "Cube")
+				dynamic_cast<physical::Cube*>(pShape)->draw(m_model.getParticuleManager());
+			else if(m_model.getShapeArray()[i]->getName() == "Line")
+				dynamic_cast<physical::Line*>(pShape)->draw(m_model.getParticuleManager());
+			else
+				std::cerr << "Unknown shape" << std::endl;
+		}
 
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );

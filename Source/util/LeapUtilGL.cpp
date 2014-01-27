@@ -509,31 +509,6 @@ void drawCylinder(eStyle style, float size)
     break;
   }
 
-  /*switch ( axis )
-  {
-  case kAxis_X:
-    glRotatef( 90.0f, 0, 1, 0 );
-    break;
-  case kAxis_Y:
-    glRotatef( 90.0f, 1, 0, 0 );
-    break;
-  case kAxis_Z:
-    break;
-  }*/
-  //glRotatef( 90.0f, 0, 1, 0 );
-  // draw end caps
-  /*if ( style != kStyle_Outline )
-  {
-    GLMatrixScope matrixScope;
-
-    glTranslatef( 0, 0, 0.5f );
-    drawDisk( style, kPlane_XY );
-
-    glTranslatef( 0, 0, -1.0f );
-    drawDisk( style, kPlane_XY );
-  }*/
-
- // glTranslatef( 0, 0, -0.5f );
   gluCylinder( s_quadric, 0.001f, 0.001f, size, 32, 32 );
 
   switch ( style )
@@ -546,7 +521,6 @@ void drawCylinder(eStyle style, float size)
     break;
   }
 }
-
 
 void drawDisk( eStyle style, ePlane plane )
 {
