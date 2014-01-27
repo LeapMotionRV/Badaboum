@@ -11,7 +11,7 @@ namespace physical
 	class Cube : public Shape
 	{
 	public:
-		Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color = glm::vec3(0.f, 0.f, 1.f));
+		Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, size_t discFactor = 5, glm::vec3 color = glm::vec3(0.f, 0.f, 1.f));
 		~Cube();
 
 		//getters et setters
@@ -26,6 +26,7 @@ namespace physical
 		glm::vec3		m_center;
 		float			m_size;
 		glm::vec3		m_color;
+		size_t			m_discFactor;
 
 		unsigned int	m_part1;
 		unsigned int	m_part2;

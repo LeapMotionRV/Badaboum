@@ -26,7 +26,7 @@ namespace physical
 
 		m_pGraphHookForce = new GraphHookForce(0.01f, 1.f); //0.01f 1.f // for the line : 0.1f, 2.f //0.1 0.1
 		m_pGraphHookForce->setGraph(m_pCube->getGraph());
-		m_pGraphBrakeForce = new GraphBrakeForce(0.035f); //0.001f // for the line : 0.01f
+		m_pGraphBrakeForce = new GraphBrakeForce(0.01f); //0.001f // for the line : 0.01f
 		m_pGraphBrakeForce->setGraph(m_pCube->getGraph());
 	}
 
