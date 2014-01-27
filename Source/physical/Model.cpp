@@ -26,20 +26,8 @@ namespace physical
 		m_pHookForce = new HookForce(0.01f, 0.01f);
 		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
 
-		GraphHookForce* pGraphHookForce1 = new GraphHookForce(0.01f, 1.f); //0.01f 1.f // for the line : 0.1f, 2.f //0.1 0.1
-		pGraphHookForce1->setGraph(pCube1->getGraph());
-		GraphBrakeForce* pGraphBrakeForce1 = new GraphBrakeForce(0.01f); //0.001f // for the line : 0.01f
-		pGraphBrakeForce1->setGraph(pCube1->getGraph());
-
-		GraphHookForce* pGraphHookForce2 = new GraphHookForce(0.01f, 1.f); //0.01f 1.f // for the line : 0.1f, 2.f //0.1 0.1
-		pGraphHookForce2->setGraph(pCube2->getGraph());
-		GraphBrakeForce* pGraphBrakeForce2 = new GraphBrakeForce(0.01f); //0.001f // for the line : 0.01f
-		pGraphBrakeForce2->setGraph(pCube2->getGraph());
-		
-		m_pGraphHookForceArray.push_back(pGraphHookForce1);
-		m_pGraphHookForceArray.push_back(pGraphHookForce2);
-		m_pGraphBrakeForceArray.push_back(pGraphBrakeForce1);
-		m_pGraphBrakeForceArray.push_back(pGraphBrakeForce2);
+		this->addHookAndBrakeForceToShape(pCube1, 0.02f, 2.f, 0.01f);
+		this->addHookAndBrakeForceToShape(pCube2, 0.02f, 2.f, 0.01f);
 	}
 
 	Model::~Model(){
@@ -84,5 +72,15 @@ namespace physical
 			m_pGround->apply(m_pParticleManager, dt);
 		}
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
+	}
+
+	void Model::addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV){
+		GraphHookForce* pGraphHookForce = new GraphHookForce(raideur, longueur); //0.01f 1.f // for the line : 0.1f, 2.f //0.1 0.1
+		pGraphHookForce->setGraph(pShape->getGraph());
+		GraphBrakeForce* pGraphBrakeForce = new GraphBrakeForce(fV); //0.001f // for the line : 0.01f
+		pGraphBrakeForce->setGraph(pShape->getGraph());
+		
+		m_pGraphHookForceArray.push_back(pGraphHookForce);
+		m_pGraphBrakeForceArray.push_back(pGraphBrakeForce);
 	}
 }

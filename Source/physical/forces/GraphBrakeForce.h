@@ -3,6 +3,7 @@
 
 #include "Force.h"
 #include "../ParticleManager.h"
+
 namespace physical {
 	class GraphBrakeForce : public Force {
 	public:

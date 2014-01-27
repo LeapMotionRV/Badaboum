@@ -25,6 +25,8 @@ namespace physical
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
 
+		void addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV);
+
 		//getters - physical objects
 		ParticleManager*				getParticuleManager(){return m_pParticleManager;}
 		std::vector<Shape*>				getShapeArray(){return m_pShapeArray;}
