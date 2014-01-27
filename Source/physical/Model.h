@@ -10,6 +10,7 @@
 #include "Ground.h"
 #include "shapes/Cube.h"
 #include "shapes/Line.h"
+#include "shapes/Flag.h"
 #include "forces/GraphHookForce.h"
 #include "forces/GraphBrakeForce.h"
 
@@ -27,19 +28,18 @@ namespace physical
 
 		void addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV);
 
-		//getters - physical objects
+		//getters
+		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ParticleManager*				getParticuleManager(){return m_pParticleManager;}
 		std::vector<Shape*>				getShapeArray(){return m_pShapeArray;}
-		//getters - forces
-		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ConstantForce*					getGravity(){return m_pGravity;}
 		ConstantForce*					getWind(){return m_pWind;}
 		HookForce*						getHookForce(){return m_pHookForce;}
 		BrakeForce*						getBrakeForce(){return m_pBrakeForce;}
 		std::vector<GraphHookForce*>	getGraphHookForceArray(){return m_pGraphHookForceArray;}
 		std::vector<GraphBrakeForce*>	getGraphBrakeForceArray(){return m_pGraphBrakeForceArray;}
-		//getters - physical object + forces
 		Ground*							getGround(){return m_pGround;}
+		Flag*							getFlag(){return dynamic_cast<physical::Flag*>(m_pShapeArray[m_pShapeArray.size()-1]);}
 
 	private:
 		LeapfrogSolver*					m_pLeapfrogSolver;

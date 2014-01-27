@@ -1491,6 +1491,9 @@
     <ClCompile Include="..\..\Source\physical\Ground.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\physical\shapes\Flag.cpp">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2863,6 +2866,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\Ground.h">
       <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\shapes\Flag.h">
+      <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

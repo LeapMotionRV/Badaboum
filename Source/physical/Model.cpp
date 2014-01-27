@@ -12,12 +12,12 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -1.f, -25.f), glm::vec3(25.f, -1.f, -25.f), glm::vec3(-25.f, -1.f, 25.f), glm::vec3(25.f, -1.f, 25.f), glm::vec3(0.f, 1.f, 0.f), 2.f);
+		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), glm::vec3(1.f, 1.f, 0.f), 2.f);
 
-		Cube* pCube1 = new Cube(m_pParticleManager, 2.f, glm::vec3(0.f, 4.f, 0.f));
-		Cube* pCube2 = new Cube(m_pParticleManager, 2.f, glm::vec3(0.4f, 10.f, 0.f));
-		m_pShapeArray.push_back(pCube1);
-		m_pShapeArray.push_back(pCube2);
+		//Cube* pCube1 = new Cube(m_pParticleManager, 2.f, glm::vec3(0.f, 4.f, 0.f));
+		//Cube* pCube2 = new Cube(m_pParticleManager, 2.f, glm::vec3(0.4f, 10.f, 0.f));
+		//m_pShapeArray.push_back(pCube1);
+		//m_pShapeArray.push_back(pCube2);
 		
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.01f, 0.f));
@@ -26,8 +26,11 @@ namespace physical
 		m_pHookForce = new HookForce(0.01f, 0.01f);
 		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
 
-		this->addHookAndBrakeForceToShape(pCube1, 0.02f, 2.f, 0.01f);
-		this->addHookAndBrakeForceToShape(pCube2, 0.02f, 2.f, 0.01f);
+		//this->addHookAndBrakeForceToShape(pCube1, 0.02f, 2.f, 0.01f);
+		//this->addHookAndBrakeForceToShape(pCube2, 0.02f, 2.f, 0.01f);
+
+		Flag* pFlag = new Flag(1.f, 3.f, 3.f, 3.f, 3, 3, 3);
+		m_pShapeArray.push_back(pFlag);
 	}
 
 	Model::~Model(){
