@@ -127,9 +127,9 @@ namespace render
 		}
 
 		// draw the particules
-		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
+		//m_model.getParticuleManager()->drawParticles(m_particleRenderer);
 		//m_model.getParticuleManager()->drawParticleGraph(m_model.getCube()->getCubeGraph(), m_particleRenderer);
-		m_model.getCube()->drawCube(m_model.getParticuleManager());
+		//m_model.getCube()->drawCube(m_model.getParticuleManager());
 
 		m_model.getFlag()->getFlagParticles().drawParticles(m_particleRenderer);
 

@@ -3,19 +3,71 @@
 #include <cstdlib>
 
 namespace physical{
-	Flag::Flag(float mass, float width, float height, int gridWidth, int gridHeight){
+	Flag::Flag(float mass, float width, float height, float depth, int gridWidth, int gridHeight, int gridDepth){
 		m_gridHeight = gridHeight;
 		m_gridHeight = gridWidth;
+		m_gridDepth = gridDepth;
 		m_flagParticles = ParticleManager();
-		glm::vec3 origin(-0.5f * width, -0.5f * height, 0.f);
-        glm::vec3 scale(width / (gridWidth - 1), height / (gridHeight - 1), 1.f);
+		glm::vec3 origin(-0.5f * width, -0.5f * height, 0.5f * depth);
+        //glm::vec3 scale(width / (gridWidth - 1), height / (gridHeight - 1), 1.f);
+		//en partant du principe qu'on a en profondeur
+		glm::vec3 scale(width / (gridWidth - 1), height / (gridHeight - 1), depth / (gridDepth - 1));
 
-		float massOfParticle =  mass / (gridWidth * gridHeight);
+
+		float massOfParticle =  mass / (gridWidth * gridHeight); // * gridHeight ?
+		//création de la face avant (occupe l'index 0 à gridHeight * gridWidth dans le tableau de particules)
+		unsigned int currentIndex = 0;
 		for(int j = 0; j < gridHeight; ++j) { //j corresponds to y 
             for(int i = 0; i < gridWidth; ++i) { // corresponds to x
 				//ptet pose problème, dans le td on a positionArray[i + j * gridWidth] = origin + glm::vec3(i, j, origin.z) * scale;
-				m_flagParticles.addParticle(origin + glm::vec3(i, j, origin.z) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)i/gridWidth,(float)j/gridHeight,(float)(1-i)/(float)(gridHeight)));
-            }
+				m_flagParticles.addParticle(origin + glm::vec3(i, j, 0.f) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)i/gridWidth,(float)j/gridHeight,(float)(1-i)/(float)(gridHeight)));
+				currentIndex += 1;
+			}
+        }
+
+		//on peut appliquer les forces sur cette face déjà
+
+		
+		//création de la face arrière
+		for(int j = 0; j < gridHeight; ++j) { //j corresponds to y 
+            for(int i = 0; i < gridWidth; ++i) { // corresponds to x
+				m_flagParticles.addParticle(origin + glm::vec3(i, j, - (gridDepth - 1)) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)i/gridWidth,(float)j/gridHeight,(float)(1-i)/(float)(gridHeight)));
+				currentIndex+=1;
+			}
+        }
+		
+		//création des particules manquantes (et seulement les manquantes, pas de doublons),
+		//attention à utiliser gridWidth et gridHeight, car on multiplie par scale après
+		//face gauche (suivant yz)
+		for(int j = 0; j < gridHeight; ++j) { //j corresponds to y 
+            for(float k = 1; k < gridDepth - 1; ++k) { // corresponds to z
+				m_flagParticles.addParticle(origin + glm::vec3(0, j, - k) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)k/gridWidth,(float)j/gridHeight,(float)(1-k)/(float)(gridDepth)));
+				currentIndex+=1;
+			}
+        }
+		
+		//face droite (suivant yz aussi),
+		for(int j = 0; j < gridHeight; ++j) { //j corresponds to y 
+            for(float k = 1; k < gridDepth - 1; ++k) { // corresponds to z
+				m_flagParticles.addParticle(origin + glm::vec3(gridWidth -1, j, - k) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)k/gridWidth,(float)j/gridHeight,(float)(1-k)/(float)(gridDepth)));
+				currentIndex+=1;
+			}
+        }
+		
+		//face haute (suivant xz)
+		for(int i = 1; i < gridWidth - 1; ++i) { //j corresponds to y 
+            for(float k = 1; k < gridDepth - 1; ++k) { // corresponds to z
+				m_flagParticles.addParticle(origin + glm::vec3(i, gridHeight -1, - k) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)k/gridWidth,(float)i/gridHeight,(float)(1-k)/(float)(gridHeight)));
+				currentIndex+=1;
+			}
+        }
+
+		//face basse (suivant xz)
+		for(int i = 1; i < gridWidth - 1; ++i) { //j corresponds to y 
+            for(float k = 1; k < gridDepth - 1; ++k) { // corresponds to z
+				m_flagParticles.addParticle(origin + glm::vec3(i, 0.f, - k) * scale, glm::vec3(0.f), massOfParticle, glm::vec3(0.f), glm::vec3((float)k/gridWidth,(float)i/gridHeight,(float)(1-k)/(float)(gridHeight)));
+				currentIndex+=1;
+			}
         }
 
 		// Les longueurs à vide sont calculés à partir de la position initiale des points sur le drapeau

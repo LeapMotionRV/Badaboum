@@ -31,7 +31,7 @@ namespace physical
 		m_pGraphHookForce->setGraph(m_pCube->getGraph());
 		m_pGraphBrakeForce->setGraph(m_pCube->getGraph());
 
-		m_pFlag = new Flag(1.f, 6.f, 5.f, 6, 5);
+		m_pFlag = new Flag(1.f, 3.f, 3.f, 3.f, 3, 3, 3);
 
 	}
 

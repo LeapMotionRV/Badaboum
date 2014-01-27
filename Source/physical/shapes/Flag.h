@@ -12,7 +12,7 @@ namespace physical{
 		public:
 			Flag();
 			~Flag();
-			Flag(float mass, float width, float height, int gridWidth, int gridHeight);
+			Flag(float mass, float width, float height, float depth, int gridWidth, int gridHeight, int gridDepth);
 
 			glm::vec3 hookForce(float K, float L, const glm::vec3& P1, const glm::vec3& P2);
 			glm::vec3 brakeForce(float V, float dt, const glm::vec3& v1, const glm::vec3& v2);
@@ -24,7 +24,7 @@ namespace physical{
 			//manager dedicated to the flag
 			ParticleManager m_flagParticles;
 			//number of Particles in width and height
-			unsigned int m_gridWidth, m_gridHeight; // Dimensions de la grille de points
+			unsigned int m_gridWidth, m_gridHeight, m_gridDepth; // Dimensions de la grille de points
 
 			//longueurs à vide 
 			glm::vec2 m_L0; //topologie simple horizontal/vertical
