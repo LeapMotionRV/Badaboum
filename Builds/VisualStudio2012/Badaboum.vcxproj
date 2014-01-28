@@ -1227,6 +1227,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\old\SampleListener.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\BrakeForce.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\ConstantForce.cpp" />
+    <ClCompile Include="..\..\Source\physical\forces\FacetteForce.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\Force.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\GraphBrakeForce.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\GraphHookForce.cpp" />
@@ -1237,6 +1238,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\physical\Model.cpp" />
     <ClCompile Include="..\..\Source\physical\ParticleManager.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Cube.cpp" />
+    <ClCompile Include="..\..\Source\physical\shapes\Facette.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Flag.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Line.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp" />
@@ -1686,6 +1688,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\old\SampleListener.h" />
     <ClInclude Include="..\..\Source\physical\forces\BrakeForce.h" />
     <ClInclude Include="..\..\Source\physical\forces\ConstantForce.h" />
+    <ClInclude Include="..\..\Source\physical\forces\FacetteForce.h" />
     <ClInclude Include="..\..\Source\physical\forces\Force.h" />
     <ClInclude Include="..\..\Source\physical\forces\GraphBrakeForce.h" />
     <ClInclude Include="..\..\Source\physical\forces\GraphHookForce.h" />
@@ -1697,6 +1700,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\physical\Model.h" />
     <ClInclude Include="..\..\Source\physical\ParticleManager.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Cube.h" />
+    <ClInclude Include="..\..\Source\physical\shapes\Facette.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Flag.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Line.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Polygon.h" />

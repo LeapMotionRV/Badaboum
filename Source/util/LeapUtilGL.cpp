@@ -234,6 +234,48 @@ void drawQuad( eStyle style, ePlane plane, float width, float height )
   }
 }
 
+void drawFacette( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint)
+{
+  switch ( style )
+  {
+   case kStyle_Outline:
+    glPushAttrib( GL_LIGHTING_BIT );
+    glDisable(GL_LIGHTING);
+    break;
+
+   case kStyle_Solid:
+    break;
+  }
+  glm::vec3 firstVector = secondPoint - firstPoint;
+  glm::vec3 secondVector = thirdPoint - firstPoint;
+  glm::vec3 normalToFacette = glm::cross(firstVector, secondVector);
+  normalToFacette = glm::normalize(normalToFacette);
+
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glNormal3f( normalToFacette.x, normalToFacette.y, normalToFacette.z );
+  glVertex3f(firstPoint.x, firstPoint.y, firstPoint.z);
+  glVertex3f(secondPoint.x, secondPoint.y, secondPoint.z);
+  glVertex3f(thirdPoint.x, thirdPoint.y, thirdPoint.z);
+  glEnd();
+
+  glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
+  glNormal3f( - normalToFacette.x, - normalToFacette.y, - normalToFacette.z );
+  glVertex3f(secondPoint.x, secondPoint.y, secondPoint.z);
+  glVertex3f(firstPoint.x, firstPoint.y, firstPoint.z);
+  glVertex3f(thirdPoint.x, thirdPoint.y, thirdPoint.z);
+  glEnd();
+
+  switch ( style )
+  {
+  case kStyle_Outline:
+    glPopAttrib();
+    break;
+  case kStyle_Solid:
+    break;
+  }
+}
+
 void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 forthPoint )
 {
   switch ( style )

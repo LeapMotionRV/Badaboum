@@ -1,7 +1,6 @@
 #ifndef _IMAC3_GROUND_HPP
 #define _IMAC3_GROUND_HPP
 
-
 #include <vector>
 
 #include "forces/PolygonForce.h"
@@ -10,6 +9,9 @@
 
 namespace physical 
 {
+	/**
+	* contains all polygons forming the ground 
+	**/
 	class Ground 
 	{
 	public:

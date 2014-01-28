@@ -7,10 +7,12 @@
 #include "forces/ConstantForce.h"
 #include "forces/HookForce.h"
 #include "forces/BrakeForce.h"
+#include "forces/FacetteForce.h"
 #include "Ground.h"
 #include "shapes/Cube.h"
 #include "shapes/Line.h"
 #include "shapes/Flag.h"
+#include "shapes/Facette.h"
 #include "forces/GraphHookForce.h"
 #include "forces/GraphBrakeForce.h"
 
@@ -47,6 +49,7 @@ namespace physical
 		std::vector<GraphBrakeForce*>	getGraphBrakeForceArray(){return m_pGraphBrakeForceArray;}
 		Ground*							getGround(){return m_pGround;}
 		Flag*							getFlag(){return dynamic_cast<physical::Flag*>(m_pShapeArray[0]);}
+		Facette*						getFacette(){return m_pFacette;}
 
 	private:
 		LeapfrogSolver*					m_pLeapfrogSolver;
@@ -62,6 +65,8 @@ namespace physical
 		std::vector<GraphBrakeForce*>	m_pGraphBrakeForceArray;
 		//getters - physical object + forces
 		Ground*							m_pGround;
+		Facette*						m_pFacette;
+		FacetteForce*					m_pFacetteForce;
 	};
 }
 

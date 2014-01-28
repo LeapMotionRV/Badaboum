@@ -115,9 +115,10 @@ namespace render
 		LeapUtilGL::drawAxes();
 		// draw the ground
 		m_model.getGround()->draw();
+		m_model.getFacette()->draw();
+
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
-		m_model.getFlag()->getParticleManager()->drawParticles(m_particleRenderer);
 		//draw shapes
 		for(unsigned int i = 0; i < m_model.getShapeArray().size(); ++i){
 			physical::Shape* pShape = m_model.getShapeArray()[i];
@@ -125,8 +126,6 @@ namespace render
 				dynamic_cast<physical::Cube*>(pShape)->draw(m_model.getParticuleManager());
 			else if(m_model.getShapeArray()[i]->getName() == "Line")
 				dynamic_cast<physical::Line*>(pShape)->draw(m_model.getParticuleManager());
-			else if(m_model.getShapeArray()[i]->getName() == "Flag")
-				dynamic_cast<physical::Flag*>(pShape)->draw(m_model.getParticuleManager());
 			else
 				std::cerr << "Unknown shape" << std::endl;
 		}

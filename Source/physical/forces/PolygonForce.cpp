@@ -22,7 +22,7 @@ namespace physical
 			ParticleState nextParticleState = m_Solver->getNextState(particleIndex, pm, m_fDt);
 			
 			/*INTERSECTION BETWEEN VECTOR AND PLANE*/
-			if(intersectPlane(m_pPolygon, pm->getPositionArray()[particleIndex], nextParticleState.m_position, &intersection, &normal ))
+			if(intersectInfinitePlane(m_pPolygon, pm->getPositionArray()[particleIndex], nextParticleState.m_position, &intersection, &normal ))
  			{
 				//il y a intersection alors on applique une force pour repousser la particule
 				glm::vec3 forceRepulse;
