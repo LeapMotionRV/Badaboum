@@ -13,7 +13,7 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), glm::vec3(1.f, 1.f, 0.f), 2.f);
+		m_pGround->addPolygonAndForce(glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), glm::vec3(1.f, 1.f, 0.f), 1.5f);
 
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.01f, 0.f));
@@ -23,8 +23,8 @@ namespace physical
 		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
 
 		//flag
-		Flag* pFlag = new Flag(0.4f, 3.f, 3.f, 3.f, 3, 3, 3);
-		m_pShapeArray.push_back(pFlag);
+		//Flag* pFlag = new Flag(0.4f, 3.f, 3.f, 3.f, 3, 3, 3);
+		//m_pShapeArray.push_back(pFlag);
 	}
 
 	Model::~Model(){
@@ -68,8 +68,8 @@ namespace physical
 			}
 			
 			//flag
-			this->getFlag()->applyInternalForces(dt);
-			this->getFlag()->update(dt);
+			//this->getFlag()->applyInternalForces(dt);
+			//this->getFlag()->update(dt);
 		}
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
@@ -79,15 +79,16 @@ namespace physical
 	}
 
 	void Model::addRandomCube(){
-		glm::vec3 center = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(-5.f,5.f), glm::linearRand(-5.f,5.f));
-		Cube* pCube = new Cube(m_pParticleManager, glm::linearRand(0.5f,5.f), center);
+		glm::vec3 center = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
+		float size = glm::linearRand(0.5f,5.f);
+		Cube* pCube = new Cube(m_pParticleManager, size, center);
 		m_pShapeArray.push_back(pCube);
 
-		this->addHookAndBrakeForceToShape(pCube, 0.02f, 2.f, 0.01f);
+		this->addHookAndBrakeForceToShape(pCube, 0.01f, size, 0.01f);
 	}
 
 	void Model::addRandomLine(){
-		glm::vec3 startedPoint = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(-5.f,5.f), glm::linearRand(-5.f,5.f));
+		glm::vec3 startedPoint = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
 		Line* pLine = new Line(m_pParticleManager, 1.f, startedPoint);
 		m_pShapeArray.push_back(pLine);
 		
