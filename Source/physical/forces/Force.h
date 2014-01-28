@@ -7,7 +7,6 @@
 
 namespace physical 
 {
-
 	class Force 
 	{
 	public:

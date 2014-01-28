@@ -1,7 +1,6 @@
 #include <math.h>
 #include <glm/glm.hpp>
 #include <iostream>
-
 #include "PolygonForce.h"
 #include "../maths.h"
 

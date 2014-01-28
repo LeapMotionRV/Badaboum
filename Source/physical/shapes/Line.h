@@ -15,13 +15,23 @@ namespace physical
 	{
 	public:
 		Line(ParticleManager* pParticuleManager, float size, glm::vec3 startedPoint);
-
+		
+		void applyInternalForces(ParticleManager* pParticleManager, float dt);
 		void draw(ParticleManager* pParticuleManager);
 
 	private:
 		float			m_size;
 		glm::vec3		m_startedPoint;
 		glm::vec3		m_color;
+
+		//lenght of springs
+		glm::vec3 m_L;
+		//rigidity
+		float m_K;
+		//brake
+		float m_V;
+
+		//id of particles
 		unsigned int	m_part1;
 		unsigned int	m_part2;
 		unsigned int	m_part3;

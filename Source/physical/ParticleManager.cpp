@@ -5,6 +5,14 @@
 
 namespace physical 
 {
+	ParticleManager::ParticleManager(){
+		m_positionArray = std::vector<glm::vec3>();
+		m_speedArray = std::vector<glm::vec3>();
+		m_massArray = std::vector<float>();
+		m_forceArray = std::vector<glm::vec3>();
+		m_colorArray = std::vector<glm::vec3>();
+	}
+
 	unsigned int ParticleManager::addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color) {
 		m_positionArray.push_back(pos);
 		m_speedArray.push_back(speed);
@@ -17,7 +25,7 @@ namespace physical
 
 	void ParticleManager::addRandomParticles(unsigned int count){
 		for(size_t i = 0; i < count; ++i) {
-			glm::vec3 position = glm::vec3(glm::linearRand(-3.f,3.f), glm::linearRand(0.f,5.f), glm::linearRand(-3.f,3.f));
+			glm::vec3 position = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
 			glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
 			glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
 			glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
@@ -26,10 +34,12 @@ namespace physical
 	}
 	
 	void ParticleManager::drawParticles(render::ParticleRenderer& renderer) {
-        renderer.drawParticles(m_positionArray.size(),
-                        &m_positionArray[0],
-                        &m_massArray[0],
-                        &m_colorArray[0]);
+		if(m_positionArray.size() > 0){
+			renderer.drawParticles(m_positionArray.size(),
+							&m_positionArray[0],
+							&m_massArray[0],
+							&m_colorArray[0]);
+		}
     }
 
 	/*void ParticleManager::drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer){

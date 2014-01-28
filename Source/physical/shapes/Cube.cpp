@@ -1,137 +1,175 @@
 #include "Cube.h"
-
 #include "../../util/LeapUtilGL.h"
+
 
 namespace physical
 {
-
-	Cube::Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, size_t discFactor, glm::vec3 color)
+	Cube::Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color)
 	{
-		m_name = "Cube";
-		m_size = size;
+		m_size = size;//size of edges
 		m_center = center;
-		m_discFactor = discFactor;
 		m_color = color;
 
+		//lenght of springs
+		m_L0.x = size;
+		m_L0.y = size;
+		m_L0.z = size;
+		float size_diag = size * sqrt(2.f);
+		m_L1 = size_diag;
+		m_L2 = size_diag/2.f;
+		m_L3 = size * sqrt(3.f);
+
+		//rigidity
+		m_K0 = 1.f;
+		m_K1 = 0.01f;
+		m_K2 = 0.01f;
+		m_K3 = 10.f;
+
+		//brake
+		m_V0 = 0.001f;
+		m_V1 = 0.001f;
+		m_V2 = 0.001f;
+		m_V3 = 0.001f;
+
+		//create particles
 		glm::vec3 speed = glm::vec3(0.f);
 		float mass = 0.2f;
 		glm::vec3 force = glm::vec3(0.f);
-		float tmpSize = size /2.;
-
+		float halfSize = size /2.f;
 		//near face
-		m_part1 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize, center.y-tmpSize, center.z-tmpSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part2 = pParticuleManager->addParticle(glm::vec3(center.x+tmpSize, center.y-tmpSize, center.z-tmpSize), speed, mass, force, glm::vec3(0.2f, 0.f, 0.f));
-		m_part3 = pParticuleManager->addParticle(glm::vec3(center.x+tmpSize, center.y+tmpSize, center.z-tmpSize), speed, mass, force, glm::vec3(0.3f, 0.f, 0.f));
-		m_part4 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize, center.y+tmpSize, center.z-tmpSize), speed, mass, force, glm::vec3(0.4f, 0.f, 0.f));
+		m_part1 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part2 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.2f, 0.f, 0.f));
+		m_part3 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.3f, 0.f, 0.f));
+		m_part4 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.4f, 0.f, 0.f));
 		//far face
-		m_part5 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize, center.y-tmpSize, center.z+tmpSize), speed, mass, force, glm::vec3(0.5f, 0.f, 0.f));
-		m_part6 = pParticuleManager->addParticle(glm::vec3(center.x+tmpSize, center.y-tmpSize, center.z+tmpSize), speed, mass, force, glm::vec3(0.6f, 0.f, 0.f));
-		m_part7 = pParticuleManager->addParticle(glm::vec3(center.x+tmpSize, center.y+tmpSize, center.z+tmpSize), speed, mass, force, glm::vec3(0.7f, 0.f, 0.f));
-		m_part8 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize, center.y+tmpSize, center.z+tmpSize), speed, mass, force, glm::vec3(0.8f, 0.f, 0.f));
+		m_part5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.5f, 0.f, 0.f));
+		m_part6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.6f, 0.f, 0.f));
+		m_part7 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.7f, 0.f, 0.f));
+		m_part8 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.8f, 0.f, 0.f));
+		//center of faces
+		m_part_center1 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center2 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z+halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center3 = pParticuleManager->addParticle(glm::vec3(center.x, center.y-halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center4 = pParticuleManager->addParticle(glm::vec3(center.x, center.y+halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
 		
-		//face 1
+		//create links
+		//edges X
 		m_graph->push_back(std::make_pair(m_part1,m_part2));
-		m_graph->push_back(std::make_pair(m_part2,m_part3));
-		m_graph->push_back(std::make_pair(m_part3,m_part4));
-		m_graph->push_back(std::make_pair(m_part4,m_part1));
-		//face 2
+		m_graph->push_back(std::make_pair(m_part4,m_part3));
 		m_graph->push_back(std::make_pair(m_part5,m_part6));
-		m_graph->push_back(std::make_pair(m_part6,m_part7));
-		m_graph->push_back(std::make_pair(m_part7,m_part8));
+		m_graph->push_back(std::make_pair(m_part8,m_part7));
+		//edges Y
+		m_graph->push_back(std::make_pair(m_part1,m_part4));
+		m_graph->push_back(std::make_pair(m_part2,m_part3));
 		m_graph->push_back(std::make_pair(m_part5,m_part8));
-		//faces 3, 4, 5 and 6
+		m_graph->push_back(std::make_pair(m_part6,m_part7));
+		//edges Z
 		m_graph->push_back(std::make_pair(m_part1,m_part5));
-		m_graph->push_back(std::make_pair(m_part4,m_part8));
 		m_graph->push_back(std::make_pair(m_part2,m_part6));
+		m_graph->push_back(std::make_pair(m_part4,m_part8));
 		m_graph->push_back(std::make_pair(m_part3,m_part7));
-		//diagonales interieures
-		m_graph->push_back(std::make_pair(m_part3,m_part5));
-		m_graph->push_back(std::make_pair(m_part2,m_part8));
-		m_graph->push_back(std::make_pair(m_part1,m_part7));
-		m_graph->push_back(std::make_pair(m_part4,m_part6));
-		//diagonales
+		//diagonal on each face
 		m_graph->push_back(std::make_pair(m_part1,m_part3));
 		m_graph->push_back(std::make_pair(m_part2,m_part4));
 		m_graph->push_back(std::make_pair(m_part5,m_part7));
 		m_graph->push_back(std::make_pair(m_part6,m_part8));
-
 		m_graph->push_back(std::make_pair(m_part5,m_part4));
 		m_graph->push_back(std::make_pair(m_part1,m_part8));
 		m_graph->push_back(std::make_pair(m_part6,m_part3));
 		m_graph->push_back(std::make_pair(m_part2,m_part7));
-
 		m_graph->push_back(std::make_pair(m_part2,m_part5));
 		m_graph->push_back(std::make_pair(m_part1,m_part6));
 		m_graph->push_back(std::make_pair(m_part3,m_part8));
 		m_graph->push_back(std::make_pair(m_part4,m_part7));
-
-		//add particles on each face, depends on the discFactor
-		float disc = size / discFactor;
-		for(float i = 0.f; i < size; i+= disc){
-			for(float j = 0.f; j < size; j+= disc){
-				//near + far
-				unsigned int p1 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize+i, center.y-tmpSize+j, center.z-tmpSize), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				unsigned int p2 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize+i, center.y-tmpSize+j, center.z+tmpSize), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				if(i<tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part1,p1));
-					m_graph->push_back(std::make_pair(m_part5,p2));
-				}
-				else if(i>tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part2,p1));
-					m_graph->push_back(std::make_pair(m_part6,p2));
-				}
-				else if(i>tmpSize && j>tmpSize){
-					m_graph->push_back(std::make_pair(m_part3,p1));
-					m_graph->push_back(std::make_pair(m_part7,p2));
-				}
-				else{
-					m_graph->push_back(std::make_pair(m_part4,p1));
-					m_graph->push_back(std::make_pair(m_part8,p2));
-				}
-				//right + left
-				unsigned int p3 = pParticuleManager->addParticle(glm::vec3(center.x+tmpSize, center.y-tmpSize+j, center.z-tmpSize+i), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				unsigned int p4 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize, center.y-tmpSize+j, center.z-tmpSize+i), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				if(i<tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part2,p3));
-					m_graph->push_back(std::make_pair(m_part1,p4));
-				}
-				else if(i>tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part6,p3));
-					m_graph->push_back(std::make_pair(m_part5,p4));
-				}
-				else if(i>tmpSize && j>tmpSize){
-					m_graph->push_back(std::make_pair(m_part7,p3));
-					m_graph->push_back(std::make_pair(m_part8,p4));
-				}
-				else{
-					m_graph->push_back(std::make_pair(m_part3,p3));
-					m_graph->push_back(std::make_pair(m_part4,p4));
-				}
-				//top + bottom
-				unsigned int p5 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize+i, center.y+tmpSize, center.z-tmpSize+j), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				unsigned int p6 = pParticuleManager->addParticle(glm::vec3(center.x-tmpSize+i, center.y-tmpSize, center.z-tmpSize+j), speed, mass, force, glm::vec3(0.f, 1.f, 0.f));
-				if(i<tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part4,p5));
-					m_graph->push_back(std::make_pair(m_part1,p6));
-				}
-				else if(i>tmpSize && j<tmpSize){
-					m_graph->push_back(std::make_pair(m_part3,p5));
-					m_graph->push_back(std::make_pair(m_part2,p6));
-				}
-				else if(i>tmpSize && j>tmpSize){
-					m_graph->push_back(std::make_pair(m_part7,p5));
-					m_graph->push_back(std::make_pair(m_part6,p6));
-				}
-				else{
-					m_graph->push_back(std::make_pair(m_part8,p5));
-					m_graph->push_back(std::make_pair(m_part5,p6));
-				}
-			}
-		}
+		//center diagonals
+		m_graph->push_back(std::make_pair(m_part_center1,m_part1));
+		m_graph->push_back(std::make_pair(m_part_center1,m_part2));
+		m_graph->push_back(std::make_pair(m_part_center1,m_part3));
+		m_graph->push_back(std::make_pair(m_part_center1,m_part4));
+		m_graph->push_back(std::make_pair(m_part_center2,m_part5));
+		m_graph->push_back(std::make_pair(m_part_center2,m_part6));
+		m_graph->push_back(std::make_pair(m_part_center2,m_part7));
+		m_graph->push_back(std::make_pair(m_part_center2,m_part8));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part1));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part5));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part4));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part8));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part2));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part6));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part3));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part7));
+		m_graph->push_back(std::make_pair(m_part_center5,m_part4));
+		m_graph->push_back(std::make_pair(m_part_center5,m_part3));
+		m_graph->push_back(std::make_pair(m_part_center5,m_part7));
+		m_graph->push_back(std::make_pair(m_part_center5,m_part8));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part1));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part2));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part5));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part6));
+		//intern diagonals
+		m_graph->push_back(std::make_pair(m_part3,m_part5));
+		m_graph->push_back(std::make_pair(m_part2,m_part8));
+		m_graph->push_back(std::make_pair(m_part1,m_part7));
+		m_graph->push_back(std::make_pair(m_part4,m_part6));
 	}
 
-	Cube::~Cube()
-	{
+	void Cube::applyInternalForces(ParticleManager* pParticleManager, float dt){
+		for(unsigned int k = 0; k < m_graph->size(); ++k){
+			unsigned int id1 = (*m_graph)[k].first;
+			unsigned int id2 = (*m_graph)[k].second;
+
+			glm::vec3 pos1 = pParticleManager->getPosition(id1);
+			glm::vec3 pos2 = pParticleManager->getPosition(id2);
+
+			bool isEdgeX = ((k < 4) ? true : false);
+			bool isEdgeY = ((k > 3 && k < 8) ? true : false);
+			bool isEdgeZ = ((k > 7 && k < 12) ? true : false);
+			bool isDiagFace = ((k > 11 && k < 24) ? true : false);
+			bool isDiagCenterFace = ((k > 23 && k < 48) ? true : false);
+			bool isDiagIntern = ((k > 47 && k < 52) ? true : false);
+
+			if(isEdgeX){
+				pParticleManager->addForceToParticle(getHookForce(m_K0, m_L0.x, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K0, m_L0.x, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V0, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V0, dt, pos1, pos2), id2);
+			}
+			else if(isEdgeY){
+				pParticleManager->addForceToParticle(getHookForce(m_K0, m_L0.y, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K0, m_L0.y, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V0, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V0, dt, pos1, pos2), id2);
+			}
+			else if(isEdgeZ){
+				pParticleManager->addForceToParticle(getHookForce(m_K0, m_L0.z, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K0, m_L0.z, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V0, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V0, dt, pos1, pos2), id2);
+			}
+			else if(isDiagFace){
+				pParticleManager->addForceToParticle(getHookForce(m_K1, m_L1, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K1, m_L1, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V1, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V1, dt, pos1, pos2), id2);  
+			}
+			else if(isDiagCenterFace){
+				pParticleManager->addForceToParticle(getHookForce(m_K2, m_L2, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K2, m_L2, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V2, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V2, dt, pos1, pos2), id2);
+			}
+			else if(isDiagIntern){
+				pParticleManager->addForceToParticle(getHookForce(m_K3, m_L3, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getHookForce(m_K3, m_L3, pos1, pos2), id2);
+				pParticleManager->addForceToParticle(getBrakeForce(m_V3, dt, pos1, pos2), id1);
+				pParticleManager->addForceToParticle(-getBrakeForce(m_V3, dt, pos1, pos2), id2);
+			}
+			else{
+				std::cerr << "The link is impossible for the cube" << std::endl;
+			}
+		}
 	}
 
 	void Cube::draw(physical::ParticleManager* pParticuleManager){

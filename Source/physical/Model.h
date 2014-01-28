@@ -29,13 +29,9 @@ namespace physical
 		void startSimulation(float dt);
 
 		//create data for the scene
-		//called when press "P"
-		void addRandomParticle();
-		//called when press "C"
-		void addRandomCube();
-		//called when press "L"
-		void addRandomLine();
-		void addHookAndBrakeForceToShape(Shape* pShape, float raideur, float longueur, float fV);
+		void addRandomParticle();//called when press "P"
+		void addRandomCube();//called when press "C"
+		void addRandomLine();//called when press "L"
 
 		//getters
 		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
@@ -59,10 +55,10 @@ namespace physical
 		//forces
 		ConstantForce*					m_pGravity;
 		ConstantForce*					m_pWind;
-		HookForce*						m_pHookForce;
-		BrakeForce*						m_pBrakeForce;
-		std::vector<GraphHookForce*>	m_pGraphHookForceArray;
-		std::vector<GraphBrakeForce*>	m_pGraphBrakeForceArray;
+		HookForce*						m_pHookForce;			//unused
+		BrakeForce*						m_pBrakeForce;			//unused
+		std::vector<GraphHookForce*>	m_pGraphHookForceArray;	//unused
+		std::vector<GraphBrakeForce*>	m_pGraphBrakeForceArray;//unused
 		//getters - physical object + forces
 		Ground*							m_pGround;
 		Facette*						m_pFacette;

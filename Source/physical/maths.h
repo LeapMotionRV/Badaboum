@@ -271,7 +271,6 @@ namespace physical
 			
 		}
  
-
 }
 
 #endif // MATHS_HPP
