@@ -5,6 +5,14 @@
 
 namespace physical 
 {
+	ParticleManager::ParticleManager(){
+		m_positionArray = std::vector<glm::vec3>();
+		m_speedArray = std::vector<glm::vec3>();
+		m_massArray = std::vector<float>();
+		m_forceArray = std::vector<glm::vec3>();
+		m_colorArray = std::vector<glm::vec3>();
+	}
+
 	unsigned int ParticleManager::addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color) {
 		m_positionArray.push_back(pos);
 		m_speedArray.push_back(speed);
@@ -26,10 +34,12 @@ namespace physical
 	}
 	
 	void ParticleManager::drawParticles(render::ParticleRenderer& renderer) {
-        renderer.drawParticles(m_positionArray.size(),
-                        &m_positionArray[0],
-                        &m_massArray[0],
-                        &m_colorArray[0]);
+		if(m_positionArray.size() > 0){
+			renderer.drawParticles(m_positionArray.size(),
+							&m_positionArray[0],
+							&m_massArray[0],
+							&m_colorArray[0]);
+		}
     }
 
 	/*void ParticleManager::drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer){

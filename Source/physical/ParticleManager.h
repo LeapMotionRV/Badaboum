@@ -14,6 +14,8 @@ namespace physical
 
 	class ParticleManager {
 	public:
+		ParticleManager();
+
 		//getters
 		inline std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
 		inline std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
