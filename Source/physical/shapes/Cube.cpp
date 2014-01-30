@@ -20,16 +20,24 @@ namespace physical
 		m_L3 = size * sqrt(3.f);
 
 		//rigidity
-		m_K0 = 1.f;
-		m_K1 = 0.01f;
-		m_K2 = 0.01f;
-		m_K3 = 10.f;
+		float coeffK = 3.f;
+		m_K0 = coeffK * m_L0.x;
+		/*m_K1 = 1.f;
+		m_K2 = 1.f;
+		m_K3 = 1.f;*/
+		m_K1 = coeffK * m_L1;
+		m_K2 = coeffK * m_L2;
+		m_K3 = coeffK * m_L3;
 
 		//brake
-		m_V0 = 0.001f;
-		m_V1 = 0.001f;
+		float coef = 0.001;
+		m_V0 = coef;
+		/*m_V1 = 0.001f;
 		m_V2 = 0.001f;
-		m_V3 = 0.001f;
+		m_V3 = 0.001f;*/
+		m_V1 = coef;
+		m_V2 = coef;
+		m_V3 = coef;
 
 		//create particles
 		glm::vec3 speed = glm::vec3(0.f);
@@ -70,8 +78,8 @@ namespace physical
 		m_graph->push_back(std::make_pair(m_part2,m_part6));
 		m_graph->push_back(std::make_pair(m_part4,m_part8));
 		m_graph->push_back(std::make_pair(m_part3,m_part7));
-		//diagonal on each face
-		m_graph->push_back(std::make_pair(m_part1,m_part3));
+		//diagonal on each face (maybe useless)
+		/*m_graph->push_back(std::make_pair(m_part1,m_part3));
 		m_graph->push_back(std::make_pair(m_part2,m_part4));
 		m_graph->push_back(std::make_pair(m_part5,m_part7));
 		m_graph->push_back(std::make_pair(m_part6,m_part8));
@@ -82,7 +90,7 @@ namespace physical
 		m_graph->push_back(std::make_pair(m_part2,m_part5));
 		m_graph->push_back(std::make_pair(m_part1,m_part6));
 		m_graph->push_back(std::make_pair(m_part3,m_part8));
-		m_graph->push_back(std::make_pair(m_part4,m_part7));
+		m_graph->push_back(std::make_pair(m_part4,m_part7));*/
 		//center diagonals
 		//links far face
 		m_graph->push_back(std::make_pair(m_part_center1,m_part1));
@@ -132,9 +140,11 @@ namespace physical
 			bool isEdgeX = ((k < 4) ? true : false);
 			bool isEdgeY = ((k > 3 && k < 8) ? true : false);
 			bool isEdgeZ = ((k > 7 && k < 12) ? true : false);
-			bool isDiagFace = ((k > 11 && k < 24) ? true : false);
+			/*bool isDiagFace = ((k > 11 && k < 24) ? true : false);
 			bool isDiagCenterFace = ((k > 23 && k < 48) ? true : false);
-			bool isDiagIntern = ((k > 47 && k < 52) ? true : false);
+			bool isDiagIntern = ((k > 47 && k < 52) ? true : false);*/
+			bool isDiagCenterFace = ((k > 11 && k < 36) ? true : false);
+			bool isDiagIntern = ((k > 35 && k < 40) ? true : false);
 
 			if(isEdgeX){
 				pParticleManager->addForceToParticle(getHookForce(m_K0, m_L0.x, pos1, pos2), id1);
@@ -154,12 +164,12 @@ namespace physical
 				pParticleManager->addForceToParticle(getBrakeForce(m_V0, dt, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getBrakeForce(m_V0, dt, pos1, pos2), id2);
 			}
-			else if(isDiagFace){
+			/*else if(isDiagFace){
 				pParticleManager->addForceToParticle(getHookForce(m_K1, m_L1, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getHookForce(m_K1, m_L1, pos1, pos2), id2);
 				pParticleManager->addForceToParticle(getBrakeForce(m_V1, dt, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getBrakeForce(m_V1, dt, pos1, pos2), id2);  
-			}
+			}*/
 			else if(isDiagCenterFace){
 				pParticleManager->addForceToParticle(getHookForce(m_K2, m_L2, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getHookForce(m_K2, m_L2, pos1, pos2), id2);
