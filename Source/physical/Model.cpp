@@ -12,7 +12,7 @@ namespace physical
 
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
-		m_pParticleManager->addRandomParticles(40);
+		//m_pParticleManager->addRandomParticles(40);
 		//m_pParticleManager->addParticle(glm::vec3(2.f, 2.f, 0.f),glm::vec3(0,0,0),1,glm::vec3(0,0,0),glm::vec3(0,0,1));
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);

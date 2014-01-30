@@ -34,21 +34,27 @@ namespace physical
 		float m_V0, m_V1, m_V2, m_V3;
 
 		//id of particles
+		//near face
 		unsigned int	m_part1;
 		unsigned int	m_part2;
 		unsigned int	m_part3;
 		unsigned int	m_part4;
+		//far face
 		unsigned int	m_part5;
 		unsigned int	m_part6;
 		unsigned int	m_part7;
 		unsigned int	m_part8;
 
+		//center of faces
 		unsigned int	m_part_center1;//near face
 		unsigned int	m_part_center2;//far face
 		unsigned int	m_part_center3;//left face
 		unsigned int	m_part_center4;//right face
 		unsigned int	m_part_center5;//top face
 		unsigned int	m_part_center6;//bottom face
+
+		//std::vector<physical::Facette> facets;
+
 	};
 }
 

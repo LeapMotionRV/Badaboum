@@ -36,28 +36,28 @@ namespace physical
 		float mass = 0.2f;
 		glm::vec3 force = glm::vec3(0.f);
 		float halfSize = size /2.f;
-		//near face
-		m_part1 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part2 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.2f, 0.f, 0.f));
-		m_part3 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.3f, 0.f, 0.f));
-		m_part4 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.4f, 0.f, 0.f));
 		//far face
-		m_part5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.5f, 0.f, 0.f));
-		m_part6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.6f, 0.f, 0.f));
-		m_part7 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.7f, 0.f, 0.f));
-		m_part8 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.8f, 0.f, 0.f));
+		m_part1 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//particul placed in far bottom left
+		m_part2 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.2f, 0.f, 0.f));//particul placed in far bottom right
+		m_part3 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.3f, 0.f, 0.f));//particul placed in far top right
+		m_part4 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z-halfSize), speed, mass, force, glm::vec3(0.4f, 0.f, 0.f));//particul placed in far top left
+		//near face
+		m_part5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.5f, 0.f, 0.f));//particul placed in near bottom left
+		m_part6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y-halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.6f, 0.f, 0.f));//particul placed in near bottom right
+		m_part7 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.7f, 0.f, 0.f));//particul placed in near top right
+		m_part8 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y+halfSize, center.z+halfSize), speed, mass, force, glm::vec3(0.8f, 0.f, 0.f));//particul placed in near top left
 		//center of faces
-		m_part_center1 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part_center2 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z+halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part_center3 = pParticuleManager->addParticle(glm::vec3(center.x, center.y-halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part_center4 = pParticuleManager->addParticle(glm::vec3(center.x, center.y+halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part_center5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
-		m_part_center6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));
+		m_part_center1 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z-halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//far face
+		m_part_center2 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z+halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//near face
+		m_part_center3 = pParticuleManager->addParticle(glm::vec3(center.x, center.y-halfSize, center.z), speed, mass, force, glm::vec3(1.f, 1.f, 1.f));//bottom face
+		m_part_center4 = pParticuleManager->addParticle(glm::vec3(center.x, center.y+halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//top face
+		m_part_center5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//left face
+		m_part_center6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//right face
 		
 		//create links
 		//edges X
 		m_graph->push_back(std::make_pair(m_part1,m_part2));
-		m_graph->push_back(std::make_pair(m_part4,m_part3));
+		m_graph->push_back(std::make_pair(m_part4,m_part3));//did the order matter ? (Arthur question for Clement)
 		m_graph->push_back(std::make_pair(m_part5,m_part6));
 		m_graph->push_back(std::make_pair(m_part8,m_part7));
 		//edges Y
@@ -84,30 +84,36 @@ namespace physical
 		m_graph->push_back(std::make_pair(m_part3,m_part8));
 		m_graph->push_back(std::make_pair(m_part4,m_part7));
 		//center diagonals
+		//links far face
 		m_graph->push_back(std::make_pair(m_part_center1,m_part1));
 		m_graph->push_back(std::make_pair(m_part_center1,m_part2));
 		m_graph->push_back(std::make_pair(m_part_center1,m_part3));
 		m_graph->push_back(std::make_pair(m_part_center1,m_part4));
+		//links near face
 		m_graph->push_back(std::make_pair(m_part_center2,m_part5));
 		m_graph->push_back(std::make_pair(m_part_center2,m_part6));
 		m_graph->push_back(std::make_pair(m_part_center2,m_part7));
 		m_graph->push_back(std::make_pair(m_part_center2,m_part8));
+		//links bottom face
 		m_graph->push_back(std::make_pair(m_part_center3,m_part1));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part2));
 		m_graph->push_back(std::make_pair(m_part_center3,m_part5));
-		m_graph->push_back(std::make_pair(m_part_center3,m_part4));
-		m_graph->push_back(std::make_pair(m_part_center3,m_part8));
-		m_graph->push_back(std::make_pair(m_part_center4,m_part2));
-		m_graph->push_back(std::make_pair(m_part_center4,m_part6));
+		m_graph->push_back(std::make_pair(m_part_center3,m_part6));
+		//links top face
 		m_graph->push_back(std::make_pair(m_part_center4,m_part3));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part4));
 		m_graph->push_back(std::make_pair(m_part_center4,m_part7));
+		m_graph->push_back(std::make_pair(m_part_center4,m_part8));
+		//links left face
 		m_graph->push_back(std::make_pair(m_part_center5,m_part4));
-		m_graph->push_back(std::make_pair(m_part_center5,m_part3));
+		m_graph->push_back(std::make_pair(m_part_center5,m_part5));
 		m_graph->push_back(std::make_pair(m_part_center5,m_part7));
 		m_graph->push_back(std::make_pair(m_part_center5,m_part8));
-		m_graph->push_back(std::make_pair(m_part_center6,m_part1));
+		//links right face
 		m_graph->push_back(std::make_pair(m_part_center6,m_part2));
-		m_graph->push_back(std::make_pair(m_part_center6,m_part5));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part3));
 		m_graph->push_back(std::make_pair(m_part_center6,m_part6));
+		m_graph->push_back(std::make_pair(m_part_center6,m_part7));
 		//intern diagonals
 		m_graph->push_back(std::make_pair(m_part3,m_part5));
 		m_graph->push_back(std::make_pair(m_part2,m_part8));
