@@ -204,9 +204,9 @@ namespace physical
 		static const float epsilon = 0.000001;
 
 		//three points of the triangle
-		glm::vec3 t0 = pFacette->getPointArray()[0];
-		glm::vec3 t1 = pFacette->getPointArray()[1];
-		glm::vec3 t2 = pFacette->getPointArray()[2];
+		glm::vec3 t0 = *pFacette->getPointArray()[0];
+		glm::vec3 t1 = *pFacette->getPointArray()[1];
+		glm::vec3 t2 = *pFacette->getPointArray()[2];
 
 		//Direction of our particle
 		glm::vec3 dir = p2 - p1; // Vecteur p1p2

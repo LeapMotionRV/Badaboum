@@ -234,7 +234,7 @@ void drawQuad( eStyle style, ePlane plane, float width, float height )
   }
 }
 
-void drawFacette( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint)
+void drawFacet( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint)
 {
   switch ( style )
   {

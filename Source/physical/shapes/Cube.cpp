@@ -59,9 +59,41 @@ namespace physical
 		m_part_center2 = pParticuleManager->addParticle(glm::vec3(center.x, center.y, center.z+halfSize), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//near face
 		m_part_center3 = pParticuleManager->addParticle(glm::vec3(center.x, center.y-halfSize, center.z), speed, mass, force, glm::vec3(1.f, 1.f, 1.f));//bottom face
 		m_part_center4 = pParticuleManager->addParticle(glm::vec3(center.x, center.y+halfSize, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//top face
-		m_part_center5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//left face
+		m_part_center5 = pParticuleManager->addParticle(glm::vec3(center.x-halfSize, center.y, center.z), speed, mass, force, glm::vec3(1.f, 1.f, 1.f));//left face
 		m_part_center6 = pParticuleManager->addParticle(glm::vec3(center.x+halfSize, center.y, center.z), speed, mass, force, glm::vec3(0.1f, 0.f, 0.f));//right face
-		
+	
+		//create facets (not verified)
+		//far face
+		this->addFacet(pParticuleManager, m_part1, m_part_center1, m_part2);
+		this->addFacet(pParticuleManager, m_part2, m_part_center1, m_part3);
+		this->addFacet(pParticuleManager, m_part3, m_part_center1, m_part4);
+		this->addFacet(pParticuleManager, m_part4, m_part_center1, m_part1);
+		//near face 
+		this->addFacet(pParticuleManager, m_part5, m_part_center2, m_part6);
+		this->addFacet(pParticuleManager, m_part6, m_part_center2, m_part7);
+		this->addFacet(pParticuleManager, m_part7, m_part_center2, m_part8);
+		this->addFacet(pParticuleManager, m_part8, m_part_center2, m_part5);
+		//bottom face
+		this->addFacet(pParticuleManager, m_part5, m_part_center3, m_part6);
+		this->addFacet(pParticuleManager, m_part6, m_part_center3, m_part2);
+		this->addFacet(pParticuleManager, m_part2, m_part_center3, m_part1);
+		this->addFacet(pParticuleManager, m_part1, m_part_center3, m_part5);
+		//top face
+		this->addFacet(pParticuleManager, m_part8, m_part_center4, m_part7);
+		this->addFacet(pParticuleManager, m_part7, m_part_center4, m_part3);
+		this->addFacet(pParticuleManager, m_part3, m_part_center4, m_part4);
+		this->addFacet(pParticuleManager, m_part4, m_part_center4, m_part8);
+		//left face
+		this->addFacet(pParticuleManager, m_part5, m_part_center5, m_part1);
+		this->addFacet(pParticuleManager, m_part1, m_part_center5, m_part4);
+		this->addFacet(pParticuleManager, m_part4, m_part_center5, m_part8);
+		this->addFacet(pParticuleManager, m_part8, m_part_center5, m_part5);
+		//right face
+		this->addFacet(pParticuleManager, m_part6, m_part_center6, m_part2);
+		this->addFacet(pParticuleManager, m_part2, m_part_center6, m_part3);
+		this->addFacet(pParticuleManager, m_part3, m_part_center6, m_part7);
+		this->addFacet(pParticuleManager, m_part7, m_part_center6, m_part6);
+
 		//create links
 		//edges X
 		m_graph->push_back(std::make_pair(m_part1,m_part2));
@@ -188,7 +220,7 @@ namespace physical
 		}
 	}
 
-	void Cube::draw(physical::ParticleManager* pParticuleManager){
+	void Cube::drawWithFacets(physical::ParticleManager* pParticuleManager){
 		LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f(m_color.r, m_color.g, m_color.b);
 		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, pParticuleManager->getPosition(m_part1),pParticuleManager->getPosition(m_part2), pParticuleManager->getPosition(m_part3), pParticuleManager->getPosition(m_part4));
@@ -198,4 +230,18 @@ namespace physical
 		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, pParticuleManager->getPosition(m_part1),pParticuleManager->getPosition(m_part2), pParticuleManager->getPosition(m_part6), pParticuleManager->getPosition(m_part5));
 		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, pParticuleManager->getPosition(m_part4),pParticuleManager->getPosition(m_part3), pParticuleManager->getPosition(m_part7), pParticuleManager->getPosition(m_part8));
 	}
+
+	void Cube::addFacet(ParticleManager* pParticleManager, unsigned int firstPoint, unsigned int secondPoint, unsigned int thirdPoint){
+		Facette facet = Facette(pParticleManager->getPointeurOnPosition(firstPoint), pParticleManager->getPointeurOnPosition(secondPoint), pParticleManager->getPointeurOnPosition(thirdPoint), m_color);
+		m_facets.push_back(facet);
+	}
+
+	void Cube::draw(physical::ParticleManager* pParticuleManager){
+		LeapUtilGL::GLMatrixScope gridMatrixScope;
+		glColor3f(m_color.r, m_color.g, m_color.b);
+		for(unsigned int i = 0; i < this->getFacets().size(); ++i){
+			LeapUtilGL::drawFacet(LeapUtilGL::eStyle::kStyle_Solid,*this->getFacets()[i].getPointArray()[0], *this->getFacets()[i].getPointArray()[1], *this->getFacets()[i].getPointArray()[2]);
+		}
+	}
+
 }

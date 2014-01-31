@@ -4,6 +4,7 @@
 
 #include "Shape.h"
 #include "../ParticleManager.h"
+#include "Facette.h"
 
 
 namespace physical
@@ -17,6 +18,13 @@ namespace physical
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
 		//draw
 		void draw(ParticleManager* pParticuleManager);
+		void drawWithFacets(ParticleManager* pParticuleManager);
+		
+		void addFacet(ParticleManager* pParticleManager, unsigned int firstPoint, unsigned int secondPoint, unsigned int thirdPoint);
+
+		std::vector<physical::Facette> getFacets(){
+			return m_facets;
+		}
 
 	private:
 		glm::vec3		m_center;
@@ -53,7 +61,7 @@ namespace physical
 		unsigned int	m_part_center5;//top face
 		unsigned int	m_part_center6;//bottom face
 
-		//std::vector<physical::Facette> facets;
+		std::vector<physical::Facette> m_facets;
 
 	};
 }

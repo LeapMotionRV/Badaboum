@@ -30,8 +30,8 @@ namespace physical
 		m_pHookForce = new HookForce(0.01f, 0.01f);
 		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
 
-		m_pFacette = new Facette(glm::vec3(-3.f, 0.f, -3.f), glm::vec3(3.f, 0.f, -3.f), glm::vec3(3.f, -2.f, 3.f), glm::vec3(1.f, 0.f, 0.f));
-		m_pFacetteForce = new FacetteForce(m_pFacette, 1.f, m_pLeapfrogSolver);
+		//m_pFacette = new Facette(glm::vec3(-3.f, 0.f, -3.f), glm::vec3(3.f, 0.f, -3.f), glm::vec3(3.f, -2.f, 3.f), glm::vec3(1.f, 0.f, 0.f));
+		//m_pFacetteForce = new FacetteForce(m_pFacette, 1.f, m_pLeapfrogSolver);
 		
 
 	}
@@ -61,8 +61,8 @@ namespace physical
 			m_pGravity->apply(m_pParticleManager);
 			m_pGround->apply(m_pParticleManager, dt);
 
-			m_pFacetteForce->setDt(dt);
-			m_pFacetteForce->apply(m_pParticleManager);
+			//m_pFacetteForce->setDt(dt);
+			//m_pFacetteForce->apply(m_pParticleManager);
 
 			//m_pHookForce->apply(m_pParticleManager);
 			//m_pBrakeForce->apply(m_pParticleManager);

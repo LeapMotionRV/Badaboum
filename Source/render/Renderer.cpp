@@ -117,7 +117,7 @@ namespace render
 		LeapUtilGL::drawAxes();
 		// draw the ground
 		m_model.getGround()->draw();
-		m_model.getFacette()->draw();
+		//m_model.getFacette()->draw();
 
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);

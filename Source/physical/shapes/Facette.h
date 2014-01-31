@@ -11,16 +11,16 @@ namespace physical
 	{
 	public:
 		Facette();
-		Facette(glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 color);
+		Facette(glm::vec3* firstPoint, glm::vec3* secondPoint, glm::vec3* thirdPoint, glm::vec3 color);
 		
 		void draw() const;
 		
 		//getters
-		std::vector<glm::vec3> getPointArray() const;
+		std::vector<glm::vec3*> getPointArray() const;
 	
 	private:
 		glm::vec3 m_color;
-		std::vector<glm::vec3> m_pointArray;
+		std::vector<glm::vec3*> m_pointArray;
 	};
 }
 

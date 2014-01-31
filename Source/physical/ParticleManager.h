@@ -25,13 +25,16 @@ namespace physical
 		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
 		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
 
+		//test 
+		inline glm::vec3* getPointeurOnPosition(int idParticule){ return &m_positionArray[idParticule]; }
+
 		//setters
 		inline void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		inline void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		inline void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
 		//add particles and manipulate them
-		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);
+		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
 		void			addRandomParticles(unsigned int count);
 		void			addForceToParticle(glm::vec3 force, size_t index);
 		void			resetForceOfParticle(size_t index);
