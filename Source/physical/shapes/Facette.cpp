@@ -25,6 +25,7 @@ namespace physical
 	void Facette::draw() const {
 		LeapUtilGL::GLMatrixScope gridMatrixScope;
 		glColor3f(m_color.x, m_color.y, m_color.z);
+		//this is this call which  provok problem with severall instances of the cube
 		LeapUtilGL::drawFacet(LeapUtilGL::eStyle::kStyle_Solid, *m_pointArray[0], *m_pointArray[1], *m_pointArray[2]);
 	}
 }
