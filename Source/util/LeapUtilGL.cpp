@@ -249,8 +249,7 @@ void drawFacet( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::
   glm::vec3 firstVector = secondPoint - firstPoint;
   glm::vec3 secondVector = thirdPoint - firstPoint;
   glm::vec3 normalToFacette = glm::cross(firstVector, secondVector);
-  normalToFacette = glm::normalize(normalToFacette);
-
+  //normalToFacette = glm::normalize(normalToFacette); //the problem when several cubes is here !!!
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glNormal3f( normalToFacette.x, normalToFacette.y, normalToFacette.z );

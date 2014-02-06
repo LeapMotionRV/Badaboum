@@ -12,19 +12,16 @@ namespace physical
 	class Cube : public Shape
 	{
 	public:
+		//construct
 		Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color = glm::vec3(0.f, 0.f, 1.f));
-		
+		void addFacet(ParticleManager* pParticleManager, unsigned int firstPoint, unsigned int secondPoint, unsigned int thirdPoint);
 		//forces
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
 		//draw
 		void draw(ParticleManager* pParticuleManager);
-		void drawWithFacets(ParticleManager* pParticuleManager);
-		
-		void addFacet(ParticleManager* pParticleManager, unsigned int firstPoint, unsigned int secondPoint, unsigned int thirdPoint);
-
-		std::vector<physical::Facette> getFacets(){
-			return m_facets;
-		}
+		//void drawWithFacets(ParticleManager* pParticuleManager);
+		//getters
+		std::vector<Facette> getFacets(){return m_facets;}
 
 	private:
 		glm::vec3		m_center;
@@ -52,17 +49,15 @@ namespace physical
 		unsigned int	m_part6;
 		unsigned int	m_part7;
 		unsigned int	m_part8;
-
 		//center of faces
-		unsigned int	m_part_center1;//near face
-		unsigned int	m_part_center2;//far face
-		unsigned int	m_part_center3;//left face
-		unsigned int	m_part_center4;//right face
-		unsigned int	m_part_center5;//top face
-		unsigned int	m_part_center6;//bottom face
+		unsigned int	m_part_center1;//far face
+		unsigned int	m_part_center2;//near face
+		unsigned int	m_part_center3;//bottom face
+		unsigned int	m_part_center4;//top face
+		unsigned int	m_part_center5;//left face
+		unsigned int	m_part_center6;//right face
 
-		std::vector<physical::Facette> m_facets;
-
+		std::vector<Facette> m_facets;
 	};
 }
 

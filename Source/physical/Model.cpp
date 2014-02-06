@@ -12,28 +12,15 @@ namespace physical
 
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
-		//m_pParticleManager->addRandomParticles(40);
-		//m_pParticleManager->addParticle(glm::vec3(2.f, 2.f, 0.f),glm::vec3(0,0,0),1,glm::vec3(0,0,0),glm::vec3(0,0,1));
-		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-
 		m_pGround->addPolygonAndForce(
 			glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), 
 			glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), 
-			glm::vec3(1.f, 1.f, 0.f), 2.f);
-
+			glm::vec3(1.f, 1.f, 0.f), 1.9f);
 
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
 		m_pWind = new ConstantForce(glm::vec3(0.02f, -0.01f, 0.f));
-
-		m_pHookForce = new HookForce(0.01f, 0.01f);
-		m_pBrakeForce = new BrakeForce(0.00001f, 0.001f);
-
-		//m_pFacette = new Facette(glm::vec3(-3.f, 0.f, -3.f), glm::vec3(3.f, 0.f, -3.f), glm::vec3(3.f, -2.f, 3.f), glm::vec3(1.f, 0.f, 0.f));
-		//m_pFacetteForce = new FacetteForce(m_pFacette, 1.f, m_pLeapfrogSolver);
-		
-
 	}
 
 	Model::~Model(){
@@ -44,8 +31,8 @@ namespace physical
 		}
 		delete m_pGravity;
 		delete m_pWind;
-		delete m_pHookForce;
-		delete m_pBrakeForce;
+		//delete m_pHookForce;
+		//delete m_pBrakeForce;
 		for(unsigned int i = 0; i < m_pGraphHookForceArray.size(); ++i){
 			delete m_pGraphHookForceArray[i];
 		}
@@ -61,20 +48,6 @@ namespace physical
 			m_pGravity->apply(m_pParticleManager);
 			m_pGround->apply(m_pParticleManager, dt);
 
-			//m_pFacetteForce->setDt(dt);
-			//m_pFacetteForce->apply(m_pParticleManager);
-
-			//m_pHookForce->apply(m_pParticleManager);
-			//m_pBrakeForce->apply(m_pParticleManager);
-
-			/*for(unsigned int i = 0; i < m_pGraphHookForceArray.size(); ++i){
-				m_pGraphHookForceArray[i]->apply(m_pParticleManager);
-			}
-			for(unsigned int i = 0; i < m_pGraphBrakeForceArray.size(); ++i){
-				m_pGraphBrakeForceArray[i]->setDt(dt);
-				m_pGraphBrakeForceArray[i]->apply(m_pParticleManager);
-			}*/
-
 			for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
 				m_pShapeArray[i]->applyInternalForces(m_pParticleManager, dt);
 			}
@@ -87,9 +60,10 @@ namespace physical
 	}
 
 	void Model::addRandomCube(){
-		glm::vec3 center = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
-		float size = glm::linearRand(0.5f,2.f);
-		Cube* pCube = new Cube(m_pParticleManager, size, center);
+		//glm::vec3 randomCenter = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
+		//float randomSize = glm::linearRand(0.5f,2.f);
+		//Cube* pCube = new Cube(m_pParticleManager, size, center);
+		Cube* pCube = new Cube(m_pParticleManager, 1.f, glm::vec3(1.f, glm::linearRand(-1.f,5.f), 0.f));
 		m_pShapeArray.push_back(pCube);
 	}
 

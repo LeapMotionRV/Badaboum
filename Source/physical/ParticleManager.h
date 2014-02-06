@@ -17,21 +17,20 @@ namespace physical
 		ParticleManager();
 
 		//getters
-		inline std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
-		inline std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
-		inline std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
-		inline std::vector<float>		getMassArray() const {return m_massArray;}
+		std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
+		std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
+		std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
+		std::vector<float>		getMassArray() const {return m_massArray;}
 		
-		inline glm::vec3 getPosition(int idParticule) { return m_positionArray[idParticule]; }
-		inline glm::vec3 getVelocity(int idParticule) { return m_speedArray[idParticule]; }
+		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
+		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
-		//test 
-		inline glm::vec3* getPointeurOnPosition(int idParticule){ return &m_positionArray[idParticule]; }
+		const glm::vec3* getPointeurOnPosition(int idParticule) const { return &(m_positionArray[idParticule]); }
 
 		//setters
-		inline void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
-		inline void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
-		inline void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
+		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
+		void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
+		void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
 		//add particles and manipulate them
 		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
