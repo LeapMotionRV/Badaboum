@@ -17,6 +17,8 @@ namespace physical
 		Line(ParticleManager* pParticuleManager, float size, glm::vec3 startedPoint);
 		
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
+		void applyExternalForces(ParticleManager* pParticleManager, float dt);
+		
 		void draw(ParticleManager* pParticuleManager);
 
 	private:

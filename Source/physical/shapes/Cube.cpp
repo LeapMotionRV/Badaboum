@@ -4,7 +4,7 @@
 
 namespace physical
 {
-	Cube::Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color)
+	Cube::Cube(LeapfrogSolver* pLeapfrogSolver, ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color)
 	{
 		m_size = size;//size of edges
 		m_center = center;
@@ -20,7 +20,7 @@ namespace physical
 		m_L3 = size * sqrt(3.f);
 
 		//rigidity
-		float coeffK = 1.f;
+		float coeffK = 1.8f;
 		m_K0 = coeffK * m_L0.x;
 		/*m_K1 = 1.f;
 		m_K2 = 1.f;
@@ -94,6 +94,11 @@ namespace physical
 		this->addFacet(pParticuleManager, m_part3, m_part_center6, m_part7);
 		this->addFacet(pParticuleManager, m_part2, m_part_center6, m_part3);
 
+		//create force for each facets
+		for(unsigned int i = 0; i < m_facets.size(); ++i){
+			m_facetteForceArray.push_back(FacetteForce(&m_facets[i], 1.f, pLeapfrogSolver));
+		}
+
 		//create links
 		//did the order matter ? (Arthur question for Clement) // answer => No ;)
 		//edges X
@@ -111,19 +116,6 @@ namespace physical
 		m_graph->push_back(std::make_pair(m_part2,m_part6));
 		m_graph->push_back(std::make_pair(m_part4,m_part8));
 		m_graph->push_back(std::make_pair(m_part3,m_part7));
-		//diagonal on each face (maybe useless)
-		/*m_graph->push_back(std::make_pair(m_part1,m_part3));
-		m_graph->push_back(std::make_pair(m_part2,m_part4));
-		m_graph->push_back(std::make_pair(m_part5,m_part7));
-		m_graph->push_back(std::make_pair(m_part6,m_part8));
-		m_graph->push_back(std::make_pair(m_part5,m_part4));
-		m_graph->push_back(std::make_pair(m_part1,m_part8));
-		m_graph->push_back(std::make_pair(m_part6,m_part3));
-		m_graph->push_back(std::make_pair(m_part2,m_part7));
-		m_graph->push_back(std::make_pair(m_part2,m_part5));
-		m_graph->push_back(std::make_pair(m_part1,m_part6));
-		m_graph->push_back(std::make_pair(m_part3,m_part8));
-		m_graph->push_back(std::make_pair(m_part4,m_part7));*/
 		//center diagonals
 		//links far face
 		m_graph->push_back(std::make_pair(m_part_center1,m_part1));
@@ -178,9 +170,6 @@ namespace physical
 			bool isEdgeX = ((k < 4) ? true : false);
 			bool isEdgeY = ((k > 3 && k < 8) ? true : false);
 			bool isEdgeZ = ((k > 7 && k < 12) ? true : false);
-			/*bool isDiagFace = ((k > 11 && k < 24) ? true : false);
-			bool isDiagCenterFace = ((k > 23 && k < 48) ? true : false);
-			bool isDiagIntern = ((k > 47 && k < 52) ? true : false);*/
 			bool isDiagCenterFace = ((k > 11 && k < 36) ? true : false);
 			bool isDiagIntern = ((k > 35 && k < 40) ? true : false);
 
@@ -202,12 +191,6 @@ namespace physical
 				pParticleManager->addForceToParticle(getBrakeForce(m_V0, dt, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getBrakeForce(m_V0, dt, pos1, pos2), id2);
 			}
-			/*else if(isDiagFace){
-				pParticleManager->addForceToParticle(getHookForce(m_K1, m_L1, pos1, pos2), id1);
-				pParticleManager->addForceToParticle(-getHookForce(m_K1, m_L1, pos1, pos2), id2);
-				pParticleManager->addForceToParticle(getBrakeForce(m_V1, dt, pos1, pos2), id1);
-				pParticleManager->addForceToParticle(-getBrakeForce(m_V1, dt, pos1, pos2), id2);  
-			}*/
 			else if(isDiagCenterFace){
 				pParticleManager->addForceToParticle(getHookForce(m_K2, m_L2, pos1, pos2), id1);
 				pParticleManager->addForceToParticle(-getHookForce(m_K2, m_L2, pos1, pos2), id2);
@@ -223,6 +206,12 @@ namespace physical
 			else{
 				std::cerr << "The link is impossible for the cube" << std::endl;
 			}
+		}
+	}
+
+	void Cube::applyExternalForces(ParticleManager* pParticleManager, float dt){
+		for(unsigned int i = 0; i < m_facetteForceArray.size(); ++i){
+			m_facetteForceArray[i].apply(pParticleManager);
 		}
 	}
 

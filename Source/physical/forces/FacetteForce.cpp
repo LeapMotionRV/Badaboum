@@ -12,6 +12,14 @@ namespace physical
 		m_fDt = dt;
 	}
 
+	bool FacetteForce::isParticleInFacet(ParticleManager* pm, int particleIndex){
+		for(unsigned int i = 0; i < m_pFacette->getPointArray().size(); ++i){
+			if(*m_pFacette->getPointArray()[i] == pm->getPositionArray()[particleIndex])
+				return true;
+		}
+		return false;
+	}
+
 	void FacetteForce::apply(ParticleManager* pm){
 		glm::vec3 intersection;
 		glm::vec3 normal;
@@ -19,6 +27,10 @@ namespace physical
 		//boucle sur toutes les particules
 		for (unsigned int particleIndex = 0; particleIndex < pm->getPositionArray().size(); ++particleIndex) 
 		{
+			//particle is part of the facet
+			if(isParticleInFacet(pm, particleIndex))
+				continue;
+
 			ParticleState nextParticleState = m_Solver->getNextState(particleIndex, pm, m_fDt);
 			
 			/*INTERSECTION BETWEEN VECTOR AND PLANE*/

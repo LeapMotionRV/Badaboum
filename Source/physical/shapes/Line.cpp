@@ -66,6 +66,11 @@ namespace physical
 		pParticleManager->addForceToParticle(-getBrakeForce(m_V, dt, link3_pos1, link3_pos2), link3_id2);
 	}
 
+	
+	void Line::applyExternalForces(ParticleManager* pParticleManager, float dt){
+		return;
+	}
+
 	void Line::draw(ParticleManager* pParticuleManager){
 		//get the 3 particles of the line
 		glm::vec3 p1 = pParticuleManager->getPositionArray()[m_part1];

@@ -16,7 +16,7 @@ namespace physical
 		m_pGround->addPolygonAndForce(
 			glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), 
 			glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), 
-			glm::vec3(1.f, 1.f, 0.f), 1.9f);
+			glm::vec3(1.f, 1.f, 0.f), 2.0f);
 
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
@@ -50,6 +50,7 @@ namespace physical
 
 			for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
 				m_pShapeArray[i]->applyInternalForces(m_pParticleManager, dt);
+				m_pShapeArray[i]->applyExternalForces(m_pParticleManager, dt);
 			}
 		}
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
@@ -63,7 +64,7 @@ namespace physical
 		//glm::vec3 randomCenter = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
 		//float randomSize = glm::linearRand(0.5f,2.f);
 		//Cube* pCube = new Cube(m_pParticleManager, size, center);
-		Cube* pCube = new Cube(m_pParticleManager, 1.f, glm::vec3(1.f, glm::linearRand(-1.f,5.f), 0.f));
+		Cube* pCube = new Cube(m_pLeapfrogSolver, m_pParticleManager, 1.f, glm::vec3(1.f, glm::linearRand(-1.f,5.f), 0.f));
 		m_pShapeArray.push_back(pCube);
 	}
 

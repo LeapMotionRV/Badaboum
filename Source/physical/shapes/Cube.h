@@ -5,6 +5,7 @@
 #include "Shape.h"
 #include "../ParticleManager.h"
 #include "Facette.h"
+#include "../forces/FacetteForce.h"
 
 
 namespace physical
@@ -13,10 +14,11 @@ namespace physical
 	{
 	public:
 		//construct
-		Cube(ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color = glm::vec3(0.f, 0.f, 1.f));
+		Cube(LeapfrogSolver* pLeapfrogSolver, ParticleManager* pParticuleManager, float size, glm::vec3 center, glm::vec3 color = glm::vec3(0.f, 0.f, 1.f));
 		void addFacet(ParticleManager* pParticleManager, unsigned int firstPoint, unsigned int secondPoint, unsigned int thirdPoint);
 		//forces
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
+		void applyExternalForces(ParticleManager* pParticleManager, float dt);
 		//draw
 		void draw(ParticleManager* pParticuleManager);
 		//void drawWithFacets(ParticleManager* pParticuleManager);
@@ -58,6 +60,7 @@ namespace physical
 		unsigned int	m_part_center6;//right face
 
 		std::vector<Facette> m_facets;
+		std::vector<FacetteForce> m_facetteForceArray;
 	};
 }
 

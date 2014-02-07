@@ -15,11 +15,11 @@ namespace physical
 	class FacetteForce : public Force
 	{
 	public:
-		FacetteForce(){};
 		FacetteForce(const Facette* pFacette, float elasticity, const LeapfrogSolver* solver):m_pFacette(pFacette), m_fElasticity(elasticity), m_Solver(solver), m_fDt(0.0001f){};
 		
-		void setDt(float dt);
-				
+		bool isParticleInFacet(ParticleManager* pParticleManager, int particleIndex);
+
+		void setDt(float dt);		
 		void apply(ParticleManager* pm);
 	private:
 		//pointe sur le Facettee repoussant les particules
