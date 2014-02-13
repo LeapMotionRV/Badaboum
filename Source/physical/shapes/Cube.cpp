@@ -30,7 +30,7 @@ namespace physical
 		m_K3 = coeffK * m_L3;
 
 		//brake
-		float coefV = 0.0001f;
+		float coefV = 0.00001f;
 		m_V0 = coefV;
 		/*m_V1 = 0.001f;
 		m_V2 = 0.001f;
@@ -211,6 +211,7 @@ namespace physical
 
 	void Cube::applyExternalForces(ParticleManager* pParticleManager, float dt){
 		for(unsigned int i = 0; i < m_facetteForceArray.size(); ++i){
+			m_facetteForceArray[i].setDt(dt);
 			m_facetteForceArray[i].apply(pParticleManager);
 		}
 	}
