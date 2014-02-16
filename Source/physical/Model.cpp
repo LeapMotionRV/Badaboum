@@ -60,14 +60,6 @@ namespace physical
 		m_pParticleManager->addRandomParticles(1);
 	}
 
-	void Model::addRandomCube(){
-		//glm::vec3 randomCenter = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
-		//float randomSize = glm::linearRand(0.5f,2.f);
-		//Cube* pCube = new Cube(m_pParticleManager, size, center);
-		Cube* pCube = new Cube(m_pLeapfrogSolver, m_pParticleManager, 1.f, glm::vec3(1.f, glm::linearRand(-1.f,5.f), 0.f));
-		m_pShapeArray.push_back(pCube);
-	}
-
 	void Model::addRandomLine(){
 		glm::vec3 startedPoint = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
 		float size = 1.f;

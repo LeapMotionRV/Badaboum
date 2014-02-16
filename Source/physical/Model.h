@@ -9,9 +9,7 @@
 #include "forces/BrakeForce.h"
 #include "forces/FacetteForce.h"
 #include "Ground.h"
-#include "shapes/Cube.h"
 #include "shapes/Line.h"
-#include "shapes/Flag.h"
 #include "shapes/Facette.h"
 #include "forces/GraphHookForce.h"
 #include "forces/GraphBrakeForce.h"
@@ -30,7 +28,6 @@ namespace physical
 
 		//create data for the scene
 		void addRandomParticle();//called when press "P"
-		void addRandomCube();//called when press "C"
 		void addRandomLine();//called when press "L"
 
 		//getters
@@ -44,7 +41,6 @@ namespace physical
 		std::vector<GraphHookForce*>	getGraphHookForceArray(){return m_pGraphHookForceArray;}
 		std::vector<GraphBrakeForce*>	getGraphBrakeForceArray(){return m_pGraphBrakeForceArray;}
 		Ground*							getGround(){return m_pGround;}
-		Flag*							getFlag(){return dynamic_cast<physical::Flag*>(m_pShapeArray[0]);}
 		Facette*						getFacette(){return m_pFacette;}
 
 	private:

@@ -1464,9 +1464,6 @@
     <ClCompile Include="..\..\Source\physical\forces\PolygonForce.cpp">
       <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\physical\shapes\Cube.cpp">
-      <Filter>Badaboum\Source\physical\shapes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp">
       <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClCompile>
@@ -1490,9 +1487,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\physical\Ground.cpp">
       <Filter>Badaboum\Source\physical</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\physical\shapes\Flag.cpp">
-      <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\physical\shapes\Facette.cpp">
       <Filter>Badaboum\Source\physical\shapes</Filter>
@@ -2849,9 +2843,6 @@
     <ClInclude Include="..\..\Source\physical\forces\PolygonForce.h">
       <Filter>Badaboum\Source\physical\forces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\shapes\Cube.h">
-      <Filter>Badaboum\Source\physical\shapes</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\physical\shapes\Polygon.h">
       <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClInclude>
@@ -2872,9 +2863,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\Ground.h">
       <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\physical\shapes\Flag.h">
-      <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\shapes\Facette.h">
       <Filter>Badaboum\Source\physical\shapes</Filter>

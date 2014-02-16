@@ -39,8 +39,7 @@ namespace render
 					"Arrow Keys  - Rotate camera\n"
 					"\n"
 					"p  - Create a random particle\n"
-					"l  - Create a random line\n"
-					"c  - Create a random cube\n";
+					"l  - Create a random line\n";
 		m_strPrompt = "Press 'h' for help";
 	}
 
@@ -189,9 +188,6 @@ namespace render
 				break;
 			case 'P': //add a particle
 				m_model.addRandomParticle();
-				break;
-			case 'C': //add a cube
-				m_model.addRandomCube();
 				break;
 			case 'L': //add a line
 				m_model.addRandomLine();
