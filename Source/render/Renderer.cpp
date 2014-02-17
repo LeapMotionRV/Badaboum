@@ -155,10 +155,10 @@ namespace render
 					avgPos += fingers[i].tipPosition();
 				}
 				avgPos /= (float)fingers.count();
-				int number = (int)fingers.count();
+				/*int number = (int)fingers.count();
 				if(number > 0) {
-					//OutputDebugString("finger detected\n");
-				}
+					OutputDebugString("finger detected\n");
+				}*/
 			}
 
 			// Get the hand's sphere radius and palm position
@@ -168,6 +168,15 @@ namespace render
 			// Get the hand's normal vector and direction
 			const Leap::Vector normal = hand.palmNormal();
 			const Leap::Vector direction = hand.direction();
+			
+			//Move the camera with the leap motion, depend on the vector direction of the finger
+			// 1 finger => move forward (+z)
+			// > 1 fingers => move back (-z)
+			int number = (int)fingers.count();
+			if(number == 1)
+				m_camera.Move(direction/100);
+			else if(number > 1)
+				m_camera.Move(Leap::Vector(direction[0]/100, direction[1]/100, -direction[2]/100));
 
 			// Calculate the hand's pitch, roll, and yaw angles
 			std::cout << "Hand pitch: " << direction.pitch() * Leap::RAD_TO_DEG << " degrees, "
@@ -273,25 +282,29 @@ namespace render
 		//UP
 		if ( iKeyCode == KeyPress::upKey )
 		{
-			m_camera.RotateOrbit( 0, 0, LeapUtil::kfHalfPi * -0.05f );
+			//m_camera.RotateOrbit( 0, 0, LeapUtil::kfHalfPi * -0.05f );
+			m_camera.Move(Leap::Vector(0.f, 0.2f, 0.f));
 			return true;
 		}
 		//DOWN
 		if ( iKeyCode == KeyPress::downKey )
 		{
-			m_camera.RotateOrbit( 0, 0, LeapUtil::kfHalfPi * 0.05f );
+			//m_camera.RotateOrbit( 0, 0, LeapUtil::kfHalfPi * 0.05f );
+			m_camera.Move(Leap::Vector(0.f, -0.2f, 0.f));
 			return true;
 		}
 		//LEFT
 		if ( iKeyCode == KeyPress::leftKey )
 		{
-			m_camera.RotateOrbit( 0, LeapUtil::kfHalfPi * -0.05f, 0 );
+			//m_camera.RotateOrbit( 0, LeapUtil::kfHalfPi * -0.05f, 0 );
+			m_camera.Move(Leap::Vector(-0.2f, 0.f, 0.f));
 			return true;
 		}
 		//RIGHT
 		if ( iKeyCode == KeyPress::rightKey )
 		{
-			m_camera.RotateOrbit( 0, LeapUtil::kfHalfPi * 0.05f, 0 );
+			//m_camera.RotateOrbit( 0, LeapUtil::kfHalfPi * 0.05f, 0 );
+			m_camera.Move(Leap::Vector(0.2f, 0.f, 0.f));
 			return true;
 		}
 		//ESCAPE
