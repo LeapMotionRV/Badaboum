@@ -31,8 +31,7 @@ namespace physical
 		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ParticleManager*				getParticuleManager(){return m_pParticleManager;}
 		LinkManager*					getLinkManager(){return m_pLinkManager;}
-		ConstantForce*					getGravity(){return m_pGravity;}
-		ConstantForce*					getWind(){return m_pWind;}
+		std::vector<ConstantForce*>		getConstantForceArray(){return m_constantForceArray;}
 		Ground*							getGround(){return m_pGround;}
 
 	private:
@@ -41,8 +40,7 @@ namespace physical
 		ParticleManager*				m_pParticleManager;
 		LinkManager*					m_pLinkManager;
 		//forces
-		ConstantForce*					m_pGravity;
-		ConstantForce*					m_pWind;
+		std::vector<ConstantForce*>		m_constantForceArray; //contains gravity, possible wind, etc...
 		//getters - physical object + forces
 		Ground*							m_pGround;
 	};

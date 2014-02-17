@@ -150,7 +150,6 @@ namespace render
 			if (!fingers.isEmpty()) 
 			{
 				// Calculate the hand's average finger tip position
-
 				for (int i = 0; i < fingers.count(); ++i) 
 				{
 					avgPos += fingers[i].tipPosition();
@@ -182,7 +181,6 @@ namespace render
 		{
 			Leap::Gesture gesture = gestures[g];
 
-
 			switch (gesture.type()) 
 			{
 				case Leap::Gesture::TYPE_CIRCLE:
@@ -194,7 +192,6 @@ namespace render
 					if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) 
 					{
 						clockwiseness = "clockwise";
-						
 					} 
 					else 
 					{
@@ -219,12 +216,11 @@ namespace render
 				}
 				case Leap::Gesture::TYPE_SWIPE:
 				{
-					
 					Leap::SwipeGesture swipe = gesture;
 
 					glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/100, swipe.direction().y*swipe.speed()/100, swipe.direction().z*swipe.speed()/100);
-					physical::ConstantForce* wind = new physical::ConstantForce(force);
-					wind->apply(m_model.getParticuleManager());
+					physical::ConstantForce wind = physical::ConstantForce(force);
+					wind.apply(m_model.getParticuleManager());
 
 					std::cout << "Swipe id: " << gesture.id()
 						<< ", state: " << gesture.state()

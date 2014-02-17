@@ -18,25 +18,24 @@ namespace physical
 		initParticleGround(m_pParticleManager->getNbFixedParticles());
 
 		//forces
-		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
-		m_pWind = new ConstantForce(glm::vec3(0.02f, -0.01f, 0.f));
+		m_constantForceArray = std::vector<ConstantForce*>();
+		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f))); //gravity
 	}
 
 	Model::~Model(){
 		delete m_pLeapfrogSolver;
 		delete m_pParticleManager;
 		delete m_pLinkManager;
-		delete m_pGravity;
-		delete m_pWind;
 		delete m_pGround;
+		for(std::vector<ConstantForce*>::iterator it = m_constantForceArray.begin(); it != m_constantForceArray.end(); ){
+			it = m_constantForceArray.erase(it);
+		}
 	}
 
 	void Model::initParticleGround(float size){
 		for(int i=0; i<size; ++i){
 			for(int j=0; j<size; ++j){
 				float mass = 1.f;
-				if (i == 1 && i == j)
-					mass = 5.f;
 				m_pParticleManager->addParticle(glm::vec3(-size/2.f+0.5f+1.f*i, 1.f, -size/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
 			}
 		}
@@ -52,7 +51,9 @@ namespace physical
 	void Model::startSimulation(float dt) 
 	{
 		if(dt != 0) {
-			m_pGravity->apply(m_pParticleManager);
+			for(unsigned int i = 0; i < m_constantForceArray.size(); ++i){
+				m_constantForceArray[i]->apply(m_pParticleManager);
+			}
 			m_pGround->apply(m_pParticleManager, dt);
 			m_pLinkManager->apply(dt);
 		}
@@ -60,13 +61,12 @@ namespace physical
 	}
 
 	void Model::addRandomParticle(){
-		glm::vec3 position = glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f));
-		glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
-		float mass = 1.f;
-		glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
-		glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
-		unsigned int idParticle = m_pParticleManager->addParticle(position, speed, mass, force, color);
-
+		unsigned int idParticle = m_pParticleManager->addParticle(
+			glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f)), 
+			glm::vec3(0.f, 0.f, 0.f), 
+			1.f, 
+			glm::vec3(0.f, 0.f, 0.f), 
+			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
 		m_pLinkManager->addLinksForParticle(idParticle);
 	}
 

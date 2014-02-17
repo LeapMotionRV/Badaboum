@@ -16,7 +16,7 @@ namespace physical
 		//rigidity
 		m_K = 2.f;
 		//brake
-		m_V = 0.001f;
+		m_V = 0.0001f;
 	}
 
 	void Link::applyInternalForces(ParticleManager* pm, float dt){

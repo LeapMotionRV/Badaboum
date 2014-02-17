@@ -25,20 +25,18 @@ namespace physical
 	}
 
 	unsigned int ParticleManager::addParticleWhereLeapIs(glm::vec3 pos){
-		glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
-		float mass = glm::linearRand(0.01f,0.5f);
-		glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
-		glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
-		return addParticle(pos, speed, mass, force, color);
+		return addParticle(pos, glm::vec3(0.f, 0.f, 0.f), glm::linearRand(1.f,3.f), glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
     }
 
 	void ParticleManager::addRandomParticles(unsigned int count){
 		for(size_t i = 0; i < count; ++i) {
-			glm::vec3 position = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f));
-			glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
-			glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
-			glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
-            addParticle(position, speed, glm::linearRand(0.01f,0.5f), force, color);
+            addParticle(
+				glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				glm::linearRand(1.f, 5.f), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
         }
 	}
 	
