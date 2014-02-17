@@ -19,7 +19,7 @@ namespace physical
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
 		m_pWind = new ConstantForce(glm::vec3(0.02f, -0.01f, 0.f));
-		initParticleGround(20);
+		initParticleGround(m_pParticleManager->getNbFixedParticles());
 	}
 
 	Model::~Model(){
@@ -59,6 +59,7 @@ namespace physical
 		if(dt != 0) {
 			m_pGravity->apply(m_pParticleManager);
 			m_pGround->apply(m_pParticleManager, dt);
+			m_pLinkManager->apply(dt);
 
 			for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
 				m_pShapeArray[i]->applyInternalForces(m_pParticleManager, dt);
@@ -71,7 +72,7 @@ namespace physical
 	void Model::addRandomParticle(){
 		glm::vec3 position = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(0.f,5.f));
 		glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
-		float mass = glm::linearRand(0.01f,0.5f);
+		float mass = 1.f;
 		glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
 		glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
 		unsigned int idParticle = m_pParticleManager->addParticle(position, speed, mass, force, color);

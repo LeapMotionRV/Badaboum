@@ -21,6 +21,7 @@ namespace physical
 		std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
 		std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
 		std::vector<float>		getMassArray() const {return m_massArray;}
+		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
 		
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
@@ -41,11 +42,12 @@ namespace physical
 		void drawParticles(render::ParticleRenderer& renderer);
 		
 	private:
-		std::vector<glm::vec3> m_positionArray;
-		std::vector<glm::vec3> m_speedArray;
-		std::vector<float> m_massArray;
-		std::vector<glm::vec3> m_forceArray;
-		std::vector<glm::vec3> m_colorArray;
+		std::vector<glm::vec3>	m_positionArray;
+		std::vector<glm::vec3>	m_speedArray;
+		std::vector<float>		m_massArray;
+		std::vector<glm::vec3>	m_forceArray;
+		std::vector<glm::vec3>	m_colorArray;
+		const unsigned int		m_nbFixedParticles;
 	};
 
 	struct ParticleState {

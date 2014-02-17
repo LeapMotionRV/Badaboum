@@ -23,13 +23,16 @@ namespace physical
 		void addLink(size_t idParticle1, size_t idParticle2);
 		void addLinksForParticle(size_t idParticle);
 
+		//forces
+		void apply(float dt);
+
 		//draw
 		void drawLinks();
 
 	private:
 		std::vector<Link*>	m_linkArray;
 		ParticleManager*	m_pParticleManager;
-		float				m_maxStepToCreateLink;
+		const float			m_maxStepToCreateLink;
 	};
 }
 

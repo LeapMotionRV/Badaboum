@@ -5,7 +5,8 @@
 
 namespace physical 
 {
-	ParticleManager::ParticleManager(){
+	ParticleManager::ParticleManager():m_nbFixedParticles(5)
+	{
 		m_positionArray = std::vector<glm::vec3>();
 		m_speedArray = std::vector<glm::vec3>();
 		m_massArray = std::vector<float>();

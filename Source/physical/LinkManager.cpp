@@ -3,10 +3,10 @@
 
 namespace physical 
 {
-	LinkManager::LinkManager(ParticleManager* pm){
+	LinkManager::LinkManager(ParticleManager* pm):m_maxStepToCreateLink(5.f)
+	{
 		m_linkArray = std::vector<Link*>();
 		m_pParticleManager = pm;
-		m_maxStepToCreateLink = 5.f;
 	}
 
 	void LinkManager::addLink(size_t idParticle1, size_t idParticle2){
@@ -25,6 +25,13 @@ namespace physical
 				vectorDistance.z < m_maxStepToCreateLink){
 					addLink(idParticle, currentIdParticle);
 			}
+		}
+	}
+
+	void LinkManager::apply(float dt){
+		for(size_t linkId = 0; linkId < m_linkArray.size(); linkId++){
+			m_linkArray[linkId]->applyExternalForces(m_pParticleManager, dt);
+			m_linkArray[linkId]->applyInternalForces(m_pParticleManager, dt);
 		}
 	}
 
