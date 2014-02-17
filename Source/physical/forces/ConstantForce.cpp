@@ -5,8 +5,7 @@ namespace physical
 	void ConstantForce::apply(ParticleManager* pm){
 		std::vector<glm::vec3> forceArray = pm->getForceArray();
 		for(size_t i = 0; i < forceArray.size(); i++){
-			if(!pm->isFixedParticle(i))
-				pm->addForceToParticle(m_force, i);
+			pm->addForceToParticle(m_force, i);
 		}
 	}
 

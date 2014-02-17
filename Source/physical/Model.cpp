@@ -2,8 +2,6 @@
 #include <string>
 
 #include "Model.h"
-#include "shapes\Line.h"
-#include "../util/LeapUtilGL.h"
 
 namespace physical 
 {
@@ -28,9 +26,6 @@ namespace physical
 		delete m_pLeapfrogSolver;
 		delete m_pParticleManager;
 		delete m_pLinkManager;
-		for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
-			delete m_pShapeArray[i];
-		}
 		delete m_pGravity;
 		delete m_pWind;
 		delete m_pGround;
@@ -60,11 +55,6 @@ namespace physical
 			m_pGravity->apply(m_pParticleManager);
 			m_pGround->apply(m_pParticleManager, dt);
 			m_pLinkManager->apply(dt);
-
-			for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
-				m_pShapeArray[i]->applyInternalForces(m_pParticleManager, dt);
-				m_pShapeArray[i]->applyExternalForces(m_pParticleManager, dt);
-			}
 		}
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
@@ -78,13 +68,6 @@ namespace physical
 		unsigned int idParticle = m_pParticleManager->addParticle(position, speed, mass, force, color);
 
 		m_pLinkManager->addLinksForParticle(idParticle);
-	}
-
-	void Model::addRandomLine(){
-		glm::vec3 startedPoint = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
-		float size = 1.f;
-		Line* pLine = new Line(m_pParticleManager, size, startedPoint);
-		m_pShapeArray.push_back(pLine);
 	}
 
 	void Model::addParticleWhereLeapIs(glm::vec3 pos){

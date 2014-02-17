@@ -51,8 +51,7 @@ namespace render
 					"Mouse Wheel - Zoom camera\n"
 					"Arrow Keys  - Rotate camera\n"
 					"\n"
-					"p  - Create a random particle\n"
-					"l  - Create a random line\n";
+					"p  - Create a random particle\n";
 		m_strPrompt = "Press 'h' for help";
 	}
 
@@ -132,10 +131,6 @@ namespace render
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
 		m_model.getLinkManager()->drawLinks();
-		//draw shapes
-		for(unsigned int i = 0; i < m_model.getShapeArray().size(); ++i){
-			m_model.getShapeArray()[i]->draw(m_model.getParticuleManager());
-		}
 		// draw fingers/tools as lines with sphere at the tip.
 		drawPointables( frame );
 		// draw the text overlay
@@ -323,9 +318,6 @@ namespace render
 				break;
 			case 'P': //add a particle
 				m_model.addRandomParticle();
-				break;
-			case 'L': //add a line
-				m_model.addRandomLine();
 				break;
 			default:
 				return false;

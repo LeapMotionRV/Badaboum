@@ -7,6 +7,7 @@ namespace physical {
 
 	void LeapfrogSolver::solve(ParticleManager* pm, float dt) {
 		for(size_t i = 0; i < pm->getForceArray().size(); i++){
+			//if the particle is not a fixed point
 			if(!pm->isFixedParticle(i)){
 				glm::vec3 nextSpeed = pm->getSpeedArray()[i] + dt * (pm->getForceArray()[i] / pm->getMassArray()[i]);
 				glm::vec3 nextPosition = pm->getPositionArray()[i] + dt * nextSpeed;
