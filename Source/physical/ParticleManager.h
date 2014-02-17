@@ -26,6 +26,8 @@ namespace physical
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
+		bool isFixedParticle(size_t idParticle) {return (idParticle < m_nbFixedParticles*m_nbFixedParticles) ? true : false;}
+
 		//setters
 		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
@@ -33,8 +35,8 @@ namespace physical
 
 		//add particles and manipulate them
 		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
+		unsigned int	addParticleWhereLeapIs(glm::vec3 pos);
 		void			addRandomParticles(unsigned int count);
-		void			addParticleWhereLeapIs(glm::vec3 pos);
 		void			addForceToParticle(glm::vec3 force, size_t index);
 		void			resetForceOfParticle(size_t index);
 		void			move(float maxDist);

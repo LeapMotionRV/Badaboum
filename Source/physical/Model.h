@@ -23,6 +23,7 @@ namespace physical
 		//create data for the scene
 		void addRandomParticle();//called when press "P"
 		void addRandomLine();//called when press "L"
+		void addParticleWhereLeapIs(glm::vec3 pos); //with leap motion
 		void initParticleGround(float size);
 		void initGround(float size);
 

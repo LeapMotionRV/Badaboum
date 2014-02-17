@@ -7,10 +7,12 @@ namespace physical {
 
 	void LeapfrogSolver::solve(ParticleManager* pm, float dt) {
 		for(size_t i = 0; i < pm->getForceArray().size(); i++){
-			glm::vec3 nextSpeed = pm->getSpeedArray()[i] + dt * (pm->getForceArray()[i] / pm->getMassArray()[i]);
-			glm::vec3 nextPosition = pm->getPositionArray()[i] + dt * nextSpeed;
-			pm->setSpeedOfParticle(nextSpeed, i);
-			pm->setPositionOfParticle(nextPosition, i);
+			if(!pm->isFixedParticle(i)){
+				glm::vec3 nextSpeed = pm->getSpeedArray()[i] + dt * (pm->getForceArray()[i] / pm->getMassArray()[i]);
+				glm::vec3 nextPosition = pm->getPositionArray()[i] + dt * nextSpeed;
+				pm->setSpeedOfParticle(nextSpeed, i);
+				pm->setPositionOfParticle(nextPosition, i);
+			}
 			pm->resetForceOfParticle(i);
 		}
 	}

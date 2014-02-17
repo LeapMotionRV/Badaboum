@@ -23,11 +23,11 @@ namespace physical
 
 	private:
 		//lenght of springs
-		glm::vec3 m_L;
+		float m_L;
 		//rigidity
 		float m_K;
 		//brake
-		float m_V;
+		float m_V;//if you want the system to be more stable, decrease this variable
 	};
 }
 
