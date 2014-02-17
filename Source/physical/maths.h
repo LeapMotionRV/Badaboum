@@ -54,11 +54,12 @@ namespace physical
 	}
 
 	//intersection between plane and p1p2 vector (p1 position of particle in t and p2 position of particle in t+dt
-	inline bool intersectInfinitePlane(const Polygon* plane, const glm::vec3& p1, const glm::vec3& p2, glm::vec3* intersection, glm::vec3* normal) 
+	inline bool intersectInfinitePlane(const Polygon* plane, const glm::vec3& p1, const glm::vec3& p2, glm::vec3* intersection, glm::vec3* normal, float size) 
 	{
-		
+		// le radius permet que les particules se posent sur le terrain sans que ça soit au niveau de leur centre
+		float radius = size*0.025f;
 		//Direction of our particle
-		glm::vec3 dir = p2 - p1; // Vecteur p1p2
+		glm::vec3 dir = p2-radius - p1-radius; // Vecteur p1p2
 
 		//Compute the normal vector of the plane
 		//Get the three points defining the plane
@@ -91,12 +92,12 @@ namespace physical
 		float c = normale[2];
 		//I is on the plane so ax0 + by0 + cz0 + d = 0
 		//we determined k thanks to this expression
-		float k = -(a*p1[0] + b*p1[1] + c*p1[2] + d) / (a*dir[0] + b * dir[1] + c*dir[2]);
+		float k = -(a*p1[0]-radius + b*p1[1]-radius + c*p1[2]-radius + d) / (a*dir[0] + b * dir[1] + c*dir[2]);
 	
 		// same result with : float k2 = - glm::dot(normale, p1 - A) / glm::dot(normale, dir);
 
 		//find the intersection point	
-		glm::vec3 I = p1 + k * dir;
+		glm::vec3 I = p1-radius + k * dir;
 		
 		//if I isn't on p1p2
 		if(k < 0.f || k > 1.f ){
