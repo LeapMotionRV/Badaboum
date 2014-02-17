@@ -66,4 +66,5 @@ namespace physical
 		Line* pLine = new Line(m_pParticleManager, size, startedPoint);
 		m_pShapeArray.push_back(pLine);
 	}
+
 }

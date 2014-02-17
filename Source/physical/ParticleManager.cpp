@@ -23,9 +23,11 @@ namespace physical
 		return m_positionArray.size() - 1;
 	}
 
+	
+
 	void ParticleManager::addRandomParticles(unsigned int count){
 		for(size_t i = 0; i < count; ++i) {
-			glm::vec3 position = glm::vec3(1.2f, glm::linearRand(-1.f,5.f), 0.f);//glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(-5.f,5.f));
+			glm::vec3 position = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f));
 			glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
 			glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
 			glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
@@ -63,5 +65,13 @@ namespace physical
 
     void ParticleManager::resetForceOfParticle(size_t index){
     		m_forceArray[index] = glm::vec3(0.f, 0.f, 0.f);
+    }
+
+	void ParticleManager::addParticleWhereLeapIs(glm::vec3 pos){
+		m_positionArray.push_back(pos);
+		m_speedArray.push_back(glm::vec3(0.f, 0.f, 0.f));
+		m_massArray.push_back(glm::linearRand(0.01f,0.5f));
+		m_forceArray.push_back(glm::vec3(0.f, 0.f, 0.f));
+		m_colorArray.push_back(glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
     }
 }

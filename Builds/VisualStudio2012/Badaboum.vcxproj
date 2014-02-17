@@ -1245,7 +1245,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp" />
     <ClCompile Include="..\..\Source\render\Renderer.cpp" />
     <ClCompile Include="..\..\Source\render\Skybox.cpp" />
-    <ClCompile Include="..\..\Source\render\Window.cpp" />
+    <ClCompile Include="..\..\Source\render\WindowScreen.cpp" />
     <ClCompile Include="..\..\Source\util\LeapScene.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtil.cpp" />
     <ClCompile Include="..\..\Source\util\LeapUtilGL.cpp" />
@@ -1705,7 +1705,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\render\ParticleRenderer.h" />
     <ClInclude Include="..\..\Source\render\Renderer.h" />
     <ClInclude Include="..\..\Source\render\Skybox.h" />
-    <ClInclude Include="..\..\Source\render\Window.h" />
+    <ClInclude Include="..\..\Source\render\WindowScreen.h" />
     <ClInclude Include="..\..\Source\util\LeapScene.h" />
     <ClInclude Include="..\..\Source\util\LeapUtil.h" />
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h" />

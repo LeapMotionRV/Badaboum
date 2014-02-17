@@ -35,6 +35,7 @@ namespace physical
 		//add particles and manipulate them
 		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
 		void			addRandomParticles(unsigned int count);
+		void			addParticleWhereLeapIs(glm::vec3 pos);
 		void			addForceToParticle(glm::vec3 force, size_t index);
 		void			resetForceOfParticle(size_t index);
 		void			move(float maxDist);

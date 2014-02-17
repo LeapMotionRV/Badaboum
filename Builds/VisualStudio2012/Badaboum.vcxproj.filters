@@ -1440,9 +1440,6 @@
     <ClCompile Include="..\..\Source\render\Skybox.cpp">
       <Filter>Badaboum\Source\render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\render\Window.cpp">
-      <Filter>Badaboum\Source\render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\physical\LeapfrogSolver.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
@@ -1493,6 +1490,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\physical\forces\FacetteForce.cpp">
       <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\render\WindowScreen.cpp">
+      <Filter>Badaboum\Source\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2813,9 +2813,6 @@
     <ClInclude Include="..\..\Source\render\Skybox.h">
       <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\render\Window.h">
-      <Filter>Badaboum\Source\render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\physical\Model.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
@@ -2869,6 +2866,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\forces\FacetteForce.h">
       <Filter>Badaboum\Source\physical\forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\render\WindowScreen.h">
+      <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
