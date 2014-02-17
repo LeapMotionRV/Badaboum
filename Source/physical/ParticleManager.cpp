@@ -5,7 +5,8 @@
 
 namespace physical 
 {
-	ParticleManager::ParticleManager(){
+	ParticleManager::ParticleManager():m_nbFixedParticles(5)
+	{
 		m_positionArray = std::vector<glm::vec3>();
 		m_speedArray = std::vector<glm::vec3>();
 		m_massArray = std::vector<float>();
@@ -43,15 +44,6 @@ namespace physical
 							&m_colorArray[0]);
 		}
     }
-
-	/*void ParticleManager::drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer){
-    	renderer.drawLines(graph->size(),
-                   graph,
-                   m_positionArray.size(),
-                   &m_positionArray[0],
-                   &m_colorArray[0],
-                   1.f);
-    }*/
     
     void ParticleManager::move(float maxDist) {
         for(unsigned int i = 0; i < m_positionArray.size(); ++i) {

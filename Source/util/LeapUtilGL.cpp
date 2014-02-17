@@ -134,7 +134,7 @@ void drawSphere( eStyle style, float size )
     break;
   }
 
-  gluSphere( s_quadric, size, 32, 32 );
+  gluSphere( s_quadric, size*0.05, 32, 32 );
 
   switch ( style )
   {

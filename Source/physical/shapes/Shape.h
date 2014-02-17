@@ -16,7 +16,7 @@ namespace physical
 		Shape();
 		~Shape();
 		
-		//need to be implemented in subclass
+		//need to be implemented in subclasses
 		virtual void applyInternalForces(ParticleManager* pParticleManager, float dt) = 0;
 		virtual void applyExternalForces(ParticleManager* pParticleManager, float dt) = 0;
 		virtual void draw(ParticleManager* pParticuleManager) = 0;

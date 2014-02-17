@@ -131,6 +131,7 @@ namespace render
 		m_model.getGround()->draw();
 		// draw particles
 		m_model.getParticuleManager()->drawParticles(m_particleRenderer);
+		m_model.getLinkManager()->drawLinks();
 		//draw shapes
 		for(unsigned int i = 0; i < m_model.getShapeArray().size(); ++i){
 			m_model.getShapeArray()[i]->draw(m_model.getParticuleManager());
