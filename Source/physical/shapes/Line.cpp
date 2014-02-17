@@ -23,7 +23,7 @@ namespace physical
 
 		//create particles
 		glm::vec3 speed = glm::vec3(0.f);
-		float mass = 0.1f;
+		float mass = 1.f;
 		glm::vec3 force = glm::vec3(0.f);
 		m_part1 = pParticuleManager->addParticle(glm::vec3(startedPoint.x, startedPoint.y, startedPoint.z), speed, mass, force, m_color);
 		m_part2 = pParticuleManager->addParticle(glm::vec3(startedPoint.x, startedPoint.y+size, startedPoint.z), speed, mass, force, m_color);

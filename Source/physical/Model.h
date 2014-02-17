@@ -29,6 +29,8 @@ namespace physical
 		//create data for the scene
 		void addRandomParticle();//called when press "P"
 		void addRandomLine();//called when press "L"
+		void initParticleGround(float size);
+		void initGround(float size);
 
 		//getters
 		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}

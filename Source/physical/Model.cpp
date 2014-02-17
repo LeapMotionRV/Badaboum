@@ -13,14 +13,11 @@ namespace physical
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		m_pGround->addPolygonAndForce(
-			glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), 
-			glm::vec3(-25.f, -2.f, 25.f), glm::vec3(25.f, -2.f, 25.f), 
-			glm::vec3(1.f, 1.f, 0.f), 2.0f);
 
 		//forces
 		m_pGravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
 		m_pWind = new ConstantForce(glm::vec3(0.02f, -0.01f, 0.f));
+		initParticleGround(20);
 	}
 
 	Model::~Model(){
@@ -40,6 +37,26 @@ namespace physical
 			delete m_pGraphBrakeForceArray[i];
 		}
 		delete m_pGround;
+	}
+
+	void Model::initParticleGround(float size){
+	m_pGround->addPolygonAndForce(
+			glm::vec3(-size/2.f, 0.f, -size/2.f), glm::vec3(size/2.f, 0.f, -size/2.f), 
+			glm::vec3(-size/2.f, 0.f, size/2.f), glm::vec3(size/2.f, 0.f, size/2.f), 
+			glm::vec3(1.f, 1.f, 0.f), 1.f);
+		for(int i=0; i<size; ++i){
+			for(int j=0; j<size; ++j){
+				m_pParticleManager->addParticle(glm::vec3(-size/2.f+0.5f+1.f*i, 1.f, -size/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), 7.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
+			}
+		}
+	}
+
+	
+	void Model::initGround(float size){
+	m_pGround->addPolygonAndForce(
+			glm::vec3(-size/2.f, 0.f, -size/2.f), glm::vec3(size/2.f, 0.f, -size/2.f), 
+			glm::vec3(-size/2.f, 0.f, size/2.f), glm::vec3(size/2.f, 0.f, size/2.f), 
+			glm::vec3(1.f, 1.f, 0.f), 1.f);
 	}
 
 	void Model::startSimulation(float dt) 
