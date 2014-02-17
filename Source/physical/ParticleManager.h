@@ -15,6 +15,7 @@ namespace physical
 	class ParticleManager {
 	public:
 		ParticleManager();
+		void initFixedParticles(float size);
 
 		//getters
 		std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}

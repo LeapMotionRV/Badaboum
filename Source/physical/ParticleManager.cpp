@@ -14,6 +14,15 @@ namespace physical
 		m_colorArray = std::vector<glm::vec3>();
 	}
 
+	void ParticleManager::initFixedParticles(float size){
+		for(int i=0; i<size; ++i){
+			for(int j=0; j<size; ++j){
+				float mass = 1.f;
+				addParticle(glm::vec3(-size/2.f+0.5f+1.f*i, 0.2f, -size/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
+			}
+		}
+	}
+
 	unsigned int ParticleManager::addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color) {
 		m_positionArray.push_back(pos);
 		m_speedArray.push_back(speed);

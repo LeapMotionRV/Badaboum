@@ -11,11 +11,11 @@ namespace physical
 
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
+		m_pParticleManager->initFixedParticles(m_pParticleManager->getNbFixedParticles());
 		m_pLinkManager = new LinkManager(m_pParticleManager);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
 		initGround(m_pParticleManager->getNbFixedParticles() * 2);
-		initParticleGround(m_pParticleManager->getNbFixedParticles());
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
@@ -29,15 +29,6 @@ namespace physical
 		delete m_pGround;
 		for(std::vector<ConstantForce*>::iterator it = m_constantForceArray.begin(); it != m_constantForceArray.end(); ){
 			it = m_constantForceArray.erase(it);
-		}
-	}
-
-	void Model::initParticleGround(float size){
-		for(int i=0; i<size; ++i){
-			for(int j=0; j<size; ++j){
-				float mass = 1.f;
-				m_pParticleManager->addParticle(glm::vec3(-size/2.f+0.5f+1.f*i, 1.f, -size/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
-			}
 		}
 	}
 

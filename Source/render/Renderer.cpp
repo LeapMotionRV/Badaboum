@@ -170,12 +170,12 @@ namespace render
 			const Leap::Vector direction = hand.direction();
 			
 			//Move the camera with the leap motion, depend on the vector direction of the finger
-			// 1 finger => move forward (+z)
-			// > 1 fingers => move back (-z)
+			// 2 fingers => move forward (+z)
+			// 3 fingers => move back (-z)
 			int number = (int)fingers.count();
-			if(number == 1)
+			if(number == 2)
 				m_camera.Move(direction/100);
-			else if(number > 1)
+			else if(number == 3)
 				m_camera.Move(Leap::Vector(direction[0]/100, direction[1]/100, -direction[2]/100));
 
 			// Calculate the hand's pitch, roll, and yaw angles
@@ -218,7 +218,7 @@ namespace render
 					if (circle.state() == Leap::Gesture::STATE_STOP)
 					{
 						OutputDebugString("circle completed");
-						m_model.getParticuleManager()->addParticleWhereLeapIs(glm::vec3(circle.center().x/100, circle.center().y/100 - 3, circle.center().z/100));
+						m_model.addParticleWhereLeapIs(glm::vec3(circle.center().x/100, circle.center().y/100 - 3, circle.center().z/100));
 					}
 						
 					break;
@@ -227,7 +227,7 @@ namespace render
 				{
 					Leap::SwipeGesture swipe = gesture;
 
-					glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/100, swipe.direction().y*swipe.speed()/100, swipe.direction().z*swipe.speed()/100);
+					glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/1000, swipe.direction().y*swipe.speed()/1000, swipe.direction().z*swipe.speed()/1000);
 					physical::ConstantForce wind = physical::ConstantForce(force);
 					wind.apply(m_model.getParticuleManager());
 

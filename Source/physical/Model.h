@@ -16,6 +16,7 @@ namespace physical
 	public:
 		Model(unsigned int countParticles = 0);
 		~Model();
+		void initGround(float size);
 
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
@@ -24,8 +25,6 @@ namespace physical
 		void addRandomParticle();//called when press "P"
 		void addRandomLine();//called when press "L"
 		void addParticleWhereLeapIs(glm::vec3 pos); //with leap motion
-		void initParticleGround(float size);
-		void initGround(float size);
 
 		//getters
 		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
