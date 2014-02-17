@@ -25,8 +25,6 @@ namespace physical
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
-		const glm::vec3* getPointeurOnPosition(int idParticule) const { return &(m_positionArray[idParticule]); }
-
 		//setters
 		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
@@ -41,7 +39,6 @@ namespace physical
 
 		//draw
 		void drawParticles(render::ParticleRenderer& renderer);
-		//void drawParticleGraph(const ParticleGraph* graph, render::ParticleRenderer& renderer);
 		
 	private:
 		std::vector<glm::vec3> m_positionArray;

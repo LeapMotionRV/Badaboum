@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Model.h"
+#include "shapes\Line.h"
 #include "../util/LeapUtilGL.h"
 
 namespace physical 
@@ -12,6 +13,7 @@ namespace physical
 
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
+		m_pLinkManager = new LinkManager(m_pParticleManager);
 		m_pGround = new Ground(m_pLeapfrogSolver);
 		m_pGround->addPolygonAndForce(
 			glm::vec3(-25.f, -2.f, -25.f), glm::vec3(25.f, -2.f, -25.f), 
@@ -26,19 +28,12 @@ namespace physical
 	Model::~Model(){
 		delete m_pLeapfrogSolver;
 		delete m_pParticleManager;
+		delete m_pLinkManager;
 		for(unsigned int i = 0; i < m_pShapeArray.size(); ++i){
 			delete m_pShapeArray[i];
 		}
 		delete m_pGravity;
 		delete m_pWind;
-		//delete m_pHookForce;
-		//delete m_pBrakeForce;
-		for(unsigned int i = 0; i < m_pGraphHookForceArray.size(); ++i){
-			delete m_pGraphHookForceArray[i];
-		}
-		for(unsigned int i = 0; i < m_pGraphBrakeForceArray.size(); ++i){
-			delete m_pGraphBrakeForceArray[i];
-		}
 		delete m_pGround;
 	}
 
@@ -57,7 +52,14 @@ namespace physical
 	}
 
 	void Model::addRandomParticle(){
-		m_pParticleManager->addRandomParticles(1);
+		glm::vec3 position = glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,5.f), glm::linearRand(0.f,5.f));
+		glm::vec3 speed = glm::vec3(0.f, 0.f, 0.f);
+		float mass = glm::linearRand(0.01f,0.5f);
+		glm::vec3 force = glm::vec3(0.f, 0.f, 0.f);
+		glm::vec3 color = glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f));
+		unsigned int idParticle = m_pParticleManager->addParticle(position, speed, mass, force, color);
+
+		m_pLinkManager->addLinksForParticle(idParticle);
 	}
 
 	void Model::addRandomLine(){
