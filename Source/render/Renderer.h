@@ -89,7 +89,9 @@ namespace render
 
 		//tools
 		void resetCamera();
+		void resetScene();
 		void initColors();
+		void set3DTransformations();
 
 	private:
 		enum  { kNumColors = 256 };
@@ -112,6 +114,10 @@ namespace render
 		String                      m_strUpdateFPS;
 		String                      m_strRenderFPS;
 		String                      m_strPrompt;
+		/// accumulated rotation/translation and scale from Leap Motion API
+		Leap::Matrix                m_mtxTotalMotionRotation;
+		Leap::Vector                m_vTotalMotionTranslation;
+		float                       m_fTotalMotionScale;
 		//var for help
 		String                      m_strHelp;
 		Font                        m_fixedFont;
