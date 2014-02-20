@@ -31,7 +31,6 @@ namespace render
 		Leap::Controller controller = BadaboumWindow::getController();
 		controller.addListener(*this);
 
-
 		//set var for the help
 		m_bShowHelp = false;
 		m_strHelp = "ESC - quit\n"
@@ -124,6 +123,9 @@ namespace render
 			renderOpenGL2D();
 		}
 
+
+		manageLeapMovements(frame);
+		
 		// ******************** //
 		//  Physical simulation //
 		// ******************** //
@@ -291,166 +293,6 @@ namespace render
 		float fUpdateDT = m_avgUpdateDeltaTime.AddSample( deltaTimeSeconds );
 		float fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
 		m_strUpdateFPS = String::formatted( "UpdateFPS: %4.2f", fUpdateFPS );
-
-		// ******************** //
-		//    Manage camera     //
-		// ******************** //
-		bool isMoving = false;
-
-		static const float kfMinScale = 0.1f;
-        static const float kfMaxScale = 2.0f;
-
-		bool bShouldTranslate = true;
-        bool bShouldRotate    = true;
-        bool bShouldScale     = true;
-		bShouldTranslate = frame.translationProbability(m_lastFrame) > 0.40;
-        bShouldRotate    = frame.rotationProbability(m_lastFrame)    > 0.40;
-        bShouldScale     = frame.scaleProbability(m_lastFrame)       > 0.40;
-
-		//if any hands
-		if (!frame.hands().isEmpty()) 
-		{
-			// Get the first hand
-			const Leap::Hand hand = frame.hands()[0];
-
-			// Check if the hand has any fingers
-			const Leap::FingerList fingers = hand.fingers();
-			if (!fingers.isEmpty()) 
-			{
-				Leap::Vector avgPos;
-				// Calculate the hand's average finger tip position
-				for (int i = 0; i < fingers.count(); ++i) 
-				{
-					avgPos += fingers[i].tipPosition();
-				}
-				avgPos /= (float)fingers.count();
-			}
-
-			// Get the hand's sphere radius and palm position
-			std::cout << "Hand sphere radius: " << hand.sphereRadius()
-						<< " mm, palm position: " << hand.palmPosition() << std::endl;
-
-			// Get the hand's normal vector and direction
-			const Leap::Vector normal = hand.palmNormal();
-			const Leap::Vector direction = hand.direction();
-			
-			//Move the camera with the leap motion
-		/*	int number = (int)fingers.count();
-			if(number > 4){
-				isMoving = true;
-				if(bShouldTranslate)
-					m_vTotalMotionTranslation -= m_mtxTotalMotionRotation.rigidInverse().transformDirection(frame.translation(m_lastFrame)/100);
-				else if(bShouldRotate){
-					m_mtxTotalMotionRotation = frame.rotationMatrix(m_lastFrame) * m_mtxTotalMotionRotation; // Left multiply, relative to last frame
-				}
-				else if(bShouldScale)
-					m_fTotalMotionScale = LeapUtil::Clamp(m_fTotalMotionScale * frame.scaleFactor(m_lastFrame),
-														  kfMinScale,
-														  kfMaxScale );
-			}*/
-
-			// Calculate the hand's pitch, roll, and yaw angles
-			std::cout << "Hand pitch: " << direction.pitch() * Leap::RAD_TO_DEG << " degrees, "
-						<< "roll: " << normal.roll() * Leap::RAD_TO_DEG << " degrees, "
-						<< "yaw: " << direction.yaw() * Leap::RAD_TO_DEG << " degrees" << std::endl;
-		}
-
-		if(!isMoving){
-			// Get gestures
-			const Leap::GestureList gestures = frame.gestures();
-			for (int g = 0; g < gestures.count(); ++g)
-			{
-				Leap::Gesture gesture = gestures[g];
-
-				switch (gesture.type()) 
-				{
-					case Leap::Gesture::TYPE_CIRCLE:
-					{
-						Leap::CircleGesture circle = gesture;
-						OutputDebugString("CircleGesture");
-						std::string clockwiseness;
-
-						//find the circle orientation
-						if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) 
-						{
-							clockwiseness = "clockwise";
-						} 
-						else 
-						{
-							clockwiseness = "counterclockwise";
-						}
-
-						// Calculate angle swept since last frame
-						float sweptAngle = 0;
-						if (circle.state() != Leap::Gesture::STATE_START) 
-						{
-							Leap::CircleGesture previousUpdate = Leap::CircleGesture(BadaboumWindow::getController().frame(1).gesture(circle.id()));
-							sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
-						}
-
-						//if just one hand
-						if(frame.hands().count() == 1){
-							if(frame.hands()[0].fingers().count() == 1){
-								//When the movement of circle stopped
-								if (circle.state() == Leap::Gesture::STATE_STOP)
-								{
-									OutputDebugString("circle completed");
-									Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_fFrameScale, circle.center().y*m_fFrameScale, circle.center().z*m_fFrameScale);
-									/*coordLeapToWorld = coordLeapToWorld*(1/m_fTotalMotionScale);//scale the translation according to the world
-									Leap::Vector coordLeapToWorldRotated = m_mtxTotalMotionRotation.rigidInverse().transformDirection(coordLeapToWorld);
-									glm::vec3 particlePosition = glm::vec3(
-										coordLeapToWorldRotated.x-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.x), 
-										coordLeapToWorldRotated.y-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.y), 
-										coordLeapToWorldRotated.z-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.z));*/
-									m_model.addParticleWhereLeapIs(glm::vec3(coordLeapToWorld.x, coordLeapToWorld.y, coordLeapToWorld.z));
-								}
-
-								break;
-							}
-						}
-					}
-					case Leap::Gesture::TYPE_SWIPE:
-					{
-						Leap::SwipeGesture swipe = gesture;
-						OutputDebugString("SwipeGesture");
-
-						//create a constant force in direction of mouvement, like you make wind
-						glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/1000, swipe.direction().y*swipe.speed()/1000, swipe.direction().z*swipe.speed()/1000);
-						physical::ConstantForce wind = physical::ConstantForce(force);
-						wind.apply(m_model.getParticuleManager());
-
-						std::cout << "Swipe id: " << gesture.id()
-							<< ", state: " << gesture.state()
-							<< ", direction: " << swipe.direction()
-							<< ", speed: " << swipe.speed() << std::endl;
-						break;
-					}
-					case Leap::Gesture::TYPE_KEY_TAP:
-					{
-						Leap::KeyTapGesture tap = gesture;
-						OutputDebugString("KeyTapGesture");
-						std::cout << "Key Tap id: " << gesture.id()
-							<< ", state: " << gesture.state()
-							<< ", position: " << tap.position()
-							<< ", direction: " << tap.direction()<< std::endl;
-						break;
-					}
-					case Leap::Gesture::TYPE_SCREEN_TAP:
-					{
-						Leap::ScreenTapGesture screentap = gesture;
-						OutputDebugString("ScreenTapGesture");
-						std::cout << "Screen Tap id: " << gesture.id()
-						<< ", state: " << gesture.state()
-						<< ", position: " << screentap.position()
-						<< ", direction: " << screentap.direction()<< std::endl;
-						break;
-					}
-					default:
-						OutputDebugString("Unknown gesture type\n");
-						break;
-				}
-			}
-		}
 	}
 
 	// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
@@ -627,5 +469,153 @@ namespace render
         glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
         glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
         glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
+	}
+
+	void Renderer::manageLeapMovements(Leap::Frame frame){
+		// ******************** //
+		//    Manage camera     //
+		// ******************** //
+		bool isMoving = false;
+
+		static const float kfMinScale = 0.1f;
+        static const float kfMaxScale = 2.0f;
+
+		bool bShouldTranslate = true;
+        bool bShouldRotate    = true;
+        bool bShouldScale     = true;
+		bShouldTranslate = frame.translationProbability(m_lastFrame) > 0.40;
+        bShouldRotate    = frame.rotationProbability(m_lastFrame)    > 0.40;
+        bShouldScale     = frame.scaleProbability(m_lastFrame)       > 0.40;
+
+		//if any hands
+		if (!frame.hands().isEmpty()) 
+		{
+			// Get the first hand
+			const Leap::Hand hand = frame.hands()[0];
+
+			// Check if the hand has any fingers
+			const Leap::FingerList fingers = hand.fingers();
+			if (!fingers.isEmpty()) 
+			{
+				Leap::Vector avgPos;
+				// Calculate the hand's average finger tip position
+				for (int i = 0; i < fingers.count(); ++i) 
+				{
+					avgPos += fingers[i].tipPosition();
+				}
+				avgPos /= (float)fingers.count();
+			}
+
+			// Get the hand's sphere radius and palm position
+			std::cout << "Hand sphere radius: " << hand.sphereRadius()
+						<< " mm, palm position: " << hand.palmPosition() << std::endl;
+
+			// Get the hand's normal vector and direction
+			const Leap::Vector normal = hand.palmNormal();
+			const Leap::Vector direction = hand.direction();
+			
+			//Move the camera with the leap motion
+			int number = (int)fingers.count();
+			if(number > 4){
+				isMoving = true;
+				if(bShouldTranslate)
+					m_vTotalMotionTranslation -= m_mtxTotalMotionRotation.rigidInverse().transformDirection(frame.translation(m_lastFrame)/100);
+				else if(bShouldRotate){
+					m_mtxTotalMotionRotation = frame.rotationMatrix(m_lastFrame) * m_mtxTotalMotionRotation; // Left multiply, relative to last frame
+				}
+				else if(bShouldScale)
+					m_fTotalMotionScale = LeapUtil::Clamp(m_fTotalMotionScale * frame.scaleFactor(m_lastFrame),
+														  kfMinScale,
+														  kfMaxScale );
+			}
+
+			// Calculate the hand's pitch, roll, and yaw angles
+			std::cout << "Hand pitch: " << direction.pitch() * Leap::RAD_TO_DEG << " degrees, "
+						<< "roll: " << normal.roll() * Leap::RAD_TO_DEG << " degrees, "
+						<< "yaw: " << direction.yaw() * Leap::RAD_TO_DEG << " degrees" << std::endl;
+		}
+
+		if(!isMoving){
+			// Get gestures
+			const Leap::GestureList gestures = frame.gestures();
+			for (int g = 0; g < gestures.count(); ++g)
+			{
+				Leap::Gesture gesture = gestures[g];
+
+				switch (gesture.type()) 
+				{
+					case Leap::Gesture::TYPE_CIRCLE:
+					{
+						Leap::CircleGesture circle = gesture;
+						OutputDebugString("CircleGesture");
+						std::string clockwiseness;
+
+						//find the circle orientation
+						if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) 
+						{
+							clockwiseness = "clockwise";
+						} 
+						else 
+						{
+							clockwiseness = "counterclockwise";
+						}
+
+						// Calculate angle swept since last frame
+						float sweptAngle = 0;
+						if (circle.state() != Leap::Gesture::STATE_START) 
+						{
+							Leap::CircleGesture previousUpdate = Leap::CircleGesture(BadaboumWindow::getController().frame(1).gesture(circle.id()));
+							sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
+						}
+
+						//if just one hand
+						if(frame.hands().count() == 1){
+							if(frame.hands()[0].fingers().count() <= 5){
+								//When the movement of circle stopped
+								if (circle.state() == Leap::Gesture::STATE_STOP)
+								{
+									OutputDebugString("circle completed");
+									Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_fFrameScale, circle.center().y*m_fFrameScale, circle.center().z*m_fFrameScale);
+									coordLeapToWorld = coordLeapToWorld*(1/m_fTotalMotionScale);//scale the translation according to the world
+									Leap::Vector coordLeapToWorldRotated = m_mtxTotalMotionRotation.rigidInverse().transformDirection(coordLeapToWorld);
+									glm::vec3 particlePosition = glm::vec3(
+										coordLeapToWorldRotated.x-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.x), 
+										coordLeapToWorldRotated.y-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.y), 
+										coordLeapToWorldRotated.z-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.z));
+									m_model.addParticleWhereLeapIs(glm::vec3(coordLeapToWorld.x, coordLeapToWorld.y, coordLeapToWorld.z));
+								}
+
+								break;
+							}
+						}
+					}
+					case Leap::Gesture::TYPE_SWIPE:
+					{
+						Leap::SwipeGesture swipe = gesture;
+						OutputDebugString("SwipeGesture");
+
+						//create a constant force in direction of mouvement, like you make wind
+						glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/1000, swipe.direction().y*swipe.speed()/1000, swipe.direction().z*swipe.speed()/1000);
+						physical::ConstantForce wind = physical::ConstantForce(force);
+						wind.apply(m_model.getParticuleManager());
+
+						break;
+					}
+					case Leap::Gesture::TYPE_KEY_TAP:
+					{
+						OutputDebugString("KeyTapGesture");
+						break;
+					}
+					case Leap::Gesture::TYPE_SCREEN_TAP:
+					{
+						OutputDebugString("ScreenTapGesture");
+						break;
+					}
+					default:
+						OutputDebugString("Unknown gesture type\n");
+						break;
+				}
+			}
+		}
 	}
 }

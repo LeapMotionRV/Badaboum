@@ -93,6 +93,9 @@ namespace render
 		void initColors();
 		void set3DTransformations();
 
+		//our functions
+		void manageLeapMovements(Leap::Frame frame);
+
 	private:
 		enum  { kNumColors = 256 };
 		Leap::Vector				m_avColors[kNumColors];
