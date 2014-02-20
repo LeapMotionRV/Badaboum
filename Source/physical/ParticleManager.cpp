@@ -33,11 +33,6 @@ namespace physical
 		return m_positionArray.size() - 1;
 	}
 
-	unsigned int ParticleManager::addParticleWhereLeapIs(glm::vec3 pos){
-		return addParticle(pos, glm::vec3(0.f, 0.f, 0.f), glm::linearRand(1.f,3.f), glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-    }
-
 	void ParticleManager::addRandomParticles(unsigned int count){
 		for(size_t i = 0; i < count; ++i) {
             addParticle(

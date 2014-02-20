@@ -335,7 +335,7 @@ namespace render
 			const Leap::Vector direction = hand.direction();
 			
 			//Move the camera with the leap motion
-			int number = (int)fingers.count();
+		/*	int number = (int)fingers.count();
 			if(number > 4){
 				isMoving = true;
 				if(bShouldTranslate)
@@ -347,7 +347,7 @@ namespace render
 					m_fTotalMotionScale = LeapUtil::Clamp(m_fTotalMotionScale * frame.scaleFactor(m_lastFrame),
 														  kfMinScale,
 														  kfMaxScale );
-			}
+			}*/
 
 			// Calculate the hand's pitch, roll, and yaw angles
 			std::cout << "Hand pitch: " << direction.pitch() * Leap::RAD_TO_DEG << " degrees, "
@@ -388,21 +388,26 @@ namespace render
 							sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
 						}
 
-						//When the movement of circle stopped
-						if (circle.state() == Leap::Gesture::STATE_STOP)
-						{
-							OutputDebugString("circle completed");
-							Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_fFrameScale, circle.center().y*m_fFrameScale, circle.center().z*m_fFrameScale);
-							coordLeapToWorld = coordLeapToWorld*(1/m_fTotalMotionScale);//scale the translation according to the world
-							Leap::Vector coordLeapToWorldRotated = m_mtxTotalMotionRotation.rigidInverse().transformDirection(coordLeapToWorld);
-							glm::vec3 particlePosition = glm::vec3(
-								coordLeapToWorldRotated.x-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.x), 
-								coordLeapToWorldRotated.y-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.y), 
-								coordLeapToWorldRotated.z-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.z));
-							m_model.addParticleWhereLeapIs(particlePosition);
+						//if just one hand
+						if(frame.hands().count() == 1){
+							if(frame.hands()[0].fingers().count() == 1){
+								//When the movement of circle stopped
+								if (circle.state() == Leap::Gesture::STATE_STOP)
+								{
+									OutputDebugString("circle completed");
+									Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_fFrameScale, circle.center().y*m_fFrameScale, circle.center().z*m_fFrameScale);
+									/*coordLeapToWorld = coordLeapToWorld*(1/m_fTotalMotionScale);//scale the translation according to the world
+									Leap::Vector coordLeapToWorldRotated = m_mtxTotalMotionRotation.rigidInverse().transformDirection(coordLeapToWorld);
+									glm::vec3 particlePosition = glm::vec3(
+										coordLeapToWorldRotated.x-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.x), 
+										coordLeapToWorldRotated.y-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.y), 
+										coordLeapToWorldRotated.z-((1/m_fTotalMotionScale)*m_vTotalMotionTranslation.z));*/
+									m_model.addParticleWhereLeapIs(glm::vec3(coordLeapToWorld.x, coordLeapToWorld.y, coordLeapToWorld.z));
+								}
+
+								break;
+							}
 						}
-						
-						break;
 					}
 					case Leap::Gesture::TYPE_SWIPE:
 					{
@@ -557,9 +562,11 @@ namespace render
 		if ( !m_bPaused )
 		{
 			Leap::Frame frame = controller.frame();
-			update(frame);
-			m_lastFrame = frame;
-			m_openGLContext.triggerRepaint();
+			if(frame.isValid()){
+				update(frame);
+				m_lastFrame = frame;
+				m_openGLContext.triggerRepaint();
+			}
 		}
 	}
 

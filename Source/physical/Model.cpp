@@ -62,7 +62,12 @@ namespace physical
 	}
 
 	void Model::addParticleWhereLeapIs(glm::vec3 pos){
-		unsigned int idParticle = m_pParticleManager->addParticleWhereLeapIs(pos);
+		unsigned int idParticle = m_pParticleManager->addParticle(
+			pos, 
+			glm::vec3(0.f, 0.f, 0.f), 
+			1.f, 
+			glm::vec3(0.f, 0.f, 0.f), 
+			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
 		m_pLinkManager->addLinksForParticle(idParticle);
 	}
 
