@@ -90,8 +90,9 @@ namespace render
 		float		fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 		
 		//update renderer2D
-		m_pRenderer2D->setRenderFPS(String::formatted( "RenderFPS: %4.2f", fRenderFPS ));
+		m_pRenderer2D->setRenderFPS(fRenderFPS);
 		m_pRenderer2D->setNbParticles(m_model.getParticuleManager()->getNbParticles());
+		m_pRenderer2D->setHighestPosition(m_model.getParticuleManager()->getHighestPosition());
 
 		// ******************** //
 		//   Draw with OpenGL   //
@@ -230,7 +231,7 @@ namespace render
 		m_fLastUpdateTimeSeconds = curSysTimeSeconds;
 		float fUpdateDT = m_avgUpdateDeltaTime.AddSample( deltaTimeSeconds );
 		float fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
-		m_pRenderer2D->setUpdateFPS(String::formatted( "UpdateFPS: %4.2f", fUpdateFPS ));
+		m_pRenderer2D->setUpdateFPS(fUpdateFPS);
 	}
 
 	// affects model view matrix. Needs to be inside a glPush/glPop matrix block!

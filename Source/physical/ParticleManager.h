@@ -24,6 +24,7 @@ namespace physical
 		std::vector<float>		getMassArray() const {return m_massArray;}
 		const unsigned int		getNbParticles() const {return m_positionArray.size();}
 		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
+		float					getHighestPosition() const;
 		
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }

@@ -28,6 +28,8 @@ namespace render
 		//data
 		m_updateFPS = juce::String();
 		m_renderFPS = juce::String();
+		m_nbParticles = juce::String();
+		m_highestPosition = juce::String();
 	}
 
 	Renderer2D::~Renderer2D()
@@ -63,13 +65,14 @@ namespace render
 				}
 				g.drawSingleLineText(m_renderFPS, iMargin, iBaseLine + iLineStep);
 				g.drawSingleLineText(m_nbParticles, iMargin, iBaseLine + iLineStep*2);
+				g.drawSingleLineText(m_highestPosition, iMargin, iBaseLine + iLineStep*3);
 
 				g.setFont( m_fixedFont );
 				g.setColour( Colours::slateblue );
 
 				g.drawMultiLineText(  m_strHelp,
 										iMargin,
-										iBaseLine + iLineStep * 4,
+										iBaseLine + iLineStep * 5,
 										bouds.getWidth() - iMargin*2 );
 			}
 

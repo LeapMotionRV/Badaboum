@@ -19,9 +19,10 @@ namespace render
 
 		//setters
 		void isShowHelp(bool flag) {m_bShowHelp = flag;}
-		void setUpdateFPS(juce::String newUpdateFPS) {m_updateFPS = newUpdateFPS;}
-		void setRenderFPS(juce::String newRenderFPS) {m_renderFPS = newRenderFPS;}
-		void setNbParticles(size_t nbParticles) {m_nbParticles = String::formatted( "nb particles: %4.i", nbParticles );}
+		void setUpdateFPS(float newUpdateFPS) {m_updateFPS = String::formatted("UpdateFPS : %4.2f", newUpdateFPS);}
+		void setRenderFPS(float newRenderFPS) {m_renderFPS = String::formatted("RenderFPS : %4.2f", newRenderFPS);}
+		void setNbParticles(size_t nbParticles) {m_nbParticles = String::formatted("Nb particles: %4.i", nbParticles);}
+		void setHighestPosition(float highestPosition) {m_highestPosition = String::formatted("Highest position : %4.2f", highestPosition);}
 
 		//draw the text overlay (the help)
 		void renderOpenGL2D(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
@@ -40,6 +41,7 @@ namespace render
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
 		juce::String	m_nbParticles;
+		juce::String	m_highestPosition;
 	};
 }
 
