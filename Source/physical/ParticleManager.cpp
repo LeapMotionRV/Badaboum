@@ -23,6 +23,15 @@ namespace physical
 		}
 	}
 
+	float ParticleManager::getHighestPosition() const {
+		float highestPosition = -1.f;
+		for(size_t i = 0; i < getNbParticles(); ++i) {
+			if(highestPosition < 0.f || highestPosition < m_positionArray[i].y)
+				highestPosition = m_positionArray[i].y;
+		}
+		return highestPosition;
+	}
+
 	unsigned int ParticleManager::addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color) {
 		m_positionArray.push_back(pos);
 		m_speedArray.push_back(speed);

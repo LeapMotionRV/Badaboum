@@ -7,6 +7,7 @@
 #include "../util/LeapUtilGL.h"
 
 #include "Skybox.h"
+#include "Renderer2D.h"
 #include "ParticleRenderer.h"
 #include "../physical/Model.h"
 
@@ -69,9 +70,6 @@ namespace render
 		void paint(Graphics&);
 		void resized();
 
-		//draw the text overlay (the help)
-		void renderOpenGL2D();
-
 		// calculations that should only be done once per leap data frame but may be drawn many times should go here.
 		void update( Leap::Frame frame );
 
@@ -115,19 +113,14 @@ namespace render
 		float                       m_fPointableRadius;
 		LeapUtil::RollingAverage<>  m_avgUpdateDeltaTime;
 		LeapUtil::RollingAverage<>  m_avgRenderDeltaTime;
-		String                      m_strUpdateFPS;
-		String                      m_strRenderFPS;
-		String                      m_strPrompt;
 		/// accumulated rotation/translation and scale from Leap Motion API
 		Leap::Matrix                m_mtxTotalMotionRotation;
 		Leap::Vector                m_vTotalMotionTranslation;
 		float                       m_fTotalMotionScale;
-		//var for help
-		String                      m_strHelp;
-		Font                        m_fixedFont;
-		bool                        m_bShowHelp;
 		//var for physical
 		physical::Model				m_model;
+		//var for render
+		Renderer2D*					m_pRenderer2D;
 		ParticleRenderer			m_particleRenderer;
 	};
 }

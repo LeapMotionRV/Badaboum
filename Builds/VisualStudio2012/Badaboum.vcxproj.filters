@@ -1500,6 +1500,9 @@
     <ClCompile Include="..\..\Source\physical\shapes\Link.cpp">
       <Filter>Badaboum\Source\physical\shapes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\render\Renderer2D.cpp">
+      <Filter>Badaboum\Source\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2881,6 +2884,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\shapes\Link.h">
       <Filter>Badaboum\Source\physical\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\render\Renderer2D.h">
+      <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

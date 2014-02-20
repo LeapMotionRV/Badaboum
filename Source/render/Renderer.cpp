@@ -31,19 +31,8 @@ namespace render
 		Leap::Controller controller = BadaboumWindow::getController();
 		controller.addListener(*this);
 
-		//set var for the help
-		m_bShowHelp = false;
-		m_strHelp = "ESC - quit\n"
-					"h     - Toggle help and frame rate display\n"
-					"Space - Toggle pause\n"
-					"r     - Reset camera\n"
-					"\n"
-					"Mouse Drag  - Rotate camera\n"
-					"Mouse Wheel - Zoom camera\n"
-					"Arrow Keys  - Rotate camera\n"
-					"\n"
-					"p  - Create a random particle\n";
-		m_strPrompt = "Press 'h' for help";
+		//other renderer
+		m_pRenderer2D = new Renderer2D(getWidth(), getHeight());
 	}
 
 	Renderer::~Renderer()
@@ -51,6 +40,7 @@ namespace render
 		BadaboumWindow::getController().removeListener(*this);
 		m_openGLContext.detach();
 
+		delete m_pRenderer2D;
 		delete m_pSkybox;
 	}
 
@@ -77,8 +67,6 @@ namespace render
 		glShadeModel(GL_SMOOTH);
 
 		glEnable(GL_LIGHTING);
-
-		m_fixedFont = Font("Courier New", 24, Font::plain );
 	}
 
 	void Renderer::openGLContextClosing()
@@ -100,7 +88,11 @@ namespace render
 					fRenderDT =	m_avgRenderDeltaTime.AddSample( fRenderDT );
 					m_fLastRenderTimeSeconds = curSysTimeSeconds;
 		float		fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
-					m_strRenderFPS = String::formatted( "RenderFPS: %4.2f", fRenderFPS );
+		
+		//update renderer2D
+		m_pRenderer2D->setRenderFPS(fRenderFPS);
+		m_pRenderer2D->setNbParticles(m_model.getParticuleManager()->getNbParticles());
+		m_pRenderer2D->setHighestPosition(m_model.getParticuleManager()->getHighestPosition());
 
 		// ******************** //
 		//   Draw with OpenGL   //
@@ -120,7 +112,7 @@ namespace render
 		// draw the text overlay
 		{
 			ScopedLock renderLock(m_renderMutex);
-			renderOpenGL2D();
+			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
 		}
 
 
@@ -187,7 +179,7 @@ namespace render
 				resetScene();
 				break;
 			case 'H':
-				m_bShowHelp = !m_bShowHelp;
+				m_pRenderer2D->isShowHelp(!m_pRenderer2D->isShowHelp());
 				break;
 			case 'P': //add a particle
 				m_model.addRandomParticle();
@@ -225,59 +217,6 @@ namespace render
 	{
 	}
 
-	void Renderer::renderOpenGL2D() 
-	{
-		LeapUtilGL::GLAttribScope attribScope( GL_ENABLE_BIT );
-
-		// when enabled text draws poorly.
-		glDisable(GL_CULL_FACE);
-
-		ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (m_openGLContext, getWidth(), getHeight()));
-
-		if (glRenderer != nullptr)
-		{
-			Graphics g(*glRenderer.get());
-
-			int iMargin   = 10;
-			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
-			int iLineStep = iFontSize + (iFontSize >> 2);
-			int iBaseLine = 20;
-			Font origFont = g.getCurrentFont();
-
-			const juce::Rectangle<int>& rectBounds = getBounds();
-
-			if ( m_bShowHelp )
-			{
-				g.setColour( Colours::seagreen );
-				g.setFont( static_cast<float>(iFontSize) );
-
-				if ( !m_bPaused )
-				{
-					g.drawSingleLineText( m_strUpdateFPS, iMargin, iBaseLine );
-				}
-
-				g.drawSingleLineText( m_strRenderFPS, iMargin, iBaseLine + iLineStep );
-
-				g.setFont( m_fixedFont );
-				g.setColour( Colours::slateblue );
-
-				g.drawMultiLineText(  m_strHelp,
-										iMargin,
-										iBaseLine + iLineStep * 3,
-										rectBounds.getWidth() - iMargin*2 );
-			}
-
-			g.setFont( origFont );
-			g.setFont( static_cast<float>(iFontSize) );
-
-			g.setColour( Colours::salmon );
-			g.drawMultiLineText(  m_strPrompt,
-									iMargin,
-									rectBounds.getBottom() - (iFontSize + iFontSize + iLineStep),
-									rectBounds.getWidth()/4 );
-		}
-	}
-
 	//
 	// calculations that should only be done once per leap data frame but may be drawn many times should go here.
 	//   
@@ -292,9 +231,10 @@ namespace render
 		m_fLastUpdateTimeSeconds = curSysTimeSeconds;
 		float fUpdateDT = m_avgUpdateDeltaTime.AddSample( deltaTimeSeconds );
 		float fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
-		m_strUpdateFPS = String::formatted( "UpdateFPS: %4.2f", fUpdateFPS );
 	
 		manageCamera(frame);
+
+		m_pRenderer2D->setUpdateFPS(fUpdateFPS);
 	}
 
 	// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
