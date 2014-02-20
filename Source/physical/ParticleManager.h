@@ -22,6 +22,7 @@ namespace physical
 		std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
 		std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
 		std::vector<float>		getMassArray() const {return m_massArray;}
+		const unsigned int		getNbParticles() const {return m_positionArray.size();}
 		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
 		
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
