@@ -95,6 +95,7 @@ namespace render
 
 		//our functions
 		void manageLeapMovements(Leap::Frame frame);
+		void manageCamera(Leap::Frame frame);
 
 	private:
 		enum  { kNumColors = 256 };
