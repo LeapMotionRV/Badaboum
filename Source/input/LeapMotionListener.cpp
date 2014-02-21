@@ -47,6 +47,9 @@ namespace input
 	// calculations that should only be done once per leap data frame but may be drawn many times should go here.
 	//   
 	void LeapMotionListener::update(Leap::Frame frame){
+		//!!! lock sensitive data !!!
+		juce::ScopedLock sceneLock(*m_pRenderer->getRenderMutex());
+
 		double curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 
 		float deltaTimeSeconds = static_cast<float>(curSysTimeSeconds - m_pRenderer->getLastUpdateTimeSeconds());
@@ -141,10 +144,10 @@ namespace input
 									coordLeapToWorld = coordLeapToWorld*(1/m_pRenderer->getTotalMotionScale());//scale the translation according to the world
 									Leap::Vector coordLeapToWorldRotated = m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(coordLeapToWorld);
 									glm::vec3 particlePosition = glm::vec3(
-										coordLeapToWorldRotated.x-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().x), 
+										coordLeapToWorldRotated.x-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().x),
 										coordLeapToWorldRotated.y-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().y), 
 										coordLeapToWorldRotated.z-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().z));
-									m_pRenderer->getModel()->addParticleWhereLeapIs(glm::vec3(coordLeapToWorld.x, coordLeapToWorld.y, coordLeapToWorld.z));
+									m_pRenderer->getModel()->addParticleWhereLeapIs(glm::vec3(particlePosition.x, particlePosition.y, particlePosition.z));
 								}
 
 								break;

@@ -119,39 +119,41 @@ namespace render
 					fRenderDT =	m_avgRenderDeltaTime.AddSample( fRenderDT );
 					m_fLastRenderTimeSeconds = curSysTimeSeconds;
 		float		fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
-
-		//!!! lock sensitive data !!!
-		juce::ScopedLock sceneLock(m_renderMutex);
-
-		// ******************** //
-		//   Draw OpenGL 3D     //
-		// ******************** //
-		LeapUtilGL::GLMatrixScope sceneMatrixScope;
-		setupScene();
-		set3DTransformations();
-
-		//draw axis
-		LeapUtilGL::drawAxes();
-		// draw the ground
-		m_pModel->getGround()->draw();
-		// draw particles
-		m_pModel->getParticuleManager()->drawParticles(m_particleRenderer);
-		m_pModel->getLinkManager()->drawLinks();
-		// draw fingers/tools as lines with sphere at the tip.
-		drawPointables( frame );
-
-		// ******************** //
-		//   Draw OpenGL 2D     //
-		// ******************** //
-		m_pRenderer2D->setRenderFPS(fRenderFPS);
-		m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbParticles());
-		m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
-		m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
 		
-		// ******************** //
-		//  Physical simulation //
-		// ******************** //
-		m_pModel->startSimulation(fRenderDT);
+		{
+			//!!! lock sensitive data !!!
+			juce::ScopedLock sceneLock(m_renderMutex);
+
+			// ******************** //
+			//   Draw OpenGL 3D     //
+			// ******************** //
+			LeapUtilGL::GLMatrixScope sceneMatrixScope;
+			setupScene();
+			set3DTransformations();
+
+			//draw axis
+			LeapUtilGL::drawAxes();
+			// draw the ground
+			m_pModel->getGround()->draw();
+			// draw particles
+			m_pModel->getParticuleManager()->drawParticles(m_particleRenderer);
+			m_pModel->getLinkManager()->drawLinks();
+			// draw fingers/tools as lines with sphere at the tip.
+			drawPointables( frame );
+
+			// ******************** //
+			//   Draw OpenGL 2D     //
+			// ******************** //
+			m_pRenderer2D->setRenderFPS(fRenderFPS);
+			m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbParticles());
+			m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
+			//m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
+
+			// ******************** //
+			//  Physical simulation //
+			// ******************** //
+			m_pModel->startSimulation(fRenderDT);
+		}
 	}
 
 	void Renderer::resized(){
