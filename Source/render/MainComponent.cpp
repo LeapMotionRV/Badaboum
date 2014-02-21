@@ -15,6 +15,11 @@ namespace render
 		m_pModel = new physical::Model();
 		m_pOpenGLRenderer->setModel(m_pModel);
 
+		//add manager for classic inputs (mouse and keyboard)
+		m_pInputManager = new input::InputManager(m_pOpenGLRenderer);
+		m_pOpenGLRenderer->addMouseListener(m_pInputManager, false);
+		m_pOpenGLRenderer->addKeyListener(m_pInputManager);
+
 		//add the listener to the controller (Leap Motion)
 		m_pLeapMotionListener = new input::LeapMotionListener(m_pOpenGLRenderer);
 		Leap::Controller controller = BadaboumWindow::getController();
@@ -24,8 +29,12 @@ namespace render
 	MainComponent::~MainComponent()
 	{
 		BadaboumWindow::getController().removeListener(*m_pLeapMotionListener);
+		m_pOpenGLRenderer->removeMouseListener(m_pInputManager);
+		m_pOpenGLRenderer->removeKeyListener(m_pInputManager);
+
 		delete m_pModel;
 		delete m_pOpenGLRenderer;
+		delete m_pInputManager;
 		delete m_pLeapMotionListener;
 	}
 

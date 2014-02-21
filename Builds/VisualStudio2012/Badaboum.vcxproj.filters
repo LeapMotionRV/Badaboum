@@ -1509,6 +1509,9 @@
     <ClCompile Include="..\..\Source\input\LeapMotionListener.cpp">
       <Filter>Badaboum\Source\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\input\InputManager.cpp">
+      <Filter>Badaboum\Source\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2895,6 +2898,9 @@
       <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\input\LeapMotionListener.h">
+      <Filter>Badaboum\Source\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\input\InputManager.h">
       <Filter>Badaboum\Source\input</Filter>
     </ClInclude>
   </ItemGroup>

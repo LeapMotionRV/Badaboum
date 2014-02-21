@@ -6,6 +6,7 @@
 
 #include "../physical/Model.h"
 #include "Renderer.h"
+#include "../input/InputManager.h"
 #include "../input/LeapMotionListener.h"
 
 
@@ -31,6 +32,7 @@ namespace render
 
 		physical::Model*			m_pModel;
 		Renderer*					m_pOpenGLRenderer;
+		input::InputManager*		m_pInputManager;
 		input::LeapMotionListener*	m_pLeapMotionListener;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

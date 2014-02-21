@@ -1,7 +1,6 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-
 #include <JuceHeader.h>
 #include <Leap.h>
 
@@ -9,7 +8,6 @@
 #include "Renderer2D.h"
 #include "ParticleRenderer.h"
 #include "../physical/Model.h"
-
 
 namespace render
 {
@@ -24,7 +22,7 @@ namespace render
 		GLColor( float _r, float _g, float _b, float _a=1 ):r(_r), g(_g), b(_b), a(_a)
 		{}
 
-		explicit GLColor( const Colour& juceColor ) 
+		explicit GLColor(const juce::Colour& juceColor) 
 		: r(juceColor.getFloatRed()), 
 			g(juceColor.getFloatGreen()),
 			b(juceColor.getFloatBlue()),
@@ -40,8 +38,7 @@ namespace render
 	/**
 		This component is contained in the MainComponent. This is where we display all frame of openGL.
 	*/
-	class Renderer : public Component,
-					 public OpenGLRenderer
+	class Renderer : public juce::Component, public juce::OpenGLRenderer
 	{
 	public:
 		//alloc and desacolloc the openGL context
@@ -51,7 +48,7 @@ namespace render
 		//getters
 		Leap::Frame						getLastFrame() const {return m_lastFrame;}
 		bool							isPaused() const {return m_bPaused;}
-		juce::OpenGLContext*			getCurrentOpenGLContext() const {return const_cast<juce::OpenGLContext*>(&m_openGLContext);}
+		juce::OpenGLContext*			getOpenGLContext() const {return const_cast<juce::OpenGLContext*>(&m_openGLContext);}
 		const juce::CriticalSection*	getRenderMutex() const {return &m_renderMutex;}
 		double							getLastUpdateTimeSeconds() const {return m_fLastUpdateTimeSeconds;}
 		LeapUtil::RollingAverage<>		getAvgUpdateDeltaTime() const {return m_avgUpdateDeltaTime;}
@@ -62,6 +59,7 @@ namespace render
 		float							getTotalMotionScale() const {return m_fTotalMotionScale;}
 		float							getFrameScale() const {return m_fFrameScale;}
 		//setters
+		void							isPaused(bool flag) {m_bPaused = flag;}
 		void							setModel(physical::Model* newModel) {m_pModel = newModel;}
 		void							setLastFrame(Leap::Frame lastFrame) {m_lastFrame = lastFrame;}
 		void							setLastUpdateTimeSeconds(double lastUpdateTimeSeconds) {m_fLastUpdateTimeSeconds = lastUpdateTimeSeconds;}
@@ -72,27 +70,17 @@ namespace render
 		//create and close the openGL environment
 		void newOpenGLContextCreated();
 		void openGLContextClosing();
-
+		/// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
+		void setupScene();
 		// data should be drawn here but no heavy calculations done.
 		// any major calculations that only need to be updated per leap data frame
 		// should be handled in update and cached in members.
 		void renderOpenGL();
-
-		//manage inputs
-		bool keyPressed(const KeyPress& keyPress);
-		void mouseDown (const MouseEvent& e);
-		void mouseDrag (const MouseEvent& e);
-		void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel);
-    
 		//functions from Component
-		void paint(Graphics&);
+		void paint(juce::Graphics&);
 		void resized();
-
-		/// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
-		void setupScene();
-
 		//draw the fingers
-		void drawPointables( Leap::Frame frame );
+		void drawPointables(Leap::Frame frame);
 
 		//tools
 		void resetCamera();
@@ -102,13 +90,17 @@ namespace render
 
 	private:
 		enum  { kNumColors = 256 };
-		Leap::Vector				m_avColors[kNumColors];
-		//var for openGL
+		
+		//var for render
+		Renderer2D*					m_pRenderer2D;
+		ParticleRenderer			m_particleRenderer;
 		juce::OpenGLContext         m_openGLContext;
 		Skybox*						m_pSkybox;
 		LeapUtilGL::CameraGL        m_camera;
-		CriticalSection             m_renderMutex;
+		juce::CriticalSection       m_renderMutex;
+		Leap::Vector				m_avColors[kNumColors];
 		bool                        m_bPaused;
+		
 		//var for Leap Motion
 		float						m_fFrameScale;
 		Leap::Frame					m_lastFrame;
@@ -122,11 +114,9 @@ namespace render
 		Leap::Matrix                m_mtxTotalMotionRotation;
 		Leap::Vector                m_vTotalMotionTranslation;
 		float                       m_fTotalMotionScale;
+		
 		//var for physical
 		physical::Model*			m_pModel;
-		//var for render
-		Renderer2D*					m_pRenderer2D;
-		ParticleRenderer			m_particleRenderer;
 	};
 }
 

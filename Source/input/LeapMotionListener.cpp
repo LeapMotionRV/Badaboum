@@ -14,12 +14,10 @@ namespace input
 
 	}
 
-	void LeapMotionListener::onInit(const Leap::Controller&) 
-	{
+	void LeapMotionListener::onInit(const Leap::Controller&) {
 	}
 
-	void LeapMotionListener::onConnect(const Leap::Controller& controller) 
-	{
+	void LeapMotionListener::onConnect(const Leap::Controller& controller) {
 		//activate gestures detection
 		controller.enableGesture(Leap::Gesture::TYPE_CIRCLE);
 		controller.enableGesture(Leap::Gesture::TYPE_KEY_TAP);
@@ -31,19 +29,16 @@ namespace input
 		}
 	}
 
-	void LeapMotionListener::onDisconnect(const Leap::Controller&) 
-	{
+	void LeapMotionListener::onDisconnect(const Leap::Controller&) {
 	}
 
-	void LeapMotionListener::onFrame(const Leap::Controller& controller)
-	{
-		if ( !m_pRenderer->isPaused() )
-		{
+	void LeapMotionListener::onFrame(const Leap::Controller& controller){
+		if ( !m_pRenderer->isPaused() ){
 			Leap::Frame frame = controller.frame();
 			if(frame.isValid()){
 				update(frame);
 				m_pRenderer->setLastFrame(frame);
-				m_pRenderer->getCurrentOpenGLContext()->triggerRepaint();
+				m_pRenderer->getOpenGLContext()->triggerRepaint();
 			}
 		}
 	}
@@ -51,10 +46,7 @@ namespace input
 	//
 	// calculations that should only be done once per leap data frame but may be drawn many times should go here.
 	//   
-	void LeapMotionListener::update(Leap::Frame frame)
-	{
-		ScopedLock sceneLock(*m_pRenderer->getRenderMutex());
-
+	void LeapMotionListener::update(Leap::Frame frame){
 		double curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 
 		float deltaTimeSeconds = static_cast<float>(curSysTimeSeconds - m_pRenderer->getLastUpdateTimeSeconds());
@@ -91,20 +83,6 @@ namespace input
 
 			// Check if the hand has any fingers
 			const Leap::FingerList fingers = hand.fingers();
-			if (!fingers.isEmpty()) 
-			{
-				Leap::Vector avgPos;
-				// Calculate the hand's average finger tip position
-				for (int i = 0; i < fingers.count(); ++i) 
-				{
-					avgPos += fingers[i].tipPosition();
-				}
-				avgPos /= (float)fingers.count();
-			}
-
-			// Get the hand's sphere radius and palm position
-			std::cout << "Hand sphere radius: " << hand.sphereRadius()
-						<< " mm, palm position: " << hand.palmPosition() << std::endl;
 
 			// Get the hand's normal vector and direction
 			const Leap::Vector normal = hand.palmNormal();
@@ -124,42 +102,31 @@ namespace input
 														  kfMinScale,
 														  kfMaxScale ));
 			}
-
-			// Calculate the hand's pitch, roll, and yaw angles
-			std::cout << "Hand pitch: " << direction.pitch() * Leap::RAD_TO_DEG << " degrees, "
-						<< "roll: " << normal.roll() * Leap::RAD_TO_DEG << " degrees, "
-						<< "yaw: " << direction.yaw() * Leap::RAD_TO_DEG << " degrees" << std::endl;
 		}
 
 		if(!isMoving){
 			// Get gestures
 			const Leap::GestureList gestures = frame.gestures();
-			for (int g = 0; g < gestures.count(); ++g)
-			{
+			for (int g = 0; g < gestures.count(); ++g){
 				Leap::Gesture gesture = gestures[g];
 
-				switch (gesture.type()) 
-				{
-					case Leap::Gesture::TYPE_CIRCLE:
-					{
+				switch (gesture.type()) {
+					case Leap::Gesture::TYPE_CIRCLE:{
 						Leap::CircleGesture circle = gesture;
 						OutputDebugString("CircleGesture");
 						std::string clockwiseness;
 
 						//find the circle orientation
-						if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) 
-						{
+						if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) {
 							clockwiseness = "clockwise";
 						} 
-						else 
-						{
+						else {
 							clockwiseness = "counterclockwise";
 						}
 
 						// Calculate angle swept since last frame
 						float sweptAngle = 0;
-						if (circle.state() != Leap::Gesture::STATE_START) 
-						{
+						if (circle.state() != Leap::Gesture::STATE_START) {
 							Leap::CircleGesture previousUpdate = Leap::CircleGesture(render::BadaboumWindow::getController().frame(1).gesture(circle.id()));
 							sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
 						}
@@ -168,8 +135,7 @@ namespace input
 						if(frame.hands().count() == 1){
 							if(frame.hands()[0].fingers().count() <= 5){
 								//When the movement of circle stopped
-								if (circle.state() == Leap::Gesture::STATE_STOP)
-								{
+								if (circle.state() == Leap::Gesture::STATE_STOP){
 									OutputDebugString("circle completed");
 									Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_pRenderer->getFrameScale(), circle.center().y*m_pRenderer->getFrameScale(), circle.center().z*m_pRenderer->getFrameScale());
 									coordLeapToWorld = coordLeapToWorld*(1/m_pRenderer->getTotalMotionScale());//scale the translation according to the world
@@ -185,8 +151,7 @@ namespace input
 							}
 						}
 					}
-					case Leap::Gesture::TYPE_SWIPE:
-					{
+					case Leap::Gesture::TYPE_SWIPE:{
 						Leap::SwipeGesture swipe = gesture;
 						OutputDebugString("SwipeGesture");
 
@@ -197,13 +162,11 @@ namespace input
 
 						break;
 					}
-					case Leap::Gesture::TYPE_KEY_TAP:
-					{
+					case Leap::Gesture::TYPE_KEY_TAP:{
 						OutputDebugString("KeyTapGesture");
 						break;
 					}
-					case Leap::Gesture::TYPE_SCREEN_TAP:
-					{
+					case Leap::Gesture::TYPE_SCREEN_TAP:{
 						OutputDebugString("ScreenTapGesture");
 						break;
 					}
