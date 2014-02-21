@@ -15,10 +15,11 @@ namespace physical
 	}
 
 	void ParticleManager::initFixedParticles(const unsigned int size){
-		for(int i=0; i<size; ++i){
-			for(int j=0; j<size; ++j){
+		float fSize = static_cast<float>(size);
+		for(unsigned int i = 0; i<size; ++i){
+			for(unsigned int j = 0; j<size; ++j){
 				float mass = 1.f;
-				addParticle(glm::vec3(-size/2.f+0.5f+1.f*i, 0.2f, -size/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
+				addParticle(glm::vec3(-fSize/2.f+0.5f+1.f*i, 0.2f, -fSize/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
 			}
 		}
 	}

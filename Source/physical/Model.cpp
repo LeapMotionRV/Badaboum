@@ -32,10 +32,11 @@ namespace physical
 		}
 	}
 
-	void Model::initGround(const unsigned int size){
+	void Model::initGround(const unsigned int size){;
+		float fSize = -static_cast<float>(size);
 		m_pGround->addPolygonAndForce(
-				glm::vec3(-size/2.f, 0.f, -size/2.f), glm::vec3(size/2.f, 0.f, -size/2.f), 
-				glm::vec3(-size/2.f, 0.f, size/2.f), glm::vec3(size/2.f, 0.f, size/2.f), 
+				glm::vec3(-fSize/2.f, 0.f, -fSize/2.f), glm::vec3(fSize/2.f, 0.f, -fSize/2.f), 
+				glm::vec3(-fSize/2.f, 0.f, fSize/2.f), glm::vec3(fSize/2.f, 0.f, fSize/2.f), 
 				glm::vec3(1.f, 1.f, 0.f), 1.f);
 	}
 
