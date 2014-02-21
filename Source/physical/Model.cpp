@@ -32,7 +32,7 @@ namespace physical
 		}
 	}
 
-	void Model::initGround(float size){
+	void Model::initGround(const unsigned int size){
 		m_pGround->addPolygonAndForce(
 				glm::vec3(-size/2.f, 0.f, -size/2.f), glm::vec3(size/2.f, 0.f, -size/2.f), 
 				glm::vec3(-size/2.f, 0.f, size/2.f), glm::vec3(size/2.f, 0.f, size/2.f), 

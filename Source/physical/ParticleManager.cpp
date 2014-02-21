@@ -14,7 +14,7 @@ namespace physical
 		m_colorArray = std::vector<glm::vec3>();
 	}
 
-	void ParticleManager::initFixedParticles(float size){
+	void ParticleManager::initFixedParticles(const unsigned int size){
 		for(int i=0; i<size; ++i){
 			for(int j=0; j<size; ++j){
 				float mass = 1.f;

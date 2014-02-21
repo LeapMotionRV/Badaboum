@@ -16,7 +16,7 @@ namespace physical
 	public:
 		Model(unsigned int countParticles = 0);
 		~Model();
-		void initGround(float size);
+		void initGround(const unsigned int size);
 
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
