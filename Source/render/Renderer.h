@@ -4,7 +4,6 @@
 
 #include <JuceHeader.h>
 #include <Leap.h>
-#include "../util/LeapUtilGL.h"
 
 #include "Skybox.h"
 #include "Renderer2D.h"
@@ -40,16 +39,35 @@ namespace render
 
 	/**
 		This component is contained in the MainComponent. This is where we display all frame of openGL.
-		This class is also a Listener (from Leap), and so asks the Controller to see what's going on in front of the device.
 	*/
 	class Renderer : public Component,
-					 public OpenGLRenderer,
-					 Leap::Listener
+					 public OpenGLRenderer
 	{
 	public:
 		//alloc and desacolloc the openGL context
 		Renderer(const unsigned int width, const unsigned int height);
 		~Renderer();
+
+		//getters
+		Leap::Frame						getLastFrame() const {return m_lastFrame;}
+		bool							isPaused() const {return m_bPaused;}
+		juce::OpenGLContext*			getCurrentOpenGLContext() const {return const_cast<juce::OpenGLContext*>(&m_openGLContext);}
+		const juce::CriticalSection*	getRenderMutex() const {return &m_renderMutex;}
+		double							getLastUpdateTimeSeconds() const {return m_fLastUpdateTimeSeconds;}
+		LeapUtil::RollingAverage<>		getAvgUpdateDeltaTime() const {return m_avgUpdateDeltaTime;}
+		Renderer2D*						getRenderer2D() const {return m_pRenderer2D;}
+		physical::Model*				getModel() const {return m_pModel;}
+		Leap::Matrix					getTotalMotionRotation() const {return m_mtxTotalMotionRotation;}
+		Leap::Vector					getTotalMotionTranslation() const {return m_vTotalMotionTranslation;}
+		float							getTotalMotionScale() const {return m_fTotalMotionScale;}
+		float							getFrameScale() const {return m_fFrameScale;}
+		//setters
+		void							setModel(physical::Model* newModel) {m_pModel = newModel;}
+		void							setLastFrame(Leap::Frame lastFrame) {m_lastFrame = lastFrame;}
+		void							setLastUpdateTimeSeconds(double lastUpdateTimeSeconds) {m_fLastUpdateTimeSeconds = lastUpdateTimeSeconds;}
+		void							setTotalMotionRotation(Leap::Matrix rotation) {m_mtxTotalMotionRotation = rotation;}
+		void							setTotalMotionTranslation(Leap::Vector translation) {m_vTotalMotionTranslation = translation;}
+		void							setTotalMotionScale(float scale) {m_fTotalMotionScale = scale;}
 
 		//create and close the openGL environment
 		void newOpenGLContextCreated();
@@ -70,20 +88,11 @@ namespace render
 		void paint(Graphics&);
 		void resized();
 
-		// calculations that should only be done once per leap data frame but may be drawn many times should go here.
-		void update( Leap::Frame frame );
-
 		/// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
 		void setupScene();
 
 		//draw the fingers
 		void drawPointables( Leap::Frame frame );
-
-		//functions from the Listener
-		virtual void onInit(const Leap::Controller&);
-		virtual void onConnect(const Leap::Controller&);
-		virtual void onDisconnect(const Leap::Controller&);
-		virtual void onFrame(const Leap::Controller& controller);
 
 		//tools
 		void resetCamera();
@@ -91,24 +100,21 @@ namespace render
 		void initColors();
 		void set3DTransformations();
 
-		//our functions
-		void manageLeapMovements(Leap::Frame frame);
-
 	private:
 		enum  { kNumColors = 256 };
 		Leap::Vector				m_avColors[kNumColors];
 		//var for openGL
-		OpenGLContext               m_openGLContext;
+		juce::OpenGLContext         m_openGLContext;
 		Skybox*						m_pSkybox;
 		LeapUtilGL::CameraGL        m_camera;
 		CriticalSection             m_renderMutex;
 		bool                        m_bPaused;
 		//var for Leap Motion
-		Leap::Frame                 m_lastFrame;
+		float						m_fFrameScale;
+		Leap::Frame					m_lastFrame;
 		double                      m_fLastUpdateTimeSeconds;
 		double                      m_fLastRenderTimeSeconds;
 		Leap::Matrix                m_mtxFrameTransform;
-		float                       m_fFrameScale;
 		float                       m_fPointableRadius;
 		LeapUtil::RollingAverage<>  m_avgUpdateDeltaTime;
 		LeapUtil::RollingAverage<>  m_avgRenderDeltaTime;
@@ -117,7 +123,7 @@ namespace render
 		Leap::Vector                m_vTotalMotionTranslation;
 		float                       m_fTotalMotionScale;
 		//var for physical
-		physical::Model				m_model;
+		physical::Model*			m_pModel;
 		//var for render
 		Renderer2D*					m_pRenderer2D;
 		ParticleRenderer			m_particleRenderer;

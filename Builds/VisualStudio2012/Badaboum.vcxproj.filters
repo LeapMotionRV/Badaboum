@@ -310,6 +310,9 @@
     <Filter Include="Badaboum\Source\physical\shapes">
       <UniqueIdentifier>{8a864ce4-7b70-4cbe-bbb2-33bf1e746ce6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Badaboum\Source\input">
+      <UniqueIdentifier>{9f6eb09e-de97-4d9c-815c-77ee0f6ed731}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1502,6 +1505,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\render\Renderer2D.cpp">
       <Filter>Badaboum\Source\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\input\LeapMotionListener.cpp">
+      <Filter>Badaboum\Source\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2887,6 +2893,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\render\Renderer2D.h">
       <Filter>Badaboum\Source\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\input\LeapMotionListener.h">
+      <Filter>Badaboum\Source\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,8 +11,9 @@ namespace physical
 
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
-		m_pParticleManager->initFixedParticles(m_pParticleManager->getNbFixedParticles());
 		m_pLinkManager = new LinkManager(m_pParticleManager);
+		m_pParticleManager->initFixedParticles(m_pParticleManager->getNbFixedParticles());
+		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
 		initGround(m_pParticleManager->getNbFixedParticles() * 2);
@@ -35,9 +36,9 @@ namespace physical
 	void Model::initGround(const unsigned int size){;
 		float fSize = -static_cast<float>(size);
 		m_pGround->addPolygonAndForce(
-				glm::vec3(-fSize/2.f, 0.f, -fSize/2.f), glm::vec3(fSize/2.f, 0.f, -fSize/2.f), 
-				glm::vec3(-fSize/2.f, 0.f, fSize/2.f), glm::vec3(fSize/2.f, 0.f, fSize/2.f), 
-				glm::vec3(1.f, 1.f, 0.f), 1.f);
+			glm::vec3(-fSize/2.f, 0.f, -fSize/2.f), glm::vec3(fSize/2.f, 0.f, -fSize/2.f), 
+			glm::vec3(-fSize/2.f, 0.f, fSize/2.f), glm::vec3(fSize/2.f, 0.f, fSize/2.f), 
+			glm::vec3(1.f, 1.f, 0.f), 1.f);
 	}
 
 	void Model::startSimulation(float dt) 
@@ -52,14 +53,16 @@ namespace physical
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
 
-	void Model::addRandomParticle(){
-		unsigned int idParticle = m_pParticleManager->addParticle(
-			glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f)), 
-			glm::vec3(0.f, 0.f, 0.f), 
-			1.f, 
-			glm::vec3(0.f, 0.f, 0.f), 
-			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-		m_pLinkManager->addLinksForParticle(idParticle);
+	void Model::addRandomParticle(unsigned int count){
+		for(size_t i = 0; i < count; ++i) {
+			unsigned int idParticle = m_pParticleManager->addParticle(
+				glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				1.f, 
+				glm::vec3(0.f, 0.f, 0.f), 
+				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
+			m_pLinkManager->addLinksForParticle(idParticle);
+		}
 	}
 
 	void Model::addParticleWhereLeapIs(glm::vec3 pos){
