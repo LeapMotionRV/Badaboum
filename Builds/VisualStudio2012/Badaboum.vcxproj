@@ -1226,7 +1226,6 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
-    <ClCompile Include="..\..\Source\old\SampleListener.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\BrakeForce.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\ConstantForce.cpp" />
     <ClCompile Include="..\..\Source\physical\forces\FacetteForce.cpp" />
@@ -1690,7 +1689,6 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\Source\input\InputManager.h" />
     <ClInclude Include="..\..\Source\input\LeapMotionListener.h" />
-    <ClInclude Include="..\..\Source\old\SampleListener.h" />
     <ClInclude Include="..\..\Source\physical\forces\BrakeForce.h" />
     <ClInclude Include="..\..\Source\physical\forces\ConstantForce.h" />
     <ClInclude Include="..\..\Source\physical\forces\FacetteForce.h" />

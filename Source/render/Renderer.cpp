@@ -147,7 +147,7 @@ namespace render
 			m_pRenderer2D->setRenderFPS(fRenderFPS);
 			m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbParticles());
 			m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
-			//m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
+			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
 
 			// ******************** //
 			//  Physical simulation //
