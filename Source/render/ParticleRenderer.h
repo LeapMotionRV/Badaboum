@@ -29,13 +29,6 @@ namespace render
 						const float* massArray,
 						const glm::vec3* colorArray);
 
-		/*void drawLines(uint32_t lineCount,
-					const ParticleGraph* lines,
-					uint32_t vertexCount,
-					const glm::vec3* positionArray,
-					const glm::vec3* colorArray,
-					float lineWidth = 1.f);*/
-
 	private:
 		// Scale appliqué sur la masse de chaque particule pour obtenir sa taille
 		float m_fMassScale;

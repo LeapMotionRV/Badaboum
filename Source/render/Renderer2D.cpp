@@ -3,8 +3,7 @@
 
 namespace render
 {
-	Renderer2D::Renderer2D(int width, int height)
-	{
+	Renderer2D::Renderer2D(int width, int height){
 		m_width = width;
 		m_height = height;
 
@@ -13,16 +12,18 @@ namespace render
 
 		//the help
 		m_bShowHelp = false;
-		m_strHelp = "ESC - quit\n"
+		m_strHelp = "ESC   - quit\n"
 					"h     - Toggle help and frame rate display\n"
 					"Space - Toggle pause\n"
 					"r     - Reset camera\n"
 					"\n"
-					"Mouse Drag  - Rotate camera\n"
 					"Mouse Wheel - Zoom camera\n"
-					"Arrow Keys  - Rotate camera\n"
+					"Arrow Keys  - Translate camera\n"
 					"\n"
-					"p  - Create a random particle\n";
+					"p    - Create a random particle\n"
+					"z/a  - In/Decrease gravity\n"
+					"q/s  - In/Decrease rigidity\n"
+					"w/x  - In/Decrease brake\n";
 		m_strPrompt = "Press 'h' for help";
 
 		//data
@@ -32,22 +33,19 @@ namespace render
 		m_highestPosition = juce::String();
 	}
 
-	Renderer2D::~Renderer2D()
-	{
+	Renderer2D::~Renderer2D(){
 	}
 
-	void Renderer2D::renderOpenGL2D(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused) 
-	{
-		LeapUtilGL::GLAttribScope attribScope( GL_ENABLE_BIT );
+	void Renderer2D::renderOpenGL2D(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused) {
+		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
 		glDisable(GL_CULL_FACE);
 
-		ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
+		juce::ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
 
-		if (glRenderer != nullptr)
-		{
-			Graphics g(*glRenderer.get());
+		if (glRenderer != nullptr){
+			juce::Graphics g(*glRenderer.get());
 
 			int iMargin   = 10;
 			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
@@ -55,9 +53,8 @@ namespace render
 			int iBaseLine = 20;
 			Font origFont = g.getCurrentFont();
 
-			if ( m_bShowHelp )
-			{
-				g.setColour( Colours::seagreen );
+			if ( m_bShowHelp ){
+				g.setColour(juce::Colours::seagreen);
 				g.setFont( static_cast<float>(iFontSize) );
 
 				if ( !isPaused ){
@@ -86,7 +83,7 @@ namespace render
 			g.setColour( Colours::salmon );
 			g.drawMultiLineText(  m_strPrompt,
 									iMargin,
-									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 30,
+									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 60,
 									bouds.getWidth()/4 );
 		}
 	}

@@ -6,7 +6,7 @@
 namespace render
 {
 	/**
-		Contain and render all 2D elements.
+		This component is contained in the Render. This is where we display all 2D elements.
 	*/
 	class Renderer2D
 	{

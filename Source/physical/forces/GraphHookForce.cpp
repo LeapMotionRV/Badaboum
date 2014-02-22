@@ -13,7 +13,7 @@ namespace physical {
 		if(!m_pGraph)
 			return;
 
-		float epsilon = 0.001;
+		float epsilon = 0.001f;
 		float d = 0.f;
 		glm::vec3 p1p2 = glm::vec3(0.f);
 		glm::vec3 forceHook = glm::vec3(0.f);

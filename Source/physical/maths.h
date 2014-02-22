@@ -15,7 +15,7 @@ namespace physical
 	//On considère M le point d'intersection entre P1P2 et AB, n la normale à AB en M
 	inline bool intersect(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& A, const glm::vec3& B, glm::vec3* intersection, glm::vec3* normal) 
 	{
-		static const float epsilon = 0.001; // Permet de tricher en allongeant la taille des coté
+		static const float epsilon = 0.001f; // Permet de tricher en allongeant la taille des coté
 
 		glm::vec3 dir = p2 - p1; // Vecteur p1p2
 		glm::vec3 AB = B - A; // Vecteur AB
@@ -202,7 +202,7 @@ namespace physical
 	//see : http://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 	inline bool intersectFacette(const Facette* pFacette, const glm::vec3& p1, const glm::vec3& p2, glm::vec3* intersection, glm::vec3* normal) 
 	{
-		static const float epsilon = 0.000001;
+		static const float epsilon = 0.000001f;
 
 		//three points of the triangle
 		glm::vec3 t0 = *pFacette->getPointArray()[0];

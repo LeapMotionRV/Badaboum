@@ -298,9 +298,6 @@
     <Filter Include="Badaboum\Source\physical">
       <UniqueIdentifier>{5260aeb7-770d-41b9-8d0a-0c122b75da1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Badaboum\Source\old">
-      <UniqueIdentifier>{c9494a5b-c348-4a1f-ac98-a48f84fe72ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Badaboum\Source\render">
       <UniqueIdentifier>{58ca66b1-0382-496d-85eb-6ee0af9afa8a}</UniqueIdentifier>
     </Filter>
@@ -309,6 +306,9 @@
     </Filter>
     <Filter Include="Badaboum\Source\physical\shapes">
       <UniqueIdentifier>{8a864ce4-7b70-4cbe-bbb2-33bf1e746ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Badaboum\Source\input">
+      <UniqueIdentifier>{9f6eb09e-de97-4d9c-815c-77ee0f6ed731}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1428,9 +1428,6 @@
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>Badaboum\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\old\SampleListener.cpp">
-      <Filter>Badaboum\Source\old</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\render\MainComponent.cpp">
       <Filter>Badaboum\Source\render</Filter>
     </ClCompile>
@@ -1502,6 +1499,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\render\Renderer2D.cpp">
       <Filter>Badaboum\Source\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\input\LeapMotionListener.cpp">
+      <Filter>Badaboum\Source\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\input\InputManager.cpp">
+      <Filter>Badaboum\Source\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2810,9 +2813,6 @@
     <ClInclude Include="..\..\Source\util\LeapUtilGL.h">
       <Filter>Badaboum\Source\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\old\SampleListener.h">
-      <Filter>Badaboum\Source\old</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\render\MainComponent.h">
       <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
@@ -2887,6 +2887,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\render\Renderer2D.h">
       <Filter>Badaboum\Source\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\input\LeapMotionListener.h">
+      <Filter>Badaboum\Source\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\input\InputManager.h">
+      <Filter>Badaboum\Source\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
