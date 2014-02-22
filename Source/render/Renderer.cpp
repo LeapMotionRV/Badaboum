@@ -153,6 +153,10 @@ namespace render
 			//  Physical simulation //
 			// ******************** //
 			m_pModel->startSimulation(fRenderDT);
+			
+			//draw the scene even if there is not Leap Motion
+			if(!BadaboumWindow::getController().isConnected()) 
+				m_openGLContext.triggerRepaint();
 		}
 	}
 

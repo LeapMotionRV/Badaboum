@@ -24,7 +24,7 @@ namespace input
 		controller.enableGesture(Leap::Gesture::TYPE_SCREEN_TAP);
 		controller.enableGesture(Leap::Gesture::TYPE_SWIPE);
 		//configure circle recognition
-		if(controller.config().setFloat("Gesture.Circle.MinRadius", 20.0) && controller.config().setFloat("Gesture.Circle.MinArc", 3)){
+		if(controller.config().setFloat("Gesture.Circle.MinRadius", 10.0) && controller.config().setFloat("Gesture.Circle.MinArc", 3)){
 			controller.config().save();
 		}
 	}
@@ -63,9 +63,6 @@ namespace input
 	}
 
 	void LeapMotionListener::manageLeapMovements(Leap::Frame frame){
-		// ******************** //
-		//    Manage camera     //
-		// ******************** //
 		bool isMoving = false;
 
 		static const float kfMinScale = 0.1f;
@@ -79,8 +76,7 @@ namespace input
         bShouldScale     = frame.scaleProbability(m_pRenderer->getLastFrame())       > 0.40;
 
 		//if any hands
-		if (!frame.hands().isEmpty()) 
-		{
+		if (!frame.hands().isEmpty()) {
 			// Get the first hand
 			const Leap::Hand hand = frame.hands()[0];
 
@@ -91,15 +87,25 @@ namespace input
 			const Leap::Vector normal = hand.palmNormal();
 			const Leap::Vector direction = hand.direction();
 			
-			//Move the camera with the leap motion
-			int number = (int)fingers.count();
-			if(number > 4){
+			// ******************** //
+			//    Manage camera     //
+			// ******************** //
+			if(fingers.count() > 3){
 				isMoving = true;
+				//translation
 				if(bShouldTranslate)
 					m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(frame.translation(m_pRenderer->getLastFrame())/100));
+				//rotation around Y axis only
 				else if(bShouldRotate){
-					m_pRenderer->setTotalMotionRotation(frame.rotationMatrix(m_pRenderer->getLastFrame()) * m_pRenderer->getTotalMotionRotation()); // Left multiply, relative to last frame
+					float angleAroundY = frame.rotationAngle(m_pRenderer->getLastFrame(), Leap::Vector::yAxis());
+					Leap::Matrix rotationMatrixAroundY = Leap::Matrix(
+																Leap::Vector(glm::cos(angleAroundY), 0, -glm::sin(angleAroundY)), 
+																Leap::Vector(0, 1, 0), 
+																Leap::Vector(glm::sin(angleAroundY), 0, glm::cos(angleAroundY)));
+
+					m_pRenderer->setTotalMotionRotation(rotationMatrixAroundY * m_pRenderer->getTotalMotionRotation()); // Left multiply, relative to last frame
 				}
+				//scale
 				else if(bShouldScale)
 					m_pRenderer->setTotalMotionScale(LeapUtil::Clamp(m_pRenderer->getTotalMotionScale() * frame.scaleFactor(m_pRenderer->getLastFrame()),
 														  kfMinScale,
@@ -114,6 +120,9 @@ namespace input
 				Leap::Gesture gesture = gestures[g];
 
 				switch (gesture.type()) {
+					// ******************** //
+					//    Create particle   //
+					// ******************** //
 					case Leap::Gesture::TYPE_CIRCLE:{
 						Leap::CircleGesture circle = gesture;
 						OutputDebugString("CircleGesture");
@@ -134,26 +143,23 @@ namespace input
 							sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
 						}
 
-						//if just one hand
-						if(frame.hands().count() == 1){
-							if(frame.hands()[0].fingers().count() <= 5){
-								//When the movement of circle stopped
-								if (circle.state() == Leap::Gesture::STATE_STOP){
-									OutputDebugString("circle completed");
-									Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_pRenderer->getFrameScale(), circle.center().y*m_pRenderer->getFrameScale(), circle.center().z*m_pRenderer->getFrameScale());
-									coordLeapToWorld = coordLeapToWorld*(1/m_pRenderer->getTotalMotionScale());//scale the translation according to the world
-									Leap::Vector coordLeapToWorldRotated = m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(coordLeapToWorld);
-									glm::vec3 particlePosition = glm::vec3(
-										coordLeapToWorldRotated.x-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().x),
-										coordLeapToWorldRotated.y-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().y), 
-										coordLeapToWorldRotated.z-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().z));
-									m_pRenderer->getModel()->addParticleWhereLeapIs(glm::vec3(particlePosition.x, particlePosition.y, particlePosition.z));
-								}
-
-								break;
-							}
+						//When the movement of circle stopped and if there is just one hand
+						if (circle.state() == Leap::Gesture::STATE_STOP && frame.fingers().count() <= 3 && m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle()){
+							OutputDebugString("circle completed");
+							Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_pRenderer->getFrameScale(), circle.center().y*m_pRenderer->getFrameScale(), circle.center().z*m_pRenderer->getFrameScale());
+							coordLeapToWorld = coordLeapToWorld*(1/m_pRenderer->getTotalMotionScale());//scale the translation according to the world
+							Leap::Vector coordLeapToWorldRotated = m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(coordLeapToWorld);
+							glm::vec3 particlePosition = glm::vec3(
+								coordLeapToWorldRotated.x-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().x),
+								coordLeapToWorldRotated.y-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().y), 
+								coordLeapToWorldRotated.z-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().z));
+							m_pRenderer->getModel()->addParticleWhereLeapIs(glm::vec3(particlePosition.x, particlePosition.y, particlePosition.z));
 						}
+						break;
 					}
+					// ******************** //
+					//     Create forces    //
+					// ******************** //
 					case Leap::Gesture::TYPE_SWIPE:{
 						Leap::SwipeGesture swipe = gesture;
 						OutputDebugString("SwipeGesture");

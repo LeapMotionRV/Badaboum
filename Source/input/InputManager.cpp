@@ -56,8 +56,14 @@ namespace input{
 				m_pRenderer->getRenderer2D()->isShowHelp(!m_pRenderer->getRenderer2D()->isShowHelp());
 				break;
 			case 'P': //add a particle
-				m_pRenderer->getModel()->addRandomParticle(1);
+				if(m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle())
+					m_pRenderer->getModel()->addRandomParticle(1);
 				break;
+			case 'Z': //more gravity
+				m_pRenderer->getModel()->setGravity(m_pRenderer->getModel()->getConstantForceArray()[0]->getForce()-0.01f);
+				break;
+			case 'A': //less gravity
+				m_pRenderer->getModel()->setGravity(m_pRenderer->getModel()->getConstantForceArray()[0]->getForce()+0.01f);
 			default:
 				return false;
 		}
