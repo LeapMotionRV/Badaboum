@@ -164,6 +164,7 @@ namespace render
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
 				m_openGLContext.triggerRepaint();
+
 		}
 	}
 

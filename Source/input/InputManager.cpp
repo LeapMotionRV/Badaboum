@@ -4,6 +4,7 @@ namespace input{
 	
 	InputManager::InputManager(render::Renderer* pRenderer){
 		m_pRenderer = pRenderer;
+		m_angle = 0;
 	}
 
 	InputManager::~InputManager(){
@@ -12,7 +13,6 @@ namespace input{
 
 	bool InputManager::keyPressed(const KeyPress& keyPress, Component*)  {
 		int iKeyCode = toupper(keyPress.getKeyCode());
-
 		//ECHAP
 		if ( iKeyCode == KeyPress::escapeKey ){
 			JUCEApplication::quit();
@@ -85,7 +85,15 @@ namespace input{
 	void InputManager::mouseDown (const MouseEvent&){
 	}
 
-	void InputManager::mouseDrag (const MouseEvent&){
+
+
+	void InputManager::mouseDrag (const MouseEvent& e){
+		//100 is the keyCode for letter D
+		if(KeyPress::isKeyCurrentlyDown(100)){
+			//multiply by 0.01 to avoid a too important rotation
+			m_angle +=  e.getDistanceFromDragStartX()*0.01;
+			m_pRenderer->setTotalMotionRotation(/*m_pRenderer->getTotalMotionRotation().xBasis.x*/ -e.getDistanceFromDragStartX()*0.01);
+		}
 	}
 
 	void InputManager::mouseWheelMove ( const MouseEvent& e, const MouseWheelDetails& wheel ){

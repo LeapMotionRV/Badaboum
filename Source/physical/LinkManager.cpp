@@ -75,4 +75,9 @@ namespace physical
 			m_linkArray[i]->draw(m_pParticleManager);
 		}
 	}
+
+	void LinkManager::deleteLink(int idLink){
+		delete m_linkArray[idLink];
+		m_linkArray.erase(m_linkArray.begin()+idLink-1);
+	}
 }

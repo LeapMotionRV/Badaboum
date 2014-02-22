@@ -19,6 +19,7 @@ namespace physical
 		//add links and manipulate them
 		void addLink(size_t idParticle1, size_t idParticle2);
 		void addLinksForParticle(size_t idParticle);
+		void deleteLink(int idLink);
 
 		//forces
 		void apply(float dt);

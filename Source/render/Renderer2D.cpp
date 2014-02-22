@@ -19,6 +19,7 @@ namespace render
 					"\n"
 					"Mouse Wheel - Zoom camera\n"
 					"Arrow Keys  - Translate camera\n"
+					"d + left click & drag  - rotation\n"
 					"\n"
 					"p    - Create a random particle\n"
 					"z/a  - In/Decrease gravity\n"
@@ -83,7 +84,7 @@ namespace render
 			g.setColour( Colours::salmon );
 			g.drawMultiLineText(  m_strPrompt,
 									iMargin,
-									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 60,
+									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 75,
 									bouds.getWidth()/4 );
 		}
 	}

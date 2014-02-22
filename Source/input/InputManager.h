@@ -23,6 +23,7 @@ namespace input
 
 	private:
 		render::Renderer*	m_pRenderer;
+		float m_angle;
 	};
 }
 

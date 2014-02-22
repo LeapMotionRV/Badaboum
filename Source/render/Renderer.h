@@ -64,6 +64,7 @@ namespace render
 		void							setLastFrame(Leap::Frame lastFrame) {m_lastFrame = lastFrame;}
 		void							setLastUpdateTimeSeconds(double lastUpdateTimeSeconds) {m_fLastUpdateTimeSeconds = lastUpdateTimeSeconds;}
 		void							setTotalMotionRotation(Leap::Matrix rotation) {m_mtxTotalMotionRotation = rotation;}
+		void							setTotalMotionRotation(float angle) {m_mtxTotalMotionRotation.setRotation(Leap::Vector(0, 1, 0), angle);}
 		void							setTotalMotionTranslation(Leap::Vector translation) {m_vTotalMotionTranslation = translation;}
 		void							setTotalMotionScale(float scale) {m_fTotalMotionScale = scale;}
 
