@@ -4,6 +4,11 @@
 
 namespace physical
 {
+	//rigidity
+	float Link::m_K = 2.f;
+	//brake
+	float Link::m_V = 0.0001f;
+
 	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2)
 	{
 		//create links
@@ -13,10 +18,6 @@ namespace physical
 		glm::vec3 pos2 = pm->getPosition(idParticle2);
 		//lenght of springs
 		m_L = glm::length(pos2 - pos1);
-		//rigidity
-		m_K = 2.f;
-		//brake
-		m_V = 0.0001f;
 	}
 
 	void Link::applyInternalForces(ParticleManager* pm, float dt){

@@ -68,13 +68,15 @@ namespace render
 				g.drawSingleLineText(m_nbParticlesLeft, iMargin, iBaseLine + iLineStep*3);
 				g.drawSingleLineText(m_highestPosition, iMargin, iBaseLine + iLineStep*4);
 				g.drawSingleLineText(m_gravity, iMargin, iBaseLine + iLineStep*5);
+				g.drawSingleLineText(m_rigidity, iMargin, iBaseLine + iLineStep*6);
+				g.drawSingleLineText(m_brake, iMargin, iBaseLine + iLineStep*7);
 
 				g.setFont( m_fixedFont );
 				g.setColour( Colours::slateblue );
 
 				g.drawMultiLineText(  m_strHelp,
 										iMargin,
-										iBaseLine + iLineStep * 7,
+										iBaseLine + iLineStep * 9,
 										bouds.getWidth() - iMargin*2 );
 			}
 
@@ -84,7 +86,7 @@ namespace render
 			g.setColour( Colours::salmon );
 			g.drawMultiLineText(  m_strPrompt,
 									iMargin,
-									bouds.getBottom() - (iFontSize + iFontSize + iLineStep),
+									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 30,
 									bouds.getWidth()/4 );
 		}
 	}

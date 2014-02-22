@@ -25,7 +25,8 @@ namespace physical
 		const unsigned int		getNbParticles() const {return m_positionArray.size();}
 		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
 		float					getHighestPosition() const;
-		
+		unsigned int			getNbPlayerParticles(){return m_positionArray.size()-m_nbFixedParticles*m_nbFixedParticles;}
+
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
