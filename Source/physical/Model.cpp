@@ -5,7 +5,7 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles)
+	Model::Model(unsigned int countParticles) :  m_nbMaxParticle(25)
 	{
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
@@ -19,7 +19,9 @@ namespace physical
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
-		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f))); //gravity
+		 //gravity
+		m_gravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
+		m_constantForceArray.push_back(m_gravity);
 	}
 
 	Model::~Model(){

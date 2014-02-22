@@ -16,6 +16,13 @@ namespace physical
 		~ConstantForce();
 
 		void apply(ParticleManager* pm);
+
+		//getter
+		float getForce(){return m_force.y;}
+
+		//setter
+		void setForce(glm::vec3 force){m_force=force;}
+		
 	private:
 		glm::vec3 m_force;
 	};

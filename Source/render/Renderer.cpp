@@ -92,7 +92,9 @@ namespace render
 		//update renderer2D
 		m_pRenderer2D->setRenderFPS(fRenderFPS);
 		m_pRenderer2D->setNbParticles(m_model.getParticuleManager()->getNbParticles());
+		m_pRenderer2D->setNbParticlesLeft(m_model.getNbMaxParticle() - m_model.getParticuleManager()->getNbParticles());
 		m_pRenderer2D->setHighestPosition(m_model.getParticuleManager()->getHighestPosition());
+		m_pRenderer2D->setGravity(m_model.getConstantForceArray()[0]->getForce());
 
 		// ******************** //
 		//   Draw with OpenGL   //
@@ -183,7 +185,14 @@ namespace render
 				m_pRenderer2D->isShowHelp(!m_pRenderer2D->isShowHelp());
 				break;
 			case 'P': //add a particle
-				m_model.addRandomParticle();
+				if(m_model.getParticuleManager()->getNbParticles()<m_model.getNbMaxParticle())
+					m_model.addRandomParticle();
+				break;
+			case 'Z': //more gravity
+				m_model.setGravity(m_model.getConstantForceArray()[0]->getForce()-0.01f);
+				break;
+			case 'A': //less gravity
+				m_model.setGravity(m_model.getConstantForceArray()[0]->getForce()+0.01f);
 				break;
 			default:
 				return false;
@@ -452,7 +461,7 @@ namespace render
 						}
 
 						//When the movement of circle stopped and if there is just one hand
-						if (circle.state() == Leap::Gesture::STATE_STOP && frame.fingers().count() <= 3)
+						if (circle.state() == Leap::Gesture::STATE_STOP && frame.fingers().count() <= 3 && m_model.getParticuleManager()->getNbParticles()<m_model.getNbMaxParticle())
 						{
 							OutputDebugString("circle completed\n");
 							Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_fFrameScale, circle.center().y*m_fFrameScale, circle.center().z*m_fFrameScale);

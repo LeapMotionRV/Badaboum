@@ -16,13 +16,17 @@ namespace render
 
 		//getters
 		bool isShowHelp() const {return m_bShowHelp;}
-
 		//setters
 		void isShowHelp(bool flag) {m_bShowHelp = flag;}
 		void setUpdateFPS(float newUpdateFPS) {m_updateFPS = String::formatted("UpdateFPS : %4.2f", newUpdateFPS);}
 		void setRenderFPS(float newRenderFPS) {m_renderFPS = String::formatted("RenderFPS : %4.2f", newRenderFPS);}
 		void setNbParticles(size_t nbParticles) {m_nbParticles = String::formatted("Nb particles: %4.i", nbParticles);}
+		void setNbParticlesLeft(size_t nbParticlesLeft) {
+			if(nbParticlesLeft>0) m_nbParticlesLeft = String::formatted("Nb particles left: %4.i", nbParticlesLeft);
+			else  m_nbParticlesLeft = String::formatted("Nb particles left: 0");
+		}
 		void setHighestPosition(float highestPosition) {m_highestPosition = String::formatted("Highest position : %4.2f", highestPosition);}
+		void setGravity(float gravity) {m_gravity = String::formatted("Gravity : %4.2f",gravity);}
 
 		//draw the text overlay (the help)
 		void renderOpenGL2D(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
@@ -41,7 +45,9 @@ namespace render
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
 		juce::String	m_nbParticles;
+		juce::String	m_nbParticlesLeft;
 		juce::String	m_highestPosition;
+		juce::String	m_gravity;
 	};
 }
 

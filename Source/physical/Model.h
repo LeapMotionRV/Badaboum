@@ -32,6 +32,10 @@ namespace physical
 		LinkManager*					getLinkManager(){return m_pLinkManager;}
 		std::vector<ConstantForce*>		getConstantForceArray(){return m_constantForceArray;}
 		Ground*							getGround(){return m_pGround;}
+		unsigned int					getNbMaxParticle(){return m_nbMaxParticle;}
+
+		//setters
+		void							setGravity(float gravity){ m_gravity->setForce(glm::vec3(0.f, gravity, 0.f));}
 
 	private:
 		LeapfrogSolver*					m_pLeapfrogSolver;
@@ -42,6 +46,8 @@ namespace physical
 		std::vector<ConstantForce*>		m_constantForceArray; //contains gravity, possible wind, etc...
 		//getters - physical object + forces
 		Ground*							m_pGround;
+		const unsigned int				m_nbMaxParticle;
+		ConstantForce*					m_gravity;	
 	};
 }
 
