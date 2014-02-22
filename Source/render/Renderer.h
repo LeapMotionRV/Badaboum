@@ -122,6 +122,7 @@ namespace render
 		//var for render
 		Renderer2D*					m_pRenderer2D;
 		ParticleRenderer			m_particleRenderer;
+		Leap::Controller m_controller;
 	};
 }
 
