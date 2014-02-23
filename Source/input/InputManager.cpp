@@ -1,9 +1,11 @@
 #include "InputManager.h"
-
+#include "Windows.h"
 namespace input{
 	
 	InputManager::InputManager(render::Renderer* pRenderer){
 		m_pRenderer = pRenderer;
+		m_pos = 0;
+		m_prevPos = 0;
 		m_angle = 0;
 	}
 
@@ -60,6 +62,8 @@ namespace input{
 					m_pRenderer->getModel()->addRandomParticle(1);
 				break;
 			case 'Z': //more gravity
+							m_prevPos = m_pos;
+			m_pos = 0;
 				m_pRenderer->getModel()->setGravity(m_pRenderer->getModel()->getConstantForceArray()[0]->getForce()-0.01f);
 				break;
 			case 'A': //less gravity
@@ -82,7 +86,9 @@ namespace input{
 		return true;
 	}
 
-	void InputManager::mouseDown (const MouseEvent&){
+	void InputManager::mouseDown (const MouseEvent& e){
+		m_prevPos = e.getMouseDownScreenX();
+		m_pos = e.getMouseDownScreenX();
 	}
 
 
@@ -90,9 +96,14 @@ namespace input{
 	void InputManager::mouseDrag (const MouseEvent& e){
 		//100 is the keyCode for letter D
 		if(KeyPress::isKeyCurrentlyDown(100)){
-			//multiply by 0.01 to avoid a too important rotation
-			m_angle +=  e.getDistanceFromDragStartX()*0.01;
-			m_pRenderer->setTotalMotionRotation(/*m_pRenderer->getTotalMotionRotation().xBasis.x*/ -e.getDistanceFromDragStartX()*0.01);
+			m_pos = e.getScreenX();
+			if(m_pos<m_prevPos) m_angle=-0.05;
+			else m_angle=0.05;
+			Leap::Matrix rotationMatrix = Leap::Matrix(Leap::Vector(glm::cos(m_angle), 0, -glm::sin(m_angle)), 
+													   Leap::Vector(0, 1, 0), 
+													   Leap::Vector(glm::sin(m_angle), 0, glm::cos(m_angle)));
+			m_pRenderer->setTotalMotionRotation(rotationMatrix * m_pRenderer->getTotalMotionRotation()); 
+			m_prevPos = m_pos;
 		}
 	}
 

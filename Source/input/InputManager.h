@@ -23,6 +23,9 @@ namespace input
 
 	private:
 		render::Renderer*	m_pRenderer;
+		/*for rotation*/
+		float m_pos;
+		float m_prevPos;
 		float m_angle;
 	};
 }
