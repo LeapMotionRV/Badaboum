@@ -5,7 +5,7 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles) :  m_nbMaxParticle(25)
+	Model::Model(unsigned int countParticles) :  m_nbMaxParticle(100)
 	{
 		m_pLeapfrogSolver = new LeapfrogSolver();
 

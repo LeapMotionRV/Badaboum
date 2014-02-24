@@ -97,7 +97,9 @@ namespace input
 					m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(frame.translation(m_pRenderer->getLastFrame())/100));
 				//rotation around Y axis only
 				else if(bShouldRotate){
+					//get the angle of rotation around y axis
 					float angleAroundY = frame.rotationAngle(m_pRenderer->getLastFrame(), Leap::Vector::yAxis());
+					//compute the rotation matrix which moved an object of angleAroundY around y axis
 					Leap::Matrix rotationMatrixAroundY = Leap::Matrix(
 																Leap::Vector(glm::cos(angleAroundY), 0, -glm::sin(angleAroundY)), 
 																Leap::Vector(0, 1, 0), 
@@ -125,7 +127,7 @@ namespace input
 					// ******************** //
 					case Leap::Gesture::TYPE_CIRCLE:{
 						Leap::CircleGesture circle = gesture;
-						OutputDebugString("CircleGesture");
+						OutputDebugString("CircleGesture\n");
 						std::string clockwiseness;
 
 						//find the circle orientation
@@ -145,15 +147,20 @@ namespace input
 
 						//When the movement of circle stopped and if there is just one hand
 						if (circle.state() == Leap::Gesture::STATE_STOP && frame.fingers().count() <= 3 && m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle()){
-							OutputDebugString("circle completed");
-							Leap::Vector coordLeapToWorld = Leap::Vector(circle.center().x*m_pRenderer->getFrameScale(), circle.center().y*m_pRenderer->getFrameScale(), circle.center().z*m_pRenderer->getFrameScale());
-							coordLeapToWorld = coordLeapToWorld*(1/m_pRenderer->getTotalMotionScale());//scale the translation according to the world
-							Leap::Vector coordLeapToWorldRotated = m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(coordLeapToWorld);
-							glm::vec3 particlePosition = glm::vec3(
-								coordLeapToWorldRotated.x-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().x),
-								coordLeapToWorldRotated.y-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().y), 
-								coordLeapToWorldRotated.z-((1/m_pRenderer->getTotalMotionScale())*m_pRenderer->getTotalMotionTranslation().z));
-							m_pRenderer->getModel()->addParticleWhereLeapIs(glm::vec3(particlePosition.x, particlePosition.y, particlePosition.z));
+							OutputDebugString("circle completed\n");
+							//
+							Leap::Vector coordParticleInLeapRepair = Leap::Vector(circle.center().x*m_pRenderer->getFrameScale(), circle.center().y*m_pRenderer->getFrameScale(), circle.center().z*m_pRenderer->getFrameScale());
+							//the scene has been scaled, translated and rotated but the coordonate is still in leap repair so we need to do that ?
+							//we translate
+							Leap::Vector coordParticle = coordParticleInLeapRepair - m_pRenderer->getTotalMotionTranslation();
+							//we rotate
+							coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticle);
+							//we scale
+							coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
+
+							//create the particle at the good position
+							glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);
+							m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
 						}
 						break;
 					}
@@ -162,7 +169,7 @@ namespace input
 					// ******************** //
 					case Leap::Gesture::TYPE_SWIPE:{
 						Leap::SwipeGesture swipe = gesture;
-						OutputDebugString("SwipeGesture");
+						OutputDebugString("SwipeGesture\n");
 
 						//create a constant force in direction of mouvement, like you make wind
 						glm::vec3 force = glm::vec3(swipe.direction().x * swipe.speed()/1000, swipe.direction().y*swipe.speed()/1000, swipe.direction().z*swipe.speed()/1000);
@@ -172,11 +179,11 @@ namespace input
 						break;
 					}
 					case Leap::Gesture::TYPE_KEY_TAP:{
-						OutputDebugString("KeyTapGesture");
+						OutputDebugString("KeyTapGesture\n");
 						break;
 					}
 					case Leap::Gesture::TYPE_SCREEN_TAP:{
-						OutputDebugString("ScreenTapGesture");
+						OutputDebugString("ScreenTapGesture\n");
 						break;
 					}
 					default:
