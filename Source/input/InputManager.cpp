@@ -22,22 +22,22 @@ namespace input{
 		}
 		//UP
 		if ( iKeyCode == KeyPress::upKey ){
-			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(Leap::Vector(0, 1, 0)));
+			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + Leap::Vector(0, 1, 0));
 			return true;
 		}
 		//DOWN
 		if ( iKeyCode == KeyPress::downKey ){
-			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(Leap::Vector(0, 1, 0)));
+			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - Leap::Vector(0, 1, 0));
 			return true;
 		}
 		//LEFT
 		if ( iKeyCode == KeyPress::leftKey ){
-			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(Leap::Vector(1, 0, 0)));
+			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - Leap::Vector(1, 0, 0));
 			return true;
 		}
 		//RIGHT
 		if ( iKeyCode == KeyPress::rightKey ){
-			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(Leap::Vector(1, 0, 0)));
+			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + Leap::Vector(1, 0, 0));
 			return true;
 		}
 		//ESCAPE
@@ -109,7 +109,7 @@ namespace input{
 
 	void InputManager::mouseWheelMove ( const MouseEvent& e, const MouseWheelDetails& wheel ){
 		(void)e;
-		m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + m_pRenderer->getTotalMotionRotation().rigidInverse().transformDirection(Leap::Vector(0, 0, wheel.deltaY)));
+		m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + Leap::Vector(0, 0, wheel.deltaY));
 		m_pRenderer->getOpenGLContext()->triggerRepaint();
 	}
 }

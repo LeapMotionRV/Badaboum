@@ -17,6 +17,9 @@ namespace input
 
 		void update(Leap::Frame frame);
 		void manageLeapMovements(Leap::Frame frame);
+		void manageCamera(Leap::Frame &frame);
+		void triggerWind(Leap::Gesture &gesture);
+		void createParticle(Leap::Gesture &gesture);
 
 		//functions from the Listener
 		virtual void onInit(const Leap::Controller&);
@@ -26,6 +29,7 @@ namespace input
 
 	private:
 		render::Renderer*	m_pRenderer;
+		bool m_isMovingCamera;
 	};
 }
 
