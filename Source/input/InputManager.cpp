@@ -6,7 +6,7 @@ namespace input{
 		m_pRenderer = pRenderer;
 		m_pos = 0;
 		m_prevPos = 0;
-		m_angle = 0;
+		m_angle = 0.f;
 	}
 
 	InputManager::~InputManager(){
@@ -62,8 +62,8 @@ namespace input{
 					m_pRenderer->getModel()->addRandomParticle(1);
 				break;
 			case 'Z': //more gravity
-							m_prevPos = m_pos;
-			m_pos = 0;
+				m_prevPos = m_pos;
+				m_pos = 0;
 				m_pRenderer->getModel()->setGravity(m_pRenderer->getModel()->getConstantForceArray()[0]->getForce()-0.01f);
 				break;
 			case 'A': //less gravity
@@ -97,8 +97,8 @@ namespace input{
 		//100 is the keyCode for letter D
 		if(KeyPress::isKeyCurrentlyDown(100)){
 			m_pos = e.getScreenX();
-			if(m_pos<m_prevPos) m_angle=-0.05;
-			else m_angle=0.05;
+			if(m_pos<m_prevPos) m_angle=-0.05f;
+			else m_angle=0.05f;
 			Leap::Matrix rotationMatrix = Leap::Matrix(Leap::Vector(glm::cos(m_angle), 0, -glm::sin(m_angle)), 
 													   Leap::Vector(0, 1, 0), 
 													   Leap::Vector(glm::sin(m_angle), 0, glm::cos(m_angle)));

@@ -1,7 +1,6 @@
 #include "Link.h"
 #include "../../util/LeapUtilGL.h"
 
-
 namespace physical
 {
 	//rigidity
@@ -9,8 +8,7 @@ namespace physical
 	//brake
 	float Link::m_V = 0.0001f;
 
-	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2)
-	{
+	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2){
 		//create links
 		m_graph->push_back(std::make_pair(idParticle1, idParticle2));
 
@@ -24,21 +22,31 @@ namespace physical
 		unsigned int idParticle1 = m_graph[0][0].first;
 		unsigned int idParticle2 = m_graph[0][0].second;
 
-		glm::vec3 link1_pos1 = pm->getPosition(idParticle1);
-		glm::vec3 link1_pos2 = pm->getPosition(idParticle2);
+		glm::vec3 link_pos1 = pm->getPosition(idParticle1);
+		glm::vec3 link_pos2 = pm->getPosition(idParticle2);
 
 		//idParticle1
-		pm->addForceToParticle(getHookForce(m_K, m_L, link1_pos1, link1_pos2), idParticle1);
-		pm->addForceToParticle(getBrakeForce(m_V, dt, link1_pos1, link1_pos2), idParticle1);
+		pm->addForceToParticle(getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle1);
+		pm->addForceToParticle(getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle1);
 
 		//idParticle1=2
-		pm->addForceToParticle(-getHookForce(m_K, m_L, link1_pos1, link1_pos2), idParticle2);
-		pm->addForceToParticle(-getBrakeForce(m_V, dt, link1_pos1, link1_pos2), idParticle2);
+		pm->addForceToParticle(-getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle2);
+		pm->addForceToParticle(-getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle2);
 	}
 
 	
-	void Link::applyExternalForces(ParticleManager* pParticleManager, float dt){
+	void Link::applyExternalForces(ParticleManager*, float){//pParticleManager, dt
 		return;
+	}
+
+	bool Link::isValid(ParticleManager* pParticleManager, const float m_maxStepToCreateLink) const {
+		unsigned int idParticle1 = m_graph[0][0].first;
+		unsigned int idParticle2 = m_graph[0][0].second;
+
+		glm::vec3 link_pos1 = pParticleManager->getPosition(idParticle1);
+		glm::vec3 link_pos2 = pParticleManager->getPosition(idParticle2);
+
+		return (glm::length(link_pos2 - link_pos1) < m_maxStepToCreateLink) ? true : false;
 	}
 
 	void Link::draw(ParticleManager* pParticuleManager){

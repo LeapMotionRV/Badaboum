@@ -1,10 +1,8 @@
 #ifndef LINK_H
 #define LINK_H
 
-
 #include "Shape.h"
 #include "../ParticleManager.h"
-
 
 namespace physical
 {
@@ -16,9 +14,14 @@ namespace physical
 	public:
 		Link(ParticleManager* pParticleManager, size_t idParticle1, size_t idParticle2);
 		
+		//forces
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
 		void applyExternalForces(ParticleManager* pParticleManager, float dt);
+
+		//a link is invalid when the lenght is superior of m_maxStepToCreateLink (var of LinkManager)
+		bool isValid(ParticleManager* pParticleManager, const float m_maxStepToCreateLink) const;
 		
+		//draw
 		void draw(ParticleManager* pParticuleManager);
 
 		//getters

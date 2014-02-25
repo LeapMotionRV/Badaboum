@@ -1,53 +1,43 @@
 #include "render/WindowScreen.h"
 #include <JuceHeader.h>
 
-
 class BadaboumApplication  : public JUCEApplication
 {
 private:
     ScopedPointer<render::BadaboumWindow>  m_pMainWindow; 
 
 public:
-    BadaboumApplication()
-	{
+    BadaboumApplication(){
 	}
 
-    ~BadaboumApplication()
-    {
+    ~BadaboumApplication(){
     }
 
-    void initialise(const String& commandLine) 
-	{
+    void initialise(const String& commandLine) {
 		(void) commandLine;
 		m_pMainWindow = new render::BadaboumWindow(getApplicationName());
 	}
 
-    void shutdown()
-    {
+    void shutdown(){
     }
 
-    void systemRequestedQuit()
-    {
+    void systemRequestedQuit(){
         quit();
     }
 
-    const String getApplicationName()
-    {
+    const String getApplicationName(){
         return "RV & MP project - Badaboum";
     }
 
-    const String getApplicationVersion()
-    {
+    const String getApplicationVersion(){
         return ProjectInfo::versionString;
     }
 
-    bool moreThanOneInstanceAllowed()
-    {
+    bool moreThanOneInstanceAllowed(){
         return false;
     }
 
-    void anotherInstanceStarted (const String& commandLine)
-    {
+    void anotherInstanceStarted (const String& commandLine){
       (void)commandLine;        
     }
 };
