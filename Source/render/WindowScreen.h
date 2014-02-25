@@ -1,11 +1,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-
 #include <JuceHeader.h>
 #include "Renderer.h"
 #include "MainComponent.h"
-
 
 namespace render
 {

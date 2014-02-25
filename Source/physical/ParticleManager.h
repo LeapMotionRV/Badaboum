@@ -17,6 +17,9 @@ namespace physical
 		ParticleManager();
 		void initFixedParticles(const unsigned int size);
 
+		//suppress warning
+		ParticleManager & operator=( const ParticleManager & ) {}
+
 		//getters
 		std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
 		std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}

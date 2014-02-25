@@ -12,6 +12,8 @@ namespace physical
 		m_massArray = std::vector<float>();
 		m_forceArray = std::vector<glm::vec3>();
 		m_colorArray = std::vector<glm::vec3>();
+
+		initFixedParticles(m_nbFixedParticles);
 	}
 
 	void ParticleManager::initFixedParticles(const unsigned int size){

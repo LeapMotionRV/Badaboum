@@ -12,7 +12,6 @@ namespace physical
 		//data of the scene
 		m_pParticleManager =  new ParticleManager();
 		m_pLinkManager = new LinkManager(m_pParticleManager);
-		m_pParticleManager->initFixedParticles(m_pParticleManager->getNbFixedParticles());
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
@@ -45,6 +44,9 @@ namespace physical
 
 	void Model::startSimulation(float dt) 
 	{
+		//delete links depend on their lenght
+		m_pLinkManager->deleteInvalidLinks();
+		//apply forces
 		if(dt != 0) {
 			for(unsigned int i = 0; i < m_constantForceArray.size(); ++i){
 				m_constantForceArray[i]->apply(m_pParticleManager);
@@ -52,6 +54,7 @@ namespace physical
 			m_pGround->apply(m_pParticleManager, dt);
 			m_pLinkManager->apply(dt);
 		}
+		//solve physics
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
 

@@ -67,7 +67,7 @@ namespace physical
 	}
 
 	
-	void Line::applyExternalForces(ParticleManager* pParticleManager, float dt){
+	void Line::applyExternalForces(ParticleManager*, float){//pParticleManager, dt
 		return;
 	}
 

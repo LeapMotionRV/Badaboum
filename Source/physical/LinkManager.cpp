@@ -4,8 +4,7 @@
 
 namespace physical 
 {
-	LinkManager::LinkManager(ParticleManager* pm):m_maxStepToCreateLink(3.f)
-	{
+	LinkManager::LinkManager(ParticleManager* pm):m_maxStepToCreateLink(3.f){
 		m_linkArray = std::vector<Link*>();
 		m_pParticleManager = pm;
 	}
@@ -63,6 +62,20 @@ namespace physical
 		}
 	}
 
+	std::vector<Link*>::iterator LinkManager::deleteLink(std::vector<Link*>::iterator itLink){
+		return m_linkArray.erase(itLink);
+	}
+
+	void LinkManager::deleteInvalidLinks() {
+		for (std::vector<Link*>::iterator it = m_linkArray.begin(); it != m_linkArray.end();) {
+			bool isValid = (*it)->isValid(m_pParticleManager, m_maxStepToCreateLink);
+			if(!isValid)
+				it = deleteLink(it);
+			else 
+				++it;
+		 }
+	}
+
 	void LinkManager::apply(float dt){
 		for(size_t i = 0; i < m_linkArray.size(); ++i){
 			m_linkArray[i]->applyExternalForces(m_pParticleManager, dt);
@@ -74,10 +87,5 @@ namespace physical
 		for(size_t i = 0; i < m_linkArray.size(); i++){
 			m_linkArray[i]->draw(m_pParticleManager);
 		}
-	}
-
-	void LinkManager::deleteLink(int idLink){
-		delete m_linkArray[idLink];
-		m_linkArray.erase(m_linkArray.begin()+idLink-1);
 	}
 }

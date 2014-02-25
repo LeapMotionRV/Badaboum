@@ -18,6 +18,9 @@ namespace physical
 		~Model();
 		void initGround(const unsigned int size);
 
+		//suppress warning
+		Model & operator=( const Model & ) {}
+
 		//apply forces and solved them with the leapfrogSolver
 		void startSimulation(float dt);
 

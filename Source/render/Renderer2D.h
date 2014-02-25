@@ -20,8 +20,8 @@ namespace render
 		void isShowHelp(bool flag) {m_bShowHelp = flag;}
 		void setUpdateFPS(float newUpdateFPS) {m_updateFPS = String::formatted("UpdateFPS : %4.2f", newUpdateFPS);}
 		void setRenderFPS(float newRenderFPS) {m_renderFPS = String::formatted("RenderFPS : %4.2f", newRenderFPS);}
-		void setNbParticles(float nbParticles) {m_nbParticles = String::formatted("Nb particles: %4.f", nbParticles);}
-		void setNbParticlesLeft(float nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4.f", nbParticlesLeft);}
+		void setNbParticles(unsigned int nbParticles) {m_nbParticles = String::formatted("Nb particles: %4", nbParticles);}
+		void setNbParticlesLeft(unsigned int nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4", nbParticlesLeft);}
 		void setHighestPosition(float highestPosition) {m_highestPosition = String::formatted("Highest position : %4.2f", highestPosition);}
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
