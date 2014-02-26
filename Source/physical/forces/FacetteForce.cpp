@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "FacetteForce.h"
-#include "../maths.h"
+#include "../intersections.h"
 
 
 namespace physical 

@@ -2834,9 +2834,6 @@
     <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h">
       <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\physical\maths.h">
-      <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\physical\forces\ConstantForce.h">
       <Filter>Badaboum\Source\physical\forces</Filter>
     </ClInclude>
@@ -2893,6 +2890,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\input\InputManager.h">
       <Filter>Badaboum\Source\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\physical\intersections.h">
+      <Filter>Badaboum\Source\physical</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

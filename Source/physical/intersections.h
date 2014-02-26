@@ -271,7 +271,50 @@ namespace physical
 		return false;
 			
 		}
- 
+	
+	//Intersection between an infinite plane and a link
+	inline bool intersectionBetweenPlaneAndVector(const glm::vec3 firstVectorOfPlane, const glm::vec3 secondVectorOfPlane, const glm::vec3 firstPointOfVector, const glm::vec3 secondPointOfVector) 
+	{
+		//Direction of our particle
+		glm::vec3 vector = secondPointOfVector - firstPointOfVector; 
+
+		//Compute the normal to the plane with vector product
+		glm::vec3 normal = glm::cross(firstVectorOfPlane, secondVectorOfPlane); 
+
+		//case 1 : direction of vector is parallel to the plane (dot product is null for orthogonal vectors)
+		if(glm::dot(vector, normal) == 0)
+		{
+			return false;
+		}
+
+		//here we got the plane equation : ax+by+cz+d = 0 with normale(a,b,c), we missed d
+		//A is on P so ax + by + cz + d = 0 so d = - (ax+...)
+		float d = - glm::dot(firstPointOfVector, normal);
+
+		//The point of intersection I(x0,y0,z0) is equaled to p1 + k * dir 
+		//so x0 = p1[0] + k * dir[0]
+		// y0 = p1[1] + k * dir[1]
+		// z0 = p1[2] + k * dir[2]
+		// equation of the plane ax + by + cz + d = 0
+		float a = normal[0];
+		float b = normal[1];
+		float c = normal[2];
+		//I is on the plane so ax0 + by0 + cz0 + d = 0
+		//we determined k thanks to this expression
+		float k = -(a*firstPointOfVector[0] + b*firstPointOfVector[1] + c*firstPointOfVector[2] + d) / (a*vector[0] + b * vector[1] + c*vector[2]);
+
+		// same result with : float k2 = - glm::dot(normale, p1 - A) / glm::dot(normale, dir);
+
+		//find the intersection point	
+		glm::vec3 I = firstPointOfVector + k * vector;
+	
+		//if I isn't on p1p2
+		if(k < 0.f || k > 1.f ){
+			return false;
+		}
+
+		return true;
+	}
 }
 
 #endif // MATHS_HPP

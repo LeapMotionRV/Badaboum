@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include "PolygonForce.h"
-#include "../maths.h"
+#include "../intersections.h"
 
 
 namespace physical 

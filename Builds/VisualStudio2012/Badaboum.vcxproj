@@ -1700,7 +1700,7 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\physical\Ground.h" />
     <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h" />
     <ClInclude Include="..\..\Source\physical\LinkManager.h" />
-    <ClInclude Include="..\..\Source\physical\maths.h" />
+    <ClInclude Include="..\..\Source\physical\intersections.h" />
     <ClInclude Include="..\..\Source\physical\Model.h" />
     <ClInclude Include="..\..\Source\physical\ParticleManager.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Facette.h" />
