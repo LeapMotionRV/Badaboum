@@ -67,7 +67,7 @@ namespace physical
 			glm::vec3(0.f, 0.f, 0.f), 
 			ParticleManager::getMassOfParticles(), 
 			glm::vec3(0.f, 0.f, 0.f), 
-			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
+			ParticleManager::getColorOfParticles());
 	}
 
 }

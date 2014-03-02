@@ -29,7 +29,10 @@ namespace physical
 		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
 		float					getHighestPosition() const;
 		unsigned int			getNbPlayerParticles(){return m_positionArray.size()-m_nbFixedParticles*m_nbFixedParticles;}
-		static float			getMassOfParticles() {return m_massOfParticles;};
+		
+		static float			getMassOfParticles() {return s_massOfParticles;}
+		static glm::vec3		getColorOfFixedParticles() {return s_colorOfFixedParticles;}
+		static glm::vec3		getColorOfParticles() {return s_colorOfParticles;}
 
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
@@ -59,7 +62,9 @@ namespace physical
 		std::vector<glm::vec3>	m_colorArray;
 		const unsigned int		m_nbFixedParticles;
 
-		static const float		m_massOfParticles;
+		static const float		s_massOfParticles;
+		static const glm::vec3	s_colorOfFixedParticles;
+		static const glm::vec3	s_colorOfParticles;
 	};
 
 	struct ParticleState {

@@ -6,6 +6,7 @@ namespace physical
 {
 	const float		LinkManager::m_maxLenghtToCreateLink = 2.f;
 	const size_t	LinkManager::m_maxLinksPerParticle = 8;
+	const glm::vec3	LinkManager::s_colorOfLinks = glm::vec3(0.97f, 0.97f, 1.f); //ghostwhite
 
 	LinkManager::LinkManager(ParticleManager* pm){
 		m_linkArray = std::vector<Link*>();

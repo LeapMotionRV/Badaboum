@@ -38,6 +38,8 @@ namespace physical
 		float				getRigidity(){return Link::getRigidity();}
 		float				getBrake(){return Link::getBrake();}
 		bool				isLinkAlreadyExist(size_t idParticle1, size_t idParticle2) const;
+		
+		static glm::vec3	getColorOfLinks() {return s_colorOfLinks;}
 
 		//setters
 		void setRigidity(float rigidity){Link::setRigidity(rigidity);}
@@ -48,6 +50,8 @@ namespace physical
 		ParticleManager*	m_pParticleManager;
 		static const float	m_maxLenghtToCreateLink;
 		static const size_t m_maxLinksPerParticle;
+		
+		static const glm::vec3	s_colorOfLinks;
 	};
 }
 

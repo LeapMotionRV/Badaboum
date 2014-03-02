@@ -5,7 +5,9 @@
 
 namespace physical 
 {
-	const float ParticleManager::m_massOfParticles = 1.f;
+	const float		ParticleManager::s_massOfParticles = 1.f;
+	const glm::vec3 ParticleManager::s_colorOfFixedParticles = glm::vec3(0.f, 0.f, 0.f); //black
+	const glm::vec3 ParticleManager::s_colorOfParticles = glm::vec3(0.41f, 0.41f, 0.41f); //dimgrey
 
 	ParticleManager::ParticleManager():m_nbFixedParticles(3)
 	{
@@ -23,7 +25,12 @@ namespace physical
 		for(unsigned int i = 0; i<size; ++i){
 			for(unsigned int j = 0; j<size; ++j){
 				float mass = 1.f;
-				addParticle(glm::vec3(-fSize/2.f+0.5f+1.f*i, 0.2f, -fSize/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
+				addParticle(
+					glm::vec3(-fSize/2.f+0.5f+1.f*i, 0.2f, -fSize/2.f+0.5f+1.f*j), 
+					glm::vec3(0.f, 0.f, 0.f), 
+					ParticleManager::getMassOfParticles(), 
+					glm::vec3(0.f, 0.f, 0.f), 
+					ParticleManager::getColorOfFixedParticles());
 			}
 		}
 	}
@@ -52,9 +59,9 @@ namespace physical
             addParticle(
 				glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
-				m_massOfParticles, 
+				s_massOfParticles, 
 				glm::vec3(0.f, 0.f, 0.f), 
-				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
+				s_colorOfParticles);
         }
 	}
 	
