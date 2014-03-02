@@ -20,10 +20,8 @@ namespace physical
 	void LinkManager::addLinksForParticle(size_t idParticle){
 		if(m_pParticleManager->isFixedParticle(idParticle))
 			return;
-		if(getNbLinkOfParticle(idParticle) >= m_maxLinksPerParticle){
-			size_t test = getNbLinkOfParticle(idParticle);
+		if(getNbLinkOfParticle(idParticle) >= m_maxLinksPerParticle)
 			return;
-		}
 
 		glm::vec3 particleToAddLinksPosition = m_pParticleManager->getPosition(idParticle);
 
