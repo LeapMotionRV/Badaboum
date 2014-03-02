@@ -1,5 +1,6 @@
 #include "Link.h"
 #include "../../util/LeapUtilGL.h"
+#include "../LinkManager.h"
 
 namespace physical
 {
@@ -39,14 +40,14 @@ namespace physical
 		return;
 	}
 
-	bool Link::isValid(ParticleManager* pParticleManager, const float m_maxStepToCreateLink) const {
+	bool Link::isValid(ParticleManager* pParticleManager) const {
 		unsigned int idParticle1 = m_graph[0][0].first;
 		unsigned int idParticle2 = m_graph[0][0].second;
 
 		glm::vec3 link_pos1 = pParticleManager->getPosition(idParticle1);
 		glm::vec3 link_pos2 = pParticleManager->getPosition(idParticle2);
 
-		return (glm::length(link_pos2 - link_pos1) < m_maxStepToCreateLink) ? true : false;
+		return (glm::length(link_pos2 - link_pos1) < (2*LinkManager::getMaxLenghtToCreateLink())) ? true : false;
 	}
 
 	void Link::draw(ParticleManager* pParticuleManager){

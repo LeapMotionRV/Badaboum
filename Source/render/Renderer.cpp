@@ -173,16 +173,13 @@ namespace render
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
 				m_openGLContext.triggerRepaint();
-
 		}
 	}
 
-	void Renderer::resized()
-	{
+	void Renderer::resized(){
 	}
 
-	void Renderer::paint(Graphics&)
-	{
+	void Renderer::paint(Graphics&){
 	}
 
 	void Renderer::drawPointables(Leap::Frame frame){

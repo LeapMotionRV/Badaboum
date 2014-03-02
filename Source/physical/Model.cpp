@@ -44,8 +44,7 @@ namespace physical
 
 	void Model::startSimulation(float dt) 
 	{
-		//delete links depend on their lenght
-		m_pLinkManager->deleteInvalidLinks();
+		m_pLinkManager->manageLinks();
 		//apply forces
 		if(dt != 0) {
 			for(unsigned int i = 0; i < m_constantForceArray.size(); ++i){
@@ -66,7 +65,6 @@ namespace physical
 				1.f, 
 				glm::vec3(0.f, 0.f, 0.f), 
 				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-			m_pLinkManager->addLinksForParticle(idParticle);
 		}
 	}
 
@@ -77,7 +75,6 @@ namespace physical
 			1.f, 
 			glm::vec3(0.f, 0.f, 0.f), 
 			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-		m_pLinkManager->addLinksForParticle(idParticle);
 	}
 
 }

@@ -18,8 +18,8 @@ namespace physical
 		void applyInternalForces(ParticleManager* pParticleManager, float dt);
 		void applyExternalForces(ParticleManager* pParticleManager, float dt);
 
-		//a link is invalid when the lenght is superior of m_maxStepToCreateLink (var of LinkManager)
-		bool isValid(ParticleManager* pParticleManager, const float m_maxStepToCreateLink) const;
+		//when the lenght > (2*m_maxLenghtToCreateLink)
+		bool isValid(ParticleManager* pParticleManager) const;
 		
 		//draw
 		void draw(ParticleManager* pParticuleManager);
