@@ -52,13 +52,7 @@ namespace input
 		juce::ScopedLock sceneLock(*m_pRenderer->getRenderMutex());
 
 		double curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-
-		float deltaTimeSeconds = static_cast<float>(curSysTimeSeconds - m_pRenderer->getLastUpdateTimeSeconds());
-
 		m_pRenderer->setLastUpdateTimeSeconds(curSysTimeSeconds);
-		float fUpdateDT = m_pRenderer->getAvgUpdateDeltaTime().AddSample( deltaTimeSeconds );
-		float fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
-		m_pRenderer->getRenderer2D()->setUpdateFPS(fUpdateFPS);
 
 		manageLeapMovements(frame);
 	}

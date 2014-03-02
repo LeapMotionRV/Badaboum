@@ -113,13 +113,22 @@ namespace render
 				return;
 		}
 
-		//calculations for Leap Motion
+		// ******************** //
+		//     Leap Motion      //
+		// ******************** //
 		Leap::Frame	frame = m_lastFrame;
-		double		curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-		float		fRenderDT = static_cast<float>(curSysTimeSeconds - m_fLastRenderTimeSeconds);
-		fRenderDT =	m_avgRenderDeltaTime.AddSample( fRenderDT );
+		double	curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+		//compute updateFPS => leap motion
+		float	fUpdateDT = static_cast<float>(curSysTimeSeconds - m_fLastUpdateTimeSeconds);
+		fUpdateDT = m_avgUpdateDeltaTime.AddSample( fUpdateDT );
+		float	fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
+		//compute renderFPS => rendering
+		float	fRenderDT = static_cast<float>(curSysTimeSeconds - m_fLastRenderTimeSeconds);
+		//compute physicsFPS => physics(time between each frame)
+		float fPhysicsFPS = fRenderDT;
+		fRenderDT =	m_avgRenderDeltaTime.AddSample(fRenderDT);
 		m_fLastRenderTimeSeconds = curSysTimeSeconds;
-		float		fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
+		float	fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 
 		{
 			//!!! lock sensitive data !!!
@@ -145,7 +154,9 @@ namespace render
 			// ******************** //
 			//   Draw OpenGL 2D     //
 			// ******************** //
+			m_pRenderer2D->setUpdateFPS(fUpdateFPS);
 			m_pRenderer2D->setRenderFPS(fRenderFPS);
+			m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
 			m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
 			m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
 			m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
@@ -157,7 +168,7 @@ namespace render
 			// ******************** //
 			//  Physical simulation //
 			// ******************** //
-			m_pModel->startSimulation(fRenderDT);
+			m_pModel->startSimulation(fPhysicsFPS);
 
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
