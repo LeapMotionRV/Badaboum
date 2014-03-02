@@ -12,9 +12,21 @@ namespace physical
 	public:
 		ParticleManager();
 		void initFixedParticles();
+		void reset();
 
-		//suppress warning
-		ParticleManager & operator=( const ParticleManager & ) {}
+		/**
+		* Manage particles
+		*/
+		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
+		void			addRandomParticles(unsigned int count);
+		void			addForceToParticle(glm::vec3 force, size_t index);
+		void			resetForceOfParticle(size_t index);
+		void			move(float maxDist);
+
+		/**
+		* Draw
+		*/
+		void drawParticles();
 
 		/**
 		* Getters
@@ -48,15 +60,8 @@ namespace physical
 		void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
 
-		//add particles and manipulate them
-		unsigned int	addParticle(glm::vec3 pos, glm::vec3 speed, float mass, glm::vec3 force, glm::vec3 color);//return index of particle
-		void			addRandomParticles(unsigned int count);
-		void			addForceToParticle(glm::vec3 force, size_t index);
-		void			resetForceOfParticle(size_t index);
-		void			move(float maxDist);
-
-		//draw
-		void drawParticles();
+		//suppress warning
+		ParticleManager & operator=( const ParticleManager & ) {}
 		
 	private:
 		std::vector<glm::vec3>	m_positionArray;

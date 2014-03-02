@@ -46,6 +46,14 @@ namespace physical
 		}
 	}
 
+	void ParticleManager::reset() {
+		m_positionArray.clear();
+		m_speedArray.clear();
+		m_massArray.clear();
+		m_forceArray.clear();
+		m_colorArray.clear();
+	}
+
 	float ParticleManager::getHighestPosition() const {
 		float highestPosition = -1.f;
 		for(size_t i = 0; i < getNbParticles(); ++i) {

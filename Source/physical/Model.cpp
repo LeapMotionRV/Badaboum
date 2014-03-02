@@ -5,8 +5,7 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles) :  m_nbMaxParticle(100)
-	{
+	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_bIsGameEnded(false){
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
 		//data of the scene
@@ -19,9 +18,8 @@ namespace physical
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
-		 //gravity
-		m_gravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
-		m_constantForceArray.push_back(m_gravity);
+		//add gravity
+		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f)));
 	}
 
 	Model::~Model(){
@@ -42,8 +40,20 @@ namespace physical
 			glm::vec3(1.f, 1.f, 0.f), 1.f);
 	}
 
+	void Model::reset(){
+		m_pLinkManager->reset();
+		m_pParticleManager->reset();
+		m_bIsGameEnded = false;
+		m_pParticleManager->initFixedParticles();
+	}
+
 	void Model::startSimulation(float dt) 
 	{
+		//the game
+		if(m_pLinkManager->isLinkExistFromAStartedParticleToAnEndedParticle()){
+			m_bIsGameEnded = true;
+		}
+		//links
 		m_pLinkManager->manageLinks();
 		//apply forces
 		if(dt != 0) {
@@ -70,4 +80,7 @@ namespace physical
 			ParticleManager::getColorOfParticles());
 	}
 
+	bool Model::isGameEnded() const {
+		return m_bIsGameEnded;
+	}
 }

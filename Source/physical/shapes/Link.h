@@ -24,22 +24,28 @@ namespace physical
 		//draw
 		void draw(ParticleManager* pParticuleManager);
 
-		//getters
+		/**
+		* Getters
+		*/
 		float getSpringLenght(){return m_L;}
-		static float getRigidity(){return m_K;}
-		static float getBrake(){return m_V;}
+		
+		static float getRigidity(){return s_K;}
+		static float getBrake(){return s_V;}
 
-		//setters
-		static void setRigidity(float rigidity){m_K = rigidity;}
-		static void setBrake(float brake){m_V = brake;}
+		/**
+		* Setters
+		*/
+		static void setRigidity(float rigidity){s_K = rigidity;}
+		static void setBrake(float brake){s_V = brake;}
 
 	private:
 		//lenght of springs
 		float m_L;
+		
 		//rigidity
-		static float m_K;
+		static float s_K;
 		//brake
-		static float m_V;//if you want the system to be more stable, decrease this variable
+		static float s_V;//if you want the system to be more stable, decrease this variable
 	};
 }
 

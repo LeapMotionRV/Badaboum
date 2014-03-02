@@ -5,9 +5,9 @@
 namespace physical
 {
 	//rigidity
-	float Link::m_K = 2.f;
+	float Link::s_K = 2.f;
 	//brake
-	float Link::m_V = 0.0001f;
+	float Link::s_V = 0.0001f;
 
 	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2){
 		//create links
@@ -27,12 +27,12 @@ namespace physical
 		glm::vec3 link_pos2 = pm->getPosition(idParticle2);
 
 		//idParticle1
-		pm->addForceToParticle(getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle1);
-		pm->addForceToParticle(getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle1);
+		pm->addForceToParticle(getHookForce(s_K, m_L, link_pos1, link_pos2), idParticle1);
+		pm->addForceToParticle(getBrakeForce(s_V, dt, link_pos1, link_pos2), idParticle1);
 
 		//idParticle1=2
-		pm->addForceToParticle(-getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle2);
-		pm->addForceToParticle(-getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle2);
+		pm->addForceToParticle(-getHookForce(s_K, m_L, link_pos1, link_pos2), idParticle2);
+		pm->addForceToParticle(-getBrakeForce(s_V, dt, link_pos1, link_pos2), idParticle2);
 	}
 
 	

@@ -4,13 +4,17 @@
 
 namespace physical 
 {
-	const float		LinkManager::m_maxLenghtToCreateLink = 2.f;
-	const size_t	LinkManager::m_maxLinksPerParticle = 8;
+	const float		LinkManager::s_maxLenghtToCreateLink = 2.f;
+	const size_t	LinkManager::s_maxLinksPerParticle = 8;
 	const glm::vec3	LinkManager::s_colorOfLinks = glm::vec3(0.97f, 0.97f, 1.f); //ghostwhite
 
 	LinkManager::LinkManager(ParticleManager* pm){
 		m_linkArray = std::vector<Link*>();
 		m_pParticleManager = pm;
+	}
+
+	void LinkManager::reset() {
+		m_linkArray.clear();
 	}
 
 	void LinkManager::addLink(size_t idParticle1, size_t idParticle2){
@@ -20,32 +24,32 @@ namespace physical
 	void LinkManager::addLinksForParticle(size_t idParticle){
 		if(m_pParticleManager->isFixedParticle(idParticle))
 			return;
-		if(getNbLinkOfParticle(idParticle) >= m_maxLinksPerParticle)
+		if(getNbLinkOfParticle(idParticle) >= s_maxLinksPerParticle)
 			return;
 
 		glm::vec3 particleToAddLinksPosition = m_pParticleManager->getPosition(idParticle);
 
 		//fill with -1 => correspond to no possible idParticle
-		int nearestParticles[m_maxLinksPerParticle] = {};
-		std::fill(nearestParticles, nearestParticles + m_maxLinksPerParticle, -1);
+		int nearestParticles[s_maxLinksPerParticle] = {};
+		std::fill(nearestParticles, nearestParticles + s_maxLinksPerParticle, -1);
 
 		//fill the table nearestParticles
 		for(size_t currentIdParticle = 0; currentIdParticle < m_pParticleManager->getPositionArray().size(); currentIdParticle++){
 			//no link between particle itself
 			if(currentIdParticle == idParticle)
 				continue;
-			if(isLinkAlreadyExist(idParticle, currentIdParticle))
+			if(isLinkExist(idParticle, currentIdParticle))
 				continue;
 			//check lenght
 			glm::vec3 currentParticlePosition = m_pParticleManager->getPosition(currentIdParticle);
 			glm::vec3 currentVector = particleToAddLinksPosition - currentParticlePosition;
-			if(glm::length(currentVector) > m_maxLenghtToCreateLink)
+			if(glm::length(currentVector) > s_maxLenghtToCreateLink)
 				continue;
 
 			bool idCurrentParticleAdded = false;
 
 			//if the array of nearest particle is not full
-			for(size_t i = 0; i < m_maxLinksPerParticle; ++i) {
+			for(size_t i = 0; i < s_maxLinksPerParticle; ++i) {
 				if(nearestParticles[i] == -1){
 					nearestParticles[i] = currentIdParticle;
 					idCurrentParticleAdded = true;
@@ -57,7 +61,7 @@ namespace physical
 			if(!idCurrentParticleAdded){
 				int indexOfMoreDistantParticleInNearestParticleTable = -1;
 				float lenghtOfMoreDistantParticleInNearestParticleTable = -1.f;
-				for(size_t i = 0; i < m_maxLinksPerParticle; ++i) {
+				for(size_t i = 0; i < s_maxLinksPerParticle; ++i) {
 					glm::vec3 oneOfNearestParticlePosition = m_pParticleManager->getPosition(nearestParticles[i]);
 					glm::vec3 testedVector = particleToAddLinksPosition - oneOfNearestParticlePosition;
 				
@@ -82,10 +86,10 @@ namespace physical
 			}
 		}
 		//now we have our table of nearestParticle filled in
-		for(size_t i = 0; i < m_maxLinksPerParticle; ++i){
+		for(size_t i = 0; i < s_maxLinksPerParticle; ++i){
 			if(nearestParticles[i] >= 0){
 				//check if both of particle can have a new link
-				if((getNbLinkOfParticle(idParticle) < m_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < m_maxLinksPerParticle))
+				if((getNbLinkOfParticle(idParticle) < s_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < s_maxLinksPerParticle))
 					addLink(idParticle, nearestParticles[i]);
 			}
 		}
@@ -139,7 +143,7 @@ namespace physical
 		return nbLinkOfParticle;
 	}
 
-	bool LinkManager::isLinkAlreadyExist(size_t idParticle1, size_t idParticle2) const {
+	bool LinkManager::isLinkExist(size_t idParticle1, size_t idParticle2) const {
 		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
 			size_t linkIdParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
 			size_t linkIdParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
@@ -149,5 +153,34 @@ namespace physical
 				return true;
 		}
 		return false;
+	}
+
+	
+	bool LinkManager::isLinkExistWithAStartedParticle() const{
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+
+			if((m_pParticleManager->isStartedParticle(idParticle1) && !m_pParticleManager->isFixedParticle(idParticle2))
+				|| (m_pParticleManager->isStartedParticle(idParticle2) && !m_pParticleManager->isFixedParticle(idParticle1)))
+				return true;
+		}
+		return false;
+	}
+
+	bool LinkManager::isLinkExistWithAnEndedParticle() const{
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+
+			if((m_pParticleManager->isEndedParticle(idParticle1) && !m_pParticleManager->isFixedParticle(idParticle2))
+				|| (m_pParticleManager->isEndedParticle(idParticle2) && !m_pParticleManager->isFixedParticle(idParticle1)))
+				return true;
+		}
+		return false;
+	}
+
+	bool LinkManager::isLinkExistFromAStartedParticleToAnEndedParticle() const {
+		return (isLinkExistWithAStartedParticle() && isLinkExistWithAnEndedParticle()) ? true : false;
 	}
 }

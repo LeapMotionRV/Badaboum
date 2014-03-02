@@ -17,19 +17,23 @@ namespace physical
 		Model(unsigned int countParticles = 0);
 		~Model();
 		void initGround(const size_t size);
+		void reset();
 
-		//suppress warning
-		Model & operator=( const Model & ) {}
-
-		//apply forces and solved them with the leapfrogSolver
+		/**
+		* Apply forces and solved them with the leapfrogSolver
+		*/
 		void startSimulation(float dt);
 
-		//create data for the scene
+		/**
+		* Manage data of the scene
+		*/
 		void addRandomParticles(unsigned int count);//called when press "P"
 		void addRandomLine();//called when press "L"
 		void addParticleWhereLeapIs(glm::vec3 pos); //with leap motion
 
-		//getters
+		/**
+		* Getters
+		*/
 		LeapfrogSolver*					getLeapfrogSolver(){return m_pLeapfrogSolver;}
 		ParticleManager*				getParticuleManager(){return m_pParticleManager;}
 		LinkManager*					getLinkManager(){return m_pLinkManager;}
@@ -37,20 +41,31 @@ namespace physical
 		Ground*							getGround(){return m_pGround;}
 		unsigned int					getNbMaxParticle(){return m_nbMaxParticle;}
 
-		//setters
-		void							setGravity(float gravity){ m_gravity->setForce(glm::vec3(0.f, gravity, 0.f));}
+		bool isGameEnded() const;
+
+		/**
+		* Setters
+		*/
+		void setGravity(float gravity){ m_constantForceArray[0]->setForce(glm::vec3(0.f, gravity, 0.f));}
+		void isGameEnded(bool flag) {m_bIsGameEnded = flag;}
+
+		//suppress warning
+		Model & operator=( const Model & ) {}
 
 	private:
+		bool							m_bIsGameEnded;
 		LeapfrogSolver*					m_pLeapfrogSolver;
+		
 		//physical objects
 		ParticleManager*				m_pParticleManager;
 		LinkManager*					m_pLinkManager;
+		
 		//forces
 		std::vector<ConstantForce*>		m_constantForceArray; //contains gravity, possible wind, etc...
+		
 		//getters - physical object + forces
 		Ground*							m_pGround;
 		const unsigned int				m_nbMaxParticle;
-		ConstantForce*					m_gravity;	
 	};
 }
 

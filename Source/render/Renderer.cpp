@@ -113,6 +113,13 @@ namespace render
 				return;
 		}
 
+		// ************************* //
+		//     Check game state      //
+		// ************************* //
+		if(m_pModel->isGameEnded()){
+			m_pModel->reset();
+		}
+
 		// ******************** //
 		//     Leap Motion      //
 		// ******************** //
