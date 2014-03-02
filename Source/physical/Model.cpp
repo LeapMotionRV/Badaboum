@@ -57,22 +57,15 @@ namespace physical
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
 
-	void Model::addRandomParticle(unsigned int count){
-		for(size_t i = 0; i < count; ++i) {
-			unsigned int idParticle = m_pParticleManager->addParticle(
-				glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f)), 
-				glm::vec3(0.f, 0.f, 0.f), 
-				1.f, 
-				glm::vec3(0.f, 0.f, 0.f), 
-				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-		}
+	void Model::addRandomParticles(unsigned int count){
+		m_pParticleManager->addRandomParticles(count);
 	}
 
 	void Model::addParticleWhereLeapIs(glm::vec3 pos){
 		unsigned int idParticle = m_pParticleManager->addParticle(
 			pos, 
 			glm::vec3(0.f, 0.f, 0.f), 
-			1.f, 
+			ParticleManager::getMassOfParticles(), 
 			glm::vec3(0.f, 0.f, 0.f), 
 			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
 	}

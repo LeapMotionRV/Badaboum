@@ -5,6 +5,8 @@
 
 namespace physical 
 {
+	const float ParticleManager::m_massOfParticles = 1.f;
+
 	ParticleManager::ParticleManager():m_nbFixedParticles(3)
 	{
 		m_positionArray = std::vector<glm::vec3>();
@@ -50,7 +52,7 @@ namespace physical
             addParticle(
 				glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
-				glm::linearRand(1.f, 5.f), 
+				m_massOfParticles, 
 				glm::vec3(0.f, 0.f, 0.f), 
 				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
         }

@@ -25,7 +25,7 @@ namespace physical
 		void startSimulation(float dt);
 
 		//create data for the scene
-		void addRandomParticle(unsigned int count);//called when press "P"
+		void addRandomParticles(unsigned int count);//called when press "P"
 		void addRandomLine();//called when press "L"
 		void addParticleWhereLeapIs(glm::vec3 pos); //with leap motion
 
