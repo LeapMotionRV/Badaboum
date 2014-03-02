@@ -1,12 +1,8 @@
 #ifndef _IMAC3_PARTICLEMANAGER_HPP
 #define _IMAC3_PARTICLEMANAGER_HPP
 
-
 #include <vector>
 #include <glm/glm.hpp>
-
-#include "../render/ParticleRenderer.h"
-
 
 namespace physical 
 {
@@ -20,7 +16,9 @@ namespace physical
 		//suppress warning
 		ParticleManager & operator=( const ParticleManager & ) {}
 
-		//getters
+		/**
+		* Getters
+		*/
 		std::vector<glm::vec3>	getForceArray() const {return m_forceArray;}
 		std::vector<glm::vec3>	getSpeedArray() const {return m_speedArray;}
 		std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
@@ -43,7 +41,9 @@ namespace physical
 		bool isEndedParticle(size_t idParticle) {return (idParticle > s_nbStartedParticles && idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
 		bool isFixedParticle(size_t idParticle) {return (idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
 
-		//setters
+		/**
+		* Setters
+		*/
 		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
 		void setSpeedOfParticle(glm::vec3 speed, size_t index) {m_speedArray[index] = speed;};
 		void setForceOfParticle(glm::vec3 force, size_t index) {m_forceArray[index] = force;};
@@ -56,7 +56,7 @@ namespace physical
 		void			move(float maxDist);
 
 		//draw
-		void drawParticles(render::ParticleRenderer& renderer);
+		void drawParticles();
 		
 	private:
 		std::vector<glm::vec3>	m_positionArray;

@@ -146,7 +146,7 @@ namespace render
 			// draw the ground
 			m_pModel->getGround()->draw();
 			// draw particles
-			m_pModel->getParticuleManager()->drawParticles(m_particleRenderer);
+			m_pModel->getParticuleManager()->drawParticles();
 			m_pModel->getLinkManager()->drawLinks();
 			// draw fingers/tools as lines with sphere at the tip.
 			drawPointables( frame );

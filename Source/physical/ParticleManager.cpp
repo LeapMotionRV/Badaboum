@@ -1,4 +1,5 @@
 #include <glm/gtc/random.hpp>
+#include "../util/LeapUtilGL.h"
 
 #include "ParticleManager.h"
 
@@ -75,12 +76,15 @@ namespace physical
         }
 	}
 	
-	void ParticleManager::drawParticles(render::ParticleRenderer& renderer) {
+	void ParticleManager::drawParticles() {
 		if(m_positionArray.size() > 0){
-			renderer.drawParticles(m_positionArray.size(),
-							&m_positionArray[0],
-							&m_massArray[0],
-							&m_colorArray[0]);
+			// draw each particles
+			for(uint32_t i = 0; i < m_positionArray.size(); ++i) {
+				LeapUtilGL::GLMatrixScope gridMatrixScope;
+				glColor3f(m_colorArray[i].x, m_colorArray[i].y, m_colorArray[i].z);
+				glTranslatef(m_positionArray[i].x,  m_positionArray[i].y, m_positionArray[i].z);
+				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, m_massArray[i]);
+			}
 		}
     }
     

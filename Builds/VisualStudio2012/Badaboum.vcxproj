@@ -1245,7 +1245,6 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClCompile Include="..\..\Source\physical\shapes\Polygon.cpp" />
     <ClCompile Include="..\..\Source\physical\shapes\Shape.cpp" />
     <ClCompile Include="..\..\Source\render\MainComponent.cpp" />
-    <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp" />
     <ClCompile Include="..\..\Source\render\Renderer.cpp" />
     <ClCompile Include="..\..\Source\render\Renderer2D.cpp" />
     <ClCompile Include="..\..\Source\render\Skybox.cpp" />
@@ -1709,7 +1708,6 @@ xcopy ..\..\LeapSDK\lib\x86\msvcr100d.dll "$(TargetDir)" /y</Command>
     <ClInclude Include="..\..\Source\physical\shapes\Polygon.h" />
     <ClInclude Include="..\..\Source\physical\shapes\Shape.h" />
     <ClInclude Include="..\..\Source\render\MainComponent.h" />
-    <ClInclude Include="..\..\Source\render\ParticleRenderer.h" />
     <ClInclude Include="..\..\Source\render\Renderer.h" />
     <ClInclude Include="..\..\Source\render\Renderer2D.h" />
     <ClInclude Include="..\..\Source\render\Skybox.h" />
