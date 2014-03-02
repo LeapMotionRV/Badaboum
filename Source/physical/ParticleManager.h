@@ -60,7 +60,7 @@ namespace physical
 		std::vector<float>		m_massArray;
 		std::vector<glm::vec3>	m_forceArray;
 		std::vector<glm::vec3>	m_colorArray;
-		const unsigned int		m_nbFixedParticles;
+		const unsigned int		m_nbFixedParticles; //warning : the real number is the square of this !
 
 		static const float		s_massOfParticles;
 		static const glm::vec3	s_colorOfFixedParticles;

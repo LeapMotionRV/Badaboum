@@ -28,8 +28,8 @@ namespace render
 		void setRenderFPS(float newRenderFPS) {m_renderFPS = String::formatted("RenderFPS : %4.2f", newRenderFPS);}
 		//physicsFPS => the update of the physics
 		void setPhysicsFPS(float newPhysicsFPS) {m_physicsFPS = String::formatted("PhysicsFPS : %4.2f", newPhysicsFPS);}
-		void setNbParticles(unsigned int nbParticles) {m_nbParticles = String::formatted("Nb particles: %4", nbParticles);}
-		void setNbParticlesLeft(unsigned int nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4", nbParticlesLeft);}
+		void setNbParticles(unsigned int nbParticles) {m_nbParticles = String::formatted("Nb particles: %4d", nbParticles);}
+		void setNbParticlesLeft(unsigned int nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4d", nbParticlesLeft);}
 		void setHighestPosition(float highestPosition) {m_highestPosition = String::formatted("Highest position : %4.2f", highestPosition);}
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
