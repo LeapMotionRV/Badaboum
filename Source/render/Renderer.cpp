@@ -154,8 +154,6 @@ namespace render
 			m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
 			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
 
-
-
 			// ******************** //
 			//  Physical simulation //
 			// ******************** //
@@ -193,8 +191,8 @@ namespace render
 				LeapUtilGL::GLMatrixScope matrixScope;
 				//apply transformations to have the fingers at the center at any time
 				glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
-				glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
 				glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
+				glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
 				//apply transformations to see several fingers
 				glTranslatef(vStartPos.x, vStartPos.y, vStartPos.z);
 
@@ -257,8 +255,8 @@ namespace render
 
 	void Renderer::set3DTransformations(){
 		//Set the 3D grid transformation matrix
-		glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
 		glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 		glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
+		glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
 	}
 }
