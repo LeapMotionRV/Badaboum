@@ -15,7 +15,7 @@ namespace physical
 	class ParticleManager {
 	public:
 		ParticleManager();
-		void initFixedParticles(const size_t nbFixedParticles);
+		void initFixedParticles();
 
 		//suppress warning
 		ParticleManager & operator=( const ParticleManager & ) {}
@@ -27,17 +27,21 @@ namespace physical
 		std::vector<float>		getMassArray() const {return m_massArray;}
 		const unsigned int		getNbParticles() const {return m_positionArray.size();}
 		float					getHighestPosition() const;
-		unsigned int			getNbPlayerParticles(){return m_positionArray.size() - s_nbFixedParticles;}
+		unsigned int			getNbPlayerParticles(){return m_positionArray.size() - s_nbStartedParticles - s_nbEndedParticles;}
 		
-		static const size_t		getNbFixedParticles() {return s_nbFixedParticles;}
+		static const size_t		getNbStartedParticles() {return s_nbStartedParticles;}
+		static const size_t		getNbEndedParticles() {return s_nbEndedParticles;}
 		static float			getMassOfParticles() {return s_massOfParticles;}
-		static glm::vec3		getColorOfFixedParticles() {return s_colorOfFixedParticles;}
+		static glm::vec3		getColorOfStartedParticles() {return s_colorOfStartedParticles;}
+		static glm::vec3		getColorOfEndedParticles() {return s_colorOfEndedParticles;}
 		static glm::vec3		getColorOfParticles() {return s_colorOfParticles;}
 
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
-		bool isFixedParticle(size_t idParticle) {return (idParticle < s_nbFixedParticles) ? true : false;}
+		bool isStartedParticle(size_t idParticle) {return (idParticle < s_nbStartedParticles) ? true : false;}
+		bool isEndedParticle(size_t idParticle) {return (idParticle > s_nbStartedParticles && idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
+		bool isFixedParticle(size_t idParticle) {return (idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
 
 		//setters
 		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
@@ -61,10 +65,13 @@ namespace physical
 		std::vector<glm::vec3>	m_forceArray;
 		std::vector<glm::vec3>	m_colorArray;
 		
-		static const size_t		s_nbFixedParticles;
+		//a started or an ended particle is always a fixed particle
+		static const size_t		s_nbStartedParticles; //the first set of partciles in the array of particles
+		static const size_t		s_nbEndedParticles; //the second set of particles in the array of particles
 
 		static const float		s_massOfParticles;
-		static const glm::vec3	s_colorOfFixedParticles;
+		static const glm::vec3	s_colorOfStartedParticles;
+		static const glm::vec3	s_colorOfEndedParticles;
 		static const glm::vec3	s_colorOfParticles;
 	};
 

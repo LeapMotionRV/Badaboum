@@ -5,9 +5,11 @@
 
 namespace physical 
 {
-	const size_t	ParticleManager::s_nbFixedParticles = 5;
+	const size_t	ParticleManager::s_nbStartedParticles = 5;
+	const size_t	ParticleManager::s_nbEndedParticles = 5;
 	const float		ParticleManager::s_massOfParticles = 1.f;
-	const glm::vec3 ParticleManager::s_colorOfFixedParticles = glm::vec3(0.f, 0.f, 0.f); //black
+	const glm::vec3 ParticleManager::s_colorOfStartedParticles = glm::vec3(0.f, 0.f, 0.f); //blue
+	const glm::vec3 ParticleManager::s_colorOfEndedParticles = glm::vec3(1.f, 0.8f, 0.f); //gold
 	const glm::vec3 ParticleManager::s_colorOfParticles = glm::vec3(0.41f, 0.41f, 0.41f); //dimgrey
 
 	ParticleManager::ParticleManager() {
@@ -17,18 +19,29 @@ namespace physical
 		m_forceArray = std::vector<glm::vec3>();
 		m_colorArray = std::vector<glm::vec3>();
 
-		initFixedParticles(s_nbFixedParticles);
+		initFixedParticles();
 	}
 
-	void ParticleManager::initFixedParticles(const size_t nbFixedParticles){
-		float fNbFixedParticles = static_cast<float>(nbFixedParticles);
-		for(size_t i = 0; i < nbFixedParticles; ++i){
+	void ParticleManager::initFixedParticles(){
+		//started particles
+		float fNbStartedParticles = static_cast<float>(s_nbStartedParticles);
+		for(size_t i = 0; i < s_nbStartedParticles; ++i){
 			addParticle(
-				glm::vec3(glm::linearRand(-fNbFixedParticles/2.f, fNbFixedParticles/2.f), 0.1f, glm::linearRand(-fNbFixedParticles/2.f, fNbFixedParticles/2.f)), 
+				glm::vec3(glm::linearRand(-fNbStartedParticles/2.f, fNbStartedParticles/2.f), 0.1f, glm::linearRand(-fNbStartedParticles/2.f, fNbStartedParticles/2.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
 				ParticleManager::getMassOfParticles(), 
 				glm::vec3(0.f, 0.f, 0.f), 
-				ParticleManager::getColorOfFixedParticles());
+				ParticleManager::getColorOfStartedParticles());
+		}
+		//ending point
+		float fNbEndedParticles = static_cast<float>(s_nbEndedParticles);
+		for(size_t i = 0; i < s_nbEndedParticles; ++i){
+			addParticle(
+				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 5.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getMassOfParticles(), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getColorOfEndedParticles());
 		}
 	}
 
