@@ -5,33 +5,30 @@
 
 namespace physical 
 {
+	const size_t	ParticleManager::s_nbFixedParticles = 5;
 	const float		ParticleManager::s_massOfParticles = 1.f;
 	const glm::vec3 ParticleManager::s_colorOfFixedParticles = glm::vec3(0.f, 0.f, 0.f); //black
 	const glm::vec3 ParticleManager::s_colorOfParticles = glm::vec3(0.41f, 0.41f, 0.41f); //dimgrey
 
-	ParticleManager::ParticleManager():m_nbFixedParticles(3)
-	{
+	ParticleManager::ParticleManager() {
 		m_positionArray = std::vector<glm::vec3>();
 		m_speedArray = std::vector<glm::vec3>();
 		m_massArray = std::vector<float>();
 		m_forceArray = std::vector<glm::vec3>();
 		m_colorArray = std::vector<glm::vec3>();
 
-		initFixedParticles(m_nbFixedParticles);
+		initFixedParticles(s_nbFixedParticles);
 	}
 
-	void ParticleManager::initFixedParticles(const unsigned int size){
-		float fSize = static_cast<float>(size);
-		for(unsigned int i = 0; i<size; ++i){
-			for(unsigned int j = 0; j<size; ++j){
-				float mass = 1.f;
-				addParticle(
-					glm::vec3(-fSize/2.f+0.5f+1.f*i, 0.2f, -fSize/2.f+0.5f+1.f*j), 
-					glm::vec3(0.f, 0.f, 0.f), 
-					ParticleManager::getMassOfParticles(), 
-					glm::vec3(0.f, 0.f, 0.f), 
-					ParticleManager::getColorOfFixedParticles());
-			}
+	void ParticleManager::initFixedParticles(const size_t nbFixedParticles){
+		float fNbFixedParticles = static_cast<float>(nbFixedParticles);
+		for(size_t i = 0; i < nbFixedParticles; ++i){
+			addParticle(
+				glm::vec3(glm::linearRand(-fNbFixedParticles/2.f, fNbFixedParticles/2.f), 0.1f, glm::linearRand(-fNbFixedParticles/2.f, fNbFixedParticles/2.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getMassOfParticles(), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getColorOfFixedParticles());
 		}
 	}
 

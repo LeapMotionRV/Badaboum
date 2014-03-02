@@ -15,7 +15,7 @@ namespace physical
 	class ParticleManager {
 	public:
 		ParticleManager();
-		void initFixedParticles(const unsigned int size);
+		void initFixedParticles(const size_t nbFixedParticles);
 
 		//suppress warning
 		ParticleManager & operator=( const ParticleManager & ) {}
@@ -26,10 +26,10 @@ namespace physical
 		std::vector<glm::vec3>	getPositionArray() const {return m_positionArray;}
 		std::vector<float>		getMassArray() const {return m_massArray;}
 		const unsigned int		getNbParticles() const {return m_positionArray.size();}
-		const unsigned int		getNbFixedParticles() const {return m_nbFixedParticles;}
 		float					getHighestPosition() const;
-		unsigned int			getNbPlayerParticles(){return m_positionArray.size()-m_nbFixedParticles*m_nbFixedParticles;}
+		unsigned int			getNbPlayerParticles(){return m_positionArray.size() - s_nbFixedParticles;}
 		
+		static const size_t		getNbFixedParticles() {return s_nbFixedParticles;}
 		static float			getMassOfParticles() {return s_massOfParticles;}
 		static glm::vec3		getColorOfFixedParticles() {return s_colorOfFixedParticles;}
 		static glm::vec3		getColorOfParticles() {return s_colorOfParticles;}
@@ -37,7 +37,7 @@ namespace physical
 		glm::vec3 getPosition(int idParticule) const { return m_positionArray[idParticule]; }
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
-		bool isFixedParticle(size_t idParticle) {return (idParticle < m_nbFixedParticles*m_nbFixedParticles) ? true : false;}
+		bool isFixedParticle(size_t idParticle) {return (idParticle < s_nbFixedParticles) ? true : false;}
 
 		//setters
 		void setPositionOfParticle(glm::vec3 position, size_t index) {m_positionArray[index] = position;};
@@ -60,7 +60,8 @@ namespace physical
 		std::vector<float>		m_massArray;
 		std::vector<glm::vec3>	m_forceArray;
 		std::vector<glm::vec3>	m_colorArray;
-		const unsigned int		m_nbFixedParticles; //warning : the real number is the square of this !
+		
+		static const size_t		s_nbFixedParticles;
 
 		static const float		s_massOfParticles;
 		static const glm::vec3	s_colorOfFixedParticles;

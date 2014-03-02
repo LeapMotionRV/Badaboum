@@ -16,7 +16,7 @@ namespace physical
 	public:
 		Model(unsigned int countParticles = 0);
 		~Model();
-		void initGround(const unsigned int size);
+		void initGround(const size_t size);
 
 		//suppress warning
 		Model & operator=( const Model & ) {}
