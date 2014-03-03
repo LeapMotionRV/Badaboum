@@ -12,7 +12,7 @@ namespace physical
 	public:
 		ParticleManager();
 		void initFixedParticles();
-		void reset();
+		void clear();
 
 		/**
 		* Manage particles

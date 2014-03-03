@@ -46,7 +46,7 @@ namespace physical
 		}
 	}
 
-	void ParticleManager::reset() {
+	void ParticleManager::clear() {
 		m_positionArray.clear();
 		m_speedArray.clear();
 		m_massArray.clear();

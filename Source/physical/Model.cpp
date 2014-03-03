@@ -41,8 +41,8 @@ namespace physical
 	}
 
 	void Model::reset(){
-		m_pLinkManager->reset();
-		m_pParticleManager->reset();
+		m_pLinkManager->clear();
+		m_pParticleManager->clear();
 		m_bIsGameEnded = false;
 		m_pParticleManager->initFixedParticles();
 	}
@@ -50,7 +50,7 @@ namespace physical
 	void Model::startSimulation(float dt) 
 	{
 		//the game
-		if(m_pLinkManager->isLinkExistFromAStartedParticleToAnEndedParticle()){
+		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle()){
 			m_bIsGameEnded = true;
 		}
 		//links

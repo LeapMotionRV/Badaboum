@@ -12,7 +12,7 @@ namespace physical
 	class LinkManager {
 	public:
 		LinkManager(ParticleManager* pm);
-		void reset();
+		void clear();
 
 		/**
 		* Manage links
@@ -44,7 +44,7 @@ namespace physical
 		bool				isLinkExist(size_t idParticle1, size_t idParticle2) const;
 		bool				isLinkExistWithAStartedParticle() const;
 		bool				isLinkExistWithAnEndedParticle() const;
-		bool				isLinkExistFromAStartedParticleToAnEndedParticle() const;
+		bool				isPathExistFromAStartedParticleToAnEndedParticle() const;
 
 		static const float	getMaxLenghtToCreateLink() {return s_maxLenghtToCreateLink;}
 		static const size_t	getMaxLinksPerParticle() {return s_maxLinksPerParticle;}

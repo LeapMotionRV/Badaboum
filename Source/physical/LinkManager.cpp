@@ -13,7 +13,7 @@ namespace physical
 		m_pParticleManager = pm;
 	}
 
-	void LinkManager::reset() {
+	void LinkManager::clear() {
 		m_linkArray.clear();
 	}
 
@@ -89,8 +89,9 @@ namespace physical
 		for(size_t i = 0; i < s_maxLinksPerParticle; ++i){
 			if(nearestParticles[i] >= 0){
 				//check if both of particle can have a new link
-				if((getNbLinkOfParticle(idParticle) < s_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < s_maxLinksPerParticle))
+				if((getNbLinkOfParticle(idParticle) < s_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < s_maxLinksPerParticle)){
 					addLink(idParticle, nearestParticles[i]);
+				}
 			}
 		}
 	}
@@ -180,7 +181,7 @@ namespace physical
 		return false;
 	}
 
-	bool LinkManager::isLinkExistFromAStartedParticleToAnEndedParticle() const {
+	bool LinkManager::isPathExistFromAStartedParticleToAnEndedParticle() const {
 		return (isLinkExistWithAStartedParticle() && isLinkExistWithAnEndedParticle()) ? true : false;
 	}
 }
