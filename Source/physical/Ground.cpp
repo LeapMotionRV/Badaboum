@@ -1,6 +1,5 @@
 #include "Ground.h"
 
-
 namespace physical 
 {
 	Ground::Ground(LeapfrogSolver* pLeapfrogSolver){
@@ -34,9 +33,22 @@ namespace physical
 		}
 	}
 
+	void Ground::createTexture() {
+		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/textureGround.png");
+		if(!fileGround.existsAsFile()){
+			std::cout << "Error" << std::endl;
+		}
+		else {
+			juce::Image imageGround = juce::ImageCache::getFromFile(fileGround);
+			loadImage(imageGround);
+		}
+	}
+
 	void Ground::draw(){
 		for(unsigned int i = 0; i <= m_polygonForceArray.size()-1; ++i){
+			bind();
 			m_polygonArray[i]->draw();
+			unbind();
 		}
 	}
 }

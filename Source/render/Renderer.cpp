@@ -56,6 +56,10 @@ namespace render
 		glShadeModel(GL_SMOOTH);
 
 		glEnable(GL_LIGHTING);
+
+
+		//bind textures
+		m_pModel->getGround()->createTexture();
 	}
 
 	void Renderer::openGLContextClosing()
