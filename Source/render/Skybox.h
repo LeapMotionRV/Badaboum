@@ -7,13 +7,22 @@
 
 namespace render
 {
-	class Skybox : public OpenGLTexture
+	class Skybox
 	{
 	public:
-		Skybox(std::string imagePath);
+		Skybox();
 		~Skybox();
 
-		void draw();
+		void createTexture();
+		void draw(Leap::Vector totalTranslation, float totalScale);
+
+	private:
+		juce::OpenGLTexture* m_pSkyboxUp;
+		juce::OpenGLTexture* m_pSkyboxDown;
+		juce::OpenGLTexture* m_pSkyboxLeft;
+		juce::OpenGLTexture* m_pSkyboxRight;
+		juce::OpenGLTexture* m_pSkyboxForward;
+		juce::OpenGLTexture* m_pSkyboxBack;
 	};
 }
 

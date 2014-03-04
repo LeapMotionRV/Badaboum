@@ -21,7 +21,7 @@ namespace render
 		initColors();
 		resetCamera();
 		resetScene();
-		m_pSkybox = new Skybox("../data/skybox.png");
+		m_pSkybox = new Skybox();
 
 		//other renderer
 		m_pRenderer2D = new Renderer2D(getWidth(), getHeight());
@@ -60,6 +60,7 @@ namespace render
 
 		//bind textures
 		m_pModel->getGround()->createTexture();
+		m_pSkybox->createTexture();
 	}
 
 	void Renderer::openGLContextClosing()
@@ -152,15 +153,13 @@ namespace render
 			setupScene();
 			set3DTransformations();
 
-			//draw axis
 			LeapUtilGL::drawAxes();
-			// draw the ground
+			drawPointables(frame);
+			m_pSkybox->draw(m_vTotalMotionTranslation, m_fTotalMotionScale);
+
 			m_pModel->getGround()->draw();
-			// draw particles
 			m_pModel->getParticuleManager()->drawParticles();
 			m_pModel->getLinkManager()->drawLinks();
-			// draw fingers/tools as lines with sphere at the tip.
-			drawPointables( frame );
 
 			// ******************** //
 			//   Draw OpenGL 2D     //

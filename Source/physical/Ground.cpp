@@ -36,7 +36,7 @@ namespace physical
 	void Ground::createTexture() {
 		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/textureGround.png");
 		if(!fileGround.existsAsFile()){
-			std::cout << "Error" << std::endl;
+			std::cout << "Error when loading texture of the ground." << std::endl;
 		}
 		else {
 			juce::Image imageGround = juce::ImageCache::getFromFile(fileGround);
@@ -45,6 +45,8 @@ namespace physical
 	}
 
 	void Ground::draw(){
+		//clear color
+		glColor3f(1, 1, 1);
 		for(unsigned int i = 0; i <= m_polygonForceArray.size()-1; ++i){
 			bind();
 			m_polygonArray[i]->draw();
