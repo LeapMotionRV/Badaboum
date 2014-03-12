@@ -50,7 +50,7 @@ namespace physical
 		glm::vec3 getVelocity(int idParticule) const { return m_speedArray[idParticule]; }
 
 		bool isStartedParticle(size_t idParticle) {return (idParticle < s_nbStartedParticles) ? true : false;}
-		bool isEndedParticle(size_t idParticle) {return (idParticle > s_nbStartedParticles && idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
+		bool isEndedParticle(size_t idParticle) {return (idParticle > s_nbStartedParticles && idParticle <= (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
 		bool isFixedParticle(size_t idParticle) {return (idParticle < (s_nbStartedParticles+s_nbEndedParticles)) ? true : false;}
 
 		/**

@@ -68,6 +68,7 @@ namespace input
 
 	void LeapMotionListener::manageLeapMovements(Leap::Frame frame){
 		Leap::HandList hands = frame.hands();
+		Leap::FingerList fingers = frame.fingers();
 		for(size_t i = 0; i < hands.count(); ++i){
 			if(!hands[i].isValid())
 				return;
@@ -75,9 +76,7 @@ namespace input
 
 		const Leap::FingerList fingersHand0 = hands[0].fingers();
 		const Leap::GestureList gestures = frame.gestures();
-		if(hands.count() == 1)
-			int i = 1;
-		if(hands.count() == 2){
+		if(hands.count() == 2 && fingers.count() > 5){
 			manageCamera(frame);
 		}
 		else{
