@@ -14,14 +14,22 @@ namespace render
 		Renderer2D(int width, int height);
 		~Renderer2D();
 
-		//getters
+		/**
+		* Getters
+		*/
 		bool isShowHelp() const {return m_bShowHelp;}
-		//setters
+		/**
+		* Setters
+		*/
 		void isShowHelp(bool flag) {m_bShowHelp = flag;}
+		//updateFPS => the update of the leap motion
 		void setUpdateFPS(float newUpdateFPS) {m_updateFPS = String::formatted("UpdateFPS : %4.2f", newUpdateFPS);}
+		//renderFPS => the update of the rendering
 		void setRenderFPS(float newRenderFPS) {m_renderFPS = String::formatted("RenderFPS : %4.2f", newRenderFPS);}
-		void setNbParticles(unsigned int nbParticles) {m_nbParticles = String::formatted("Nb particles: %4", nbParticles);}
-		void setNbParticlesLeft(unsigned int nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4", nbParticlesLeft);}
+		//physicsFPS => the update of the physics
+		void setPhysicsFPS(float newPhysicsFPS) {m_physicsFPS = String::formatted("PhysicsFPS : %4.2f", newPhysicsFPS);}
+		void setNbParticles(unsigned int nbParticles) {m_nbParticles = String::formatted("Nb particles: %4d", nbParticles);}
+		void setNbParticlesLeft(unsigned int nbParticlesLeft) {m_nbParticlesLeft = String::formatted("Nb particles left: %4d", nbParticlesLeft);}
 		void setHighestPosition(float highestPosition) {m_highestPosition = String::formatted("Highest position : %4.2f", highestPosition);}
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
@@ -43,6 +51,7 @@ namespace render
 		//data
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
+		juce::String	m_physicsFPS;
 		juce::String	m_nbParticles;
 		juce::String	m_nbParticlesLeft;
 		juce::String	m_highestPosition;

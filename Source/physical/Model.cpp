@@ -5,8 +5,7 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles) :  m_nbMaxParticle(100)
-	{
+	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_bIsGameEnded(false){
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
 		//data of the scene
@@ -15,13 +14,12 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		initGround(m_pParticleManager->getNbFixedParticles() * 2);
+		initGround(ParticleManager::getNbStartedParticles());
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
-		 //gravity
-		m_gravity = new ConstantForce(glm::vec3(0.f, -0.05f, 0.f));
-		m_constantForceArray.push_back(m_gravity);
+		//add gravity
+		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f)));
 	}
 
 	Model::~Model(){
@@ -34,18 +32,29 @@ namespace physical
 		}
 	}
 
-	void Model::initGround(const unsigned int size){;
-		float fSize = -static_cast<float>(size);
+	void Model::initGround(const size_t size){;
+		float fSize = static_cast<float>(size);
 		m_pGround->addPolygonAndForce(
-			glm::vec3(-fSize/2.f, 0.f, -fSize/2.f), glm::vec3(fSize/2.f, 0.f, -fSize/2.f), 
-			glm::vec3(-fSize/2.f, 0.f, fSize/2.f), glm::vec3(fSize/2.f, 0.f, fSize/2.f), 
+			glm::vec3(-fSize, 0.f, -fSize), glm::vec3(-fSize, 0.f, fSize), 
+			glm::vec3(fSize, 0.f, fSize), glm::vec3(fSize, 0.f, -fSize), 
 			glm::vec3(1.f, 1.f, 0.f), 1.f);
+	}
+
+	void Model::reset(){
+		m_pLinkManager->clear();
+		m_pParticleManager->clear();
+		m_bIsGameEnded = false;
+		m_pParticleManager->initFixedParticles();
 	}
 
 	void Model::startSimulation(float dt) 
 	{
-		//delete links depend on their lenght
-		m_pLinkManager->deleteInvalidLinks();
+		//the game
+		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle()){
+			m_bIsGameEnded = true;
+		}
+		//links
+		m_pLinkManager->manageLinks();
 		//apply forces
 		if(dt != 0) {
 			for(unsigned int i = 0; i < m_constantForceArray.size(); ++i){
@@ -58,26 +67,20 @@ namespace physical
 		m_pLeapfrogSolver->solve(m_pParticleManager, dt);
 	}
 
-	void Model::addRandomParticle(unsigned int count){
-		for(size_t i = 0; i < count; ++i) {
-			unsigned int idParticle = m_pParticleManager->addParticle(
-				glm::vec3(glm::linearRand(-2.f,2.f), glm::linearRand(0.f,5.f), glm::linearRand(-2.f,2.f)), 
-				glm::vec3(0.f, 0.f, 0.f), 
-				1.f, 
-				glm::vec3(0.f, 0.f, 0.f), 
-				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-			m_pLinkManager->addLinksForParticle(idParticle);
-		}
+	void Model::addRandomParticles(unsigned int count){
+		m_pParticleManager->addRandomParticles(count);
 	}
 
 	void Model::addParticleWhereLeapIs(glm::vec3 pos){
-		unsigned int idParticle = m_pParticleManager->addParticle(
+		m_pParticleManager->addParticle(
 			pos, 
 			glm::vec3(0.f, 0.f, 0.f), 
-			1.f, 
+			ParticleManager::getMassOfParticles(), 
 			glm::vec3(0.f, 0.f, 0.f), 
-			glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
-		m_pLinkManager->addLinksForParticle(idParticle);
+			ParticleManager::getColorOfParticles());
 	}
 
+	bool Model::isGameEnded() const {
+		return m_bIsGameEnded;
+	}
 }

@@ -1443,9 +1443,6 @@
     <ClCompile Include="..\..\Source\physical\ParticleManager.cpp">
       <Filter>Badaboum\Source\physical</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\render\ParticleRenderer.cpp">
-      <Filter>Badaboum\Source\render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\physical\forces\ConstantForce.cpp">
       <Filter>Badaboum\Source\physical\forces</Filter>
     </ClCompile>
@@ -2827,9 +2824,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\ParticleManager.h">
       <Filter>Badaboum\Source\physical</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\render\ParticleRenderer.h">
-      <Filter>Badaboum\Source\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\LeapfrogSolver.h">
       <Filter>Badaboum\Source\physical</Filter>

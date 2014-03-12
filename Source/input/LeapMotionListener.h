@@ -29,7 +29,6 @@ namespace input
 
 	private:
 		render::Renderer*	m_pRenderer;
-		bool m_isMovingCamera;
 	};
 }
 

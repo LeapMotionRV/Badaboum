@@ -6,7 +6,6 @@
 
 #include "Skybox.h"
 #include "Renderer2D.h"
-#include "ParticleRenderer.h"
 #include "../physical/Model.h"
 
 namespace render
@@ -93,7 +92,6 @@ namespace render
 		
 		//var for render
 		Renderer2D*					m_pRenderer2D;
-		ParticleRenderer			m_particleRenderer;
 		juce::OpenGLContext         m_openGLContext;
 		Skybox*						m_pSkybox;
 		LeapUtilGL::CameraGL        m_camera;

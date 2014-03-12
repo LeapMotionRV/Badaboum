@@ -8,7 +8,6 @@ namespace input
 {
 	LeapMotionListener::LeapMotionListener(render::Renderer* pRenderer){
 		m_pRenderer = pRenderer;
-		m_isMovingCamera = false;
 	}
 
 	LeapMotionListener::~LeapMotionListener(){
@@ -25,7 +24,17 @@ namespace input
 		controller.enableGesture(Leap::Gesture::TYPE_SCREEN_TAP);
 		controller.enableGesture(Leap::Gesture::TYPE_SWIPE);
 		//configure circle recognition
-		if(controller.config().setFloat("Gesture.Circle.MinRadius", 10.0) && controller.config().setFloat("Gesture.Circle.MinArc", 3)){
+		// Gesture.Circle.MinRadius | float | default value = 5.0 | mm
+        // Gesture.Circle.MinArc | float | default value = 1.5*pi | radians
+		if(controller.config().setFloat("Gesture.Circle.MinRadius", 20.0) 
+			&& controller.config().setFloat("Gesture.Circle.MinArc", 2*Leap::PI)){
+			controller.config().save();
+		}
+		// configure swipe recognition
+		// Gesture.Swipe.MinLength | float | default value = 150 | mm
+        // Gesture.Swipe.MinVelocity | float | default value = 1000 | mm/s
+		if(controller.config().setFloat("Gesture.Swipe.MinLength", 150) 
+			&& controller.config().setFloat("Gesture.Swipe.MinVelocity", 100)){
 			controller.config().save();
 		}
 	}
@@ -52,37 +61,38 @@ namespace input
 		juce::ScopedLock sceneLock(*m_pRenderer->getRenderMutex());
 
 		double curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-
-		float deltaTimeSeconds = static_cast<float>(curSysTimeSeconds - m_pRenderer->getLastUpdateTimeSeconds());
-
 		m_pRenderer->setLastUpdateTimeSeconds(curSysTimeSeconds);
-		float fUpdateDT = m_pRenderer->getAvgUpdateDeltaTime().AddSample( deltaTimeSeconds );
-		float fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
-		m_pRenderer->getRenderer2D()->setUpdateFPS(fUpdateFPS);
 
 		manageLeapMovements(frame);
 	}
 
 	void LeapMotionListener::manageLeapMovements(Leap::Frame frame){
 		Leap::HandList hands = frame.hands();
-        Leap::Hand hand = hands[0];
-		bool isParticleCreated = false;
-		m_isMovingCamera = false; 
+		for(size_t i = 0; i < hands.count(); ++i){
+			if(!hands[i].isValid())
+				return;
+		}
 
-		if(hand.isValid()){
-			const Leap::FingerList fingers = hand.fingers();
-			const Leap::GestureList gestures = frame.gestures();
-		
-			if(fingers.count()>=3){
-					manageCamera(frame);
-			}
+		const Leap::FingerList fingersHand0 = hands[0].fingers();
+		const Leap::GestureList gestures = frame.gestures();
+		if(hands.count() == 1)
+			int i = 1;
+		if(hands.count() == 2){
+			manageCamera(frame);
+		}
+		else{
+			//manage each gesture
 			for (int g = 0; g < gestures.count(); ++g){
 				Leap::Gesture gesture = gestures[g];
-				if(fingers.count()==1 && gesture.type()==Leap::Gesture::TYPE_CIRCLE && !isParticleCreated && !m_isMovingCamera){
-					createParticle(gesture);
-					isParticleCreated = true;
+				//create particle
+				if(fingersHand0.count() == 1 && gesture.type() == Leap::Gesture::TYPE_CIRCLE){
+					if(m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle()){
+						if(gesture.state() == Leap::Gesture::STATE_STOP)
+							createParticle(gesture);
+					}
 				}
-				else if(fingers.count()>=3 && gesture.type()==Leap::Gesture::TYPE_SWIPE && !m_isMovingCamera){
+				//trigger wind
+				else if(fingersHand0.count() >= 3 && gesture.type() == Leap::Gesture::TYPE_SWIPE){
 					triggerWind(gesture);
 				}
 			}
@@ -90,7 +100,6 @@ namespace input
 	}
 
 	void  LeapMotionListener::manageCamera(Leap::Frame &frame){
-
 		static const float kfMinScale = 0.1f;
 		static const float kfMaxScale = 2.0f;
 
@@ -103,11 +112,10 @@ namespace input
 
 		//translation
 		if(bShouldTranslate){
-			m_isMovingCamera = true;
 			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() - frame.translation(m_pRenderer->getLastFrame())/100);
 		}
-		else if(bShouldRotate){ //around Y axis only
-			m_isMovingCamera = true;
+		//rotation around Y axis only
+		else if(bShouldRotate){
 			//get the angle of rotation around y axis
 			float angleAroundY = frame.rotationAngle(m_pRenderer->getLastFrame(), Leap::Vector::yAxis());
 			//compute the rotation matrix which moved an object of angleAroundY around y axis
@@ -120,7 +128,6 @@ namespace input
 		}
 		//scale
 		else if(bShouldScale){
-			m_isMovingCamera = true;
 			m_pRenderer->setTotalMotionScale(LeapUtil::Clamp(m_pRenderer->getTotalMotionScale() * frame.scaleFactor(m_pRenderer->getLastFrame()),
 				kfMinScale,
 				kfMaxScale ));
@@ -141,40 +148,20 @@ namespace input
 
 	void  LeapMotionListener::createParticle(Leap::Gesture &gesture){
 		Leap::CircleGesture circle = gesture;
-		/*std::string clockwiseness;
+		Leap::Vector coordParticleInLeapSpace = Leap::Vector(
+															circle.center().x*m_pRenderer->getFrameScale(),
+															circle.center().y*m_pRenderer->getFrameScale(),
+															circle.center().z*m_pRenderer->getFrameScale()
+															);
+		//Rotation
+		Leap::Vector coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticleInLeapSpace);
+		//Scale
+		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
+		//Translation
+		coordParticle = coordParticle - m_pRenderer->getTotalMotionTranslation();
 
-		//find the circle orientation
-		if (circle.pointable().direction().angleTo(circle.normal()) <= Leap::PI/4) {
-			clockwiseness = "clockwise";
-		} 
-		else {
-			clockwiseness = "counterclockwise";
-		}
-
-		// Calculate angle swept since last frame
-		float sweptAngle = 0;
-		if (circle.state() != Leap::Gesture::STATE_START) {
-			Leap::CircleGesture previousUpdate = Leap::CircleGesture(render::BadaboumWindow::getController().frame(1).gesture(circle.id()));
-			sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Leap::PI;
-		}*/
-
-		//When the movement of circle stopped and if there is just one hand
-		if (circle.state() == Leap::Gesture::STATE_STOP && m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle()){
-			Leap::Vector coordParticleInLeapSpace = Leap::Vector(
-																circle.center().x*m_pRenderer->getFrameScale(),
-																circle.center().y*m_pRenderer->getFrameScale(),
-																circle.center().z*m_pRenderer->getFrameScale()
-																);
-			//Rotation
-			Leap::Vector coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticleInLeapSpace);
-			//Scale
-			coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
-			//Translation
-			coordParticle = coordParticle - m_pRenderer->getTotalMotionTranslation();
-
-			//Create particle
-			glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);
-			m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
-		}
+		//Create particle
+		glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);
+		m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
 	}
 }

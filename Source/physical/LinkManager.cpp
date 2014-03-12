@@ -4,9 +4,17 @@
 
 namespace physical 
 {
-	LinkManager::LinkManager(ParticleManager* pm):m_maxStepToCreateLink(3.f){
+	const float		LinkManager::s_maxLenghtToCreateLink = 2.f;
+	const size_t	LinkManager::s_maxLinksPerParticle = 8;
+	const glm::vec3	LinkManager::s_colorOfLinks = glm::vec3(0.97f, 0.97f, 1.f); //ghostwhite
+
+	LinkManager::LinkManager(ParticleManager* pm){
 		m_linkArray = std::vector<Link*>();
 		m_pParticleManager = pm;
+	}
+
+	void LinkManager::clear() {
+		m_linkArray.clear();
 	}
 
 	void LinkManager::addLink(size_t idParticle1, size_t idParticle2){
@@ -14,50 +22,76 @@ namespace physical
 	}
 
 	void LinkManager::addLinksForParticle(size_t idParticle){
+		if(m_pParticleManager->isFixedParticle(idParticle))
+			return;
+		if(getNbLinkOfParticle(idParticle) >= s_maxLinksPerParticle)
+			return;
+
 		glm::vec3 particleToAddLinksPosition = m_pParticleManager->getPosition(idParticle);
 
-		const int numberOfLinksToCreate = 4;
-		//table containing indexes of nearest particles of the particle tested, we have to fill it
-		int nearestParticles[numberOfLinksToCreate] = {0};
+		//fill with -1 => correspond to no possible idParticle
+		int nearestParticles[s_maxLinksPerParticle] = {};
+		std::fill(nearestParticles, nearestParticles + s_maxLinksPerParticle, -1);
 
-		//fill the table nearestParticles with the nearest particles to the one tested, warning to not test with the particle itself (this is why size - 1)
-		for(size_t currentIdParticle = 0; currentIdParticle < m_pParticleManager->getPositionArray().size() - 1; currentIdParticle++){
+		//fill the table nearestParticles
+		for(size_t currentIdParticle = 0; currentIdParticle < m_pParticleManager->getPositionArray().size(); currentIdParticle++){
+			//no link between particle itself
+			if(currentIdParticle == idParticle)
+				continue;
+			if(isLinkExist(idParticle, currentIdParticle))
+				continue;
+			//check lenght
 			glm::vec3 currentParticlePosition = m_pParticleManager->getPosition(currentIdParticle);
 			glm::vec3 currentVector = particleToAddLinksPosition - currentParticlePosition;
+			if(glm::length(currentVector) > s_maxLenghtToCreateLink)
+				continue;
 
-			//index of the particle from nearestParticles which is the more distant from the one tested
-			int indexOfMoreDistantParticleInNearestParticleTable = 0;
+			bool idCurrentParticleAdded = false;
 
-			//find which particle of the table of nearest is the more distant from the one tested
-			for(size_t i = 0; i < numberOfLinksToCreate; ++i){
-				glm::vec3 oneOfNearestParticlePosition = m_pParticleManager->getPosition(nearestParticles[i]);
-				glm::vec3 testedVector = particleToAddLinksPosition - oneOfNearestParticlePosition;
-				glm::vec3 distantParticlePosition = m_pParticleManager->getPosition(nearestParticles[indexOfMoreDistantParticleInNearestParticleTable]);
-				glm::vec3 maybeLongestVector = particleToAddLinksPosition - distantParticlePosition;
-				
-				if(glm::length(maybeLongestVector) < glm::length(testedVector)){
-					indexOfMoreDistantParticleInNearestParticleTable = i;
+			//if the array of nearest particle is not full
+			for(size_t i = 0; i < s_maxLinksPerParticle; ++i) {
+				if(nearestParticles[i] == -1){
+					nearestParticles[i] = currentIdParticle;
+					idCurrentParticleAdded = true;
+					break;
 				}
 			}
-			//we know yet the index of the particle in nearestParticle table which is the more distant of the particle tested
-			//we test know if the distance between the particleTested and the current one in the loop on all particles is closer than this one distant
-			glm::vec3 distantParticlePosition = m_pParticleManager->getPosition(nearestParticles[indexOfMoreDistantParticleInNearestParticleTable]);
-			glm::vec3 longestVector = particleToAddLinksPosition - distantParticlePosition;
+			//if the current particle is still not added
+			//find which particle in the table of nearest is the more distant from the one tested
+			if(!idCurrentParticleAdded){
+				int indexOfMoreDistantParticleInNearestParticleTable = -1;
+				float lenghtOfMoreDistantParticleInNearestParticleTable = -1.f;
+				for(size_t i = 0; i < s_maxLinksPerParticle; ++i) {
+					glm::vec3 oneOfNearestParticlePosition = m_pParticleManager->getPosition(nearestParticles[i]);
+					glm::vec3 testedVector = particleToAddLinksPosition - oneOfNearestParticlePosition;
+				
+					if(lenghtOfMoreDistantParticleInNearestParticleTable < 0.f){
+						indexOfMoreDistantParticleInNearestParticleTable = i;
+						lenghtOfMoreDistantParticleInNearestParticleTable = glm::length(testedVector);
+					}
+					else if(lenghtOfMoreDistantParticleInNearestParticleTable < glm::length(testedVector)){
+						indexOfMoreDistantParticleInNearestParticleTable = i;
+						lenghtOfMoreDistantParticleInNearestParticleTable = glm::length(testedVector);
+					}
+				}
+				//we know yet the index of the particle in nearestParticle table which is the more distant of the particle tested
+				//we test now if the distance between the particleTested and the current one in the loop on all particles is closer than this one distant
+				glm::vec3 distantParticlePosition = m_pParticleManager->getPosition(nearestParticles[indexOfMoreDistantParticleInNearestParticleTable]);
+				glm::vec3 longestVector = particleToAddLinksPosition - distantParticlePosition;
 
-			//if it's the case we have to replace the index of particle in nearestParticles with the index of the currentParticle in the loop
-			if( glm::length(currentVector) < glm::length(longestVector) ){
-				nearestParticles[indexOfMoreDistantParticleInNearestParticleTable] = currentIdParticle;
+				//if it's the case we have to replace the index of particle in nearestParticles with the index of the currentParticle in the loop
+				if( glm::length(currentVector) < glm::length(longestVector) ){
+					nearestParticles[indexOfMoreDistantParticleInNearestParticleTable] = currentIdParticle;
+				}
 			}
 		}
-		//now we have our table of nearestParticle fill in
-		//we create the links between these nearest particles and the one tested
-		for(size_t i = 0; i < numberOfLinksToCreate; ++i){
-			//we look the length, if it is inferior to 1 we don't create it
-			glm::vec3 currentParticlePosition = m_pParticleManager->getPosition(nearestParticles[i]);
-			glm::vec3 actualVector = particleToAddLinksPosition - currentParticlePosition;
-			int maximumLengthToCreateLink = 5;
-			if(glm::length(actualVector) < maximumLengthToCreateLink){
-				addLink(idParticle, nearestParticles[i]);
+		//now we have our table of nearestParticle filled in
+		for(size_t i = 0; i < s_maxLinksPerParticle; ++i){
+			if(nearestParticles[i] >= 0){
+				//check if both of particle can have a new link
+				if((getNbLinkOfParticle(idParticle) < s_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < s_maxLinksPerParticle)){
+					addLink(idParticle, nearestParticles[i]);
+				}
 			}
 		}
 	}
@@ -68,12 +102,19 @@ namespace physical
 
 	void LinkManager::deleteInvalidLinks() {
 		for (std::vector<Link*>::iterator it = m_linkArray.begin(); it != m_linkArray.end();) {
-			bool isValid = (*it)->isValid(m_pParticleManager, m_maxStepToCreateLink);
+			bool isValid = (*it)->isValid(m_pParticleManager);
 			if(!isValid)
 				it = deleteLink(it);
 			else 
 				++it;
 		 }
+	}
+
+	void LinkManager::manageLinks() {
+		deleteInvalidLinks();
+		for(size_t idParticle = 0; idParticle < m_pParticleManager->getPositionArray().size(); ++idParticle){
+			addLinksForParticle(idParticle);
+		}
 	}
 
 	void LinkManager::apply(float dt){
@@ -87,5 +128,60 @@ namespace physical
 		for(size_t i = 0; i < m_linkArray.size(); i++){
 			m_linkArray[i]->draw(m_pParticleManager);
 		}
+	}
+
+	size_t LinkManager::getNbLinkOfParticle(size_t idParticle) const {
+		size_t nbLinkOfParticle = 0;
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+			
+			if(idParticle == idParticle1)
+				nbLinkOfParticle++;
+			else if(idParticle == idParticle2)
+				nbLinkOfParticle++;
+		}
+		return nbLinkOfParticle;
+	}
+
+	bool LinkManager::isLinkExist(size_t idParticle1, size_t idParticle2) const {
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t linkIdParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t linkIdParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+
+			if((linkIdParticle1 == idParticle1 && linkIdParticle2 == idParticle2)
+				|| (linkIdParticle1 == idParticle2 && linkIdParticle2 == idParticle1))
+				return true;
+		}
+		return false;
+	}
+
+	
+	bool LinkManager::isLinkExistWithAStartedParticle() const{
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+
+			if((m_pParticleManager->isStartedParticle(idParticle1) && !m_pParticleManager->isFixedParticle(idParticle2))
+				|| (m_pParticleManager->isStartedParticle(idParticle2) && !m_pParticleManager->isFixedParticle(idParticle1)))
+				return true;
+		}
+		return false;
+	}
+
+	bool LinkManager::isLinkExistWithAnEndedParticle() const{
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+
+			if((m_pParticleManager->isEndedParticle(idParticle1) && !m_pParticleManager->isFixedParticle(idParticle2))
+				|| (m_pParticleManager->isEndedParticle(idParticle2) && !m_pParticleManager->isFixedParticle(idParticle1)))
+				return true;
+		}
+		return false;
+	}
+
+	bool LinkManager::isPathExistFromAStartedParticleToAnEndedParticle() const {
+		return (isLinkExistWithAStartedParticle() && isLinkExistWithAnEndedParticle()) ? true : false;
 	}
 }

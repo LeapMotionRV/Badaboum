@@ -1,12 +1,13 @@
 #include "Link.h"
 #include "../../util/LeapUtilGL.h"
+#include "../LinkManager.h"
 
 namespace physical
 {
 	//rigidity
-	float Link::m_K = 2.f;
+	float Link::s_K = 2.f;
 	//brake
-	float Link::m_V = 0.0001f;
+	float Link::s_V = 0.0001f;
 
 	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2){
 		//create links
@@ -26,12 +27,12 @@ namespace physical
 		glm::vec3 link_pos2 = pm->getPosition(idParticle2);
 
 		//idParticle1
-		pm->addForceToParticle(getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle1);
-		pm->addForceToParticle(getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle1);
+		pm->addForceToParticle(getHookForce(s_K, m_L, link_pos1, link_pos2), idParticle1);
+		pm->addForceToParticle(getBrakeForce(s_V, dt, link_pos1, link_pos2), idParticle1);
 
 		//idParticle1=2
-		pm->addForceToParticle(-getHookForce(m_K, m_L, link_pos1, link_pos2), idParticle2);
-		pm->addForceToParticle(-getBrakeForce(m_V, dt, link_pos1, link_pos2), idParticle2);
+		pm->addForceToParticle(-getHookForce(s_K, m_L, link_pos1, link_pos2), idParticle2);
+		pm->addForceToParticle(-getBrakeForce(s_V, dt, link_pos1, link_pos2), idParticle2);
 	}
 
 	
@@ -39,19 +40,25 @@ namespace physical
 		return;
 	}
 
-	bool Link::isValid(ParticleManager* pParticleManager, const float m_maxStepToCreateLink) const {
+	bool Link::isValid(ParticleManager* pParticleManager) const {
 		unsigned int idParticle1 = m_graph[0][0].first;
 		unsigned int idParticle2 = m_graph[0][0].second;
 
 		glm::vec3 link_pos1 = pParticleManager->getPosition(idParticle1);
 		glm::vec3 link_pos2 = pParticleManager->getPosition(idParticle2);
 
-		return (glm::length(link_pos2 - link_pos1) < m_maxStepToCreateLink) ? true : false;
+		return (glm::length(link_pos2 - link_pos1) < (2*LinkManager::getMaxLenghtToCreateLink())) ? true : false;
 	}
 
 	void Link::draw(ParticleManager* pParticuleManager){
 		glm::vec3 p1 = pParticuleManager->getPositionArray()[m_graph[0][0].first];
 		glm::vec3 p2 = pParticuleManager->getPositionArray()[m_graph[0][0].second];
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, glm::vec3(p1.x-0.01f,p1.y-0.01f,p1.z-0.01f), glm::vec3(p1.x+0.01f,p1.y+0.01f,p1.z+0.01f), glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f));
+		glColor3f(LinkManager::getColorOfLinks().x, LinkManager::getColorOfLinks().y, LinkManager::getColorOfLinks().z);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, 
+			glm::vec3(p1.x-0.01f,p1.y-0.01f,p1.z-0.01f), 
+			glm::vec3(p1.x+0.01f,p1.y+0.01f,p1.z+0.01f), 
+			glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), 
+			glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f)
+			);
 	}
 }

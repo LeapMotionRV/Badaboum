@@ -1,29 +1,57 @@
 #include <glm/gtc/random.hpp>
+#include "../util/LeapUtilGL.h"
 
 #include "ParticleManager.h"
 
 
 namespace physical 
 {
-	ParticleManager::ParticleManager():m_nbFixedParticles(3)
-	{
+	const size_t	ParticleManager::s_nbStartedParticles = 5;
+	const size_t	ParticleManager::s_nbEndedParticles = 5;
+	const float		ParticleManager::s_massOfParticles = 1.f;
+	const glm::vec3 ParticleManager::s_colorOfStartedParticles = glm::vec3(0.f, 0.f, 0.f); //blue
+	const glm::vec3 ParticleManager::s_colorOfEndedParticles = glm::vec3(1.f, 0.8f, 0.f); //gold
+	const glm::vec3 ParticleManager::s_colorOfParticles = glm::vec3(0.41f, 0.41f, 0.41f); //dimgrey
+
+	ParticleManager::ParticleManager() {
 		m_positionArray = std::vector<glm::vec3>();
 		m_speedArray = std::vector<glm::vec3>();
 		m_massArray = std::vector<float>();
 		m_forceArray = std::vector<glm::vec3>();
 		m_colorArray = std::vector<glm::vec3>();
 
-		initFixedParticles(m_nbFixedParticles);
+		initFixedParticles();
 	}
 
-	void ParticleManager::initFixedParticles(const unsigned int size){
-		float fSize = static_cast<float>(size);
-		for(unsigned int i = 0; i<size; ++i){
-			for(unsigned int j = 0; j<size; ++j){
-				float mass = 1.f;
-				addParticle(glm::vec3(-fSize/2.f+0.5f+1.f*i, 0.2f, -fSize/2.f+0.5f+1.f*j), glm::vec3(0.f, 0.f, 0.f), mass, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 0.f, 0.f));
-			}
+	void ParticleManager::initFixedParticles(){
+		//started particles
+		float fNbStartedParticles = static_cast<float>(s_nbStartedParticles);
+		for(size_t i = 0; i < s_nbStartedParticles; ++i){
+			addParticle(
+				glm::vec3(glm::linearRand(-fNbStartedParticles/2.f, fNbStartedParticles/2.f), 0.1f, glm::linearRand(-fNbStartedParticles/2.f, fNbStartedParticles/2.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getMassOfParticles(), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getColorOfStartedParticles());
 		}
+		//ending point
+		float fNbEndedParticles = static_cast<float>(s_nbEndedParticles);
+		for(size_t i = 0; i < s_nbEndedParticles; ++i){
+			addParticle(
+				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 5.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getMassOfParticles(), 
+				glm::vec3(0.f, 0.f, 0.f), 
+				ParticleManager::getColorOfEndedParticles());
+		}
+	}
+
+	void ParticleManager::clear() {
+		m_positionArray.clear();
+		m_speedArray.clear();
+		m_massArray.clear();
+		m_forceArray.clear();
+		m_colorArray.clear();
 	}
 
 	float ParticleManager::getHighestPosition() const {
@@ -50,18 +78,21 @@ namespace physical
             addParticle(
 				glm::vec3(glm::linearRand(-5.f,5.f), glm::linearRand(0.f,10.f), glm::linearRand(-5.f,5.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
-				glm::linearRand(1.f, 5.f), 
+				s_massOfParticles, 
 				glm::vec3(0.f, 0.f, 0.f), 
-				glm::vec3(glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f),glm::linearRand(0.f,1.f)));
+				s_colorOfParticles);
         }
 	}
 	
-	void ParticleManager::drawParticles(render::ParticleRenderer& renderer) {
+	void ParticleManager::drawParticles() {
 		if(m_positionArray.size() > 0){
-			renderer.drawParticles(m_positionArray.size(),
-							&m_positionArray[0],
-							&m_massArray[0],
-							&m_colorArray[0]);
+			// draw each particles
+			for(uint32_t i = 0; i < m_positionArray.size(); ++i) {
+				LeapUtilGL::GLMatrixScope gridMatrixScope;
+				glColor3f(m_colorArray[i].x, m_colorArray[i].y, m_colorArray[i].z);
+				glTranslatef(m_positionArray[i].x,  m_positionArray[i].y, m_positionArray[i].z);
+				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, m_massArray[i]);
+			}
 		}
     }
     

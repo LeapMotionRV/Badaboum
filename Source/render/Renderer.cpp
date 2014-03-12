@@ -21,7 +21,7 @@ namespace render
 		initColors();
 		resetCamera();
 		resetScene();
-		m_pSkybox = new Skybox("../data/skybox.png");
+		m_pSkybox = new Skybox();
 
 		//other renderer
 		m_pRenderer2D = new Renderer2D(getWidth(), getHeight());
@@ -56,6 +56,11 @@ namespace render
 		glShadeModel(GL_SMOOTH);
 
 		glEnable(GL_LIGHTING);
+
+
+		//bind textures
+		m_pModel->getGround()->createTexture();
+		m_pSkybox->createTexture();
 	}
 
 	void Renderer::openGLContextClosing()
@@ -113,13 +118,29 @@ namespace render
 				return;
 		}
 
-		//calculations for Leap Motion
+		// ************************* //
+		//     Check game state      //
+		// ************************* //
+		if(m_pModel->isGameEnded()){
+			m_pModel->reset();
+		}
+
+		// ******************** //
+		//     Leap Motion      //
+		// ******************** //
 		Leap::Frame	frame = m_lastFrame;
-		double		curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
-		float		fRenderDT = static_cast<float>(curSysTimeSeconds - m_fLastRenderTimeSeconds);
-		fRenderDT =	m_avgRenderDeltaTime.AddSample( fRenderDT );
+		double	curSysTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
+		//compute updateFPS => leap motion
+		float	fUpdateDT = static_cast<float>(curSysTimeSeconds - m_fLastUpdateTimeSeconds);
+		fUpdateDT = m_avgUpdateDeltaTime.AddSample( fUpdateDT );
+		float	fUpdateFPS = (fUpdateDT > 0) ? 1.0f/fUpdateDT : 0.0f;
+		//compute renderFPS => rendering
+		float	fRenderDT = static_cast<float>(curSysTimeSeconds - m_fLastRenderTimeSeconds);
+		//compute physicsFPS => physics(time between each frame)
+		float fPhysicsFPS = fRenderDT;
+		fRenderDT =	m_avgRenderDeltaTime.AddSample(fRenderDT);
 		m_fLastRenderTimeSeconds = curSysTimeSeconds;
-		float		fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
+		float	fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 
 		{
 			//!!! lock sensitive data !!!
@@ -132,20 +153,20 @@ namespace render
 			setupScene();
 			set3DTransformations();
 
-			//draw axis
 			LeapUtilGL::drawAxes();
-			// draw the ground
+			drawPointables(frame);
+			m_pSkybox->draw(m_vTotalMotionTranslation, m_fTotalMotionScale);
+
 			m_pModel->getGround()->draw();
-			// draw particles
-			m_pModel->getParticuleManager()->drawParticles(m_particleRenderer);
+			m_pModel->getParticuleManager()->drawParticles();
 			m_pModel->getLinkManager()->drawLinks();
-			// draw fingers/tools as lines with sphere at the tip.
-			drawPointables( frame );
 
 			// ******************** //
 			//   Draw OpenGL 2D     //
 			// ******************** //
+			m_pRenderer2D->setUpdateFPS(fUpdateFPS);
 			m_pRenderer2D->setRenderFPS(fRenderFPS);
+			m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
 			m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
 			m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
 			m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
@@ -154,26 +175,21 @@ namespace render
 			m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
 			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
 
-
-
 			// ******************** //
 			//  Physical simulation //
 			// ******************** //
-			m_pModel->startSimulation(fRenderDT);
+			m_pModel->startSimulation(fPhysicsFPS);
 
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
 				m_openGLContext.triggerRepaint();
-
 		}
 	}
 
-	void Renderer::resized()
-	{
+	void Renderer::resized(){
 	}
 
-	void Renderer::paint(Graphics&)
-	{
+	void Renderer::paint(Graphics&){
 	}
 
 	void Renderer::drawPointables(Leap::Frame frame){
@@ -193,8 +209,8 @@ namespace render
 				LeapUtilGL::GLMatrixScope matrixScope;
 				//apply transformations to have the fingers at the center at any time
 				glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
-				glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
 				glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
+				glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
 				//apply transformations to see several fingers
 				glTranslatef(vStartPos.x, vStartPos.y, vStartPos.z);
 
@@ -257,8 +273,8 @@ namespace render
 
 	void Renderer::set3DTransformations(){
 		//Set the 3D grid transformation matrix
-		glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
 		glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 		glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
+		glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
 	}
 }

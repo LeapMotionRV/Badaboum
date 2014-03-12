@@ -59,7 +59,7 @@ namespace input{
 				break;
 			case 'P': //add a particle
 				if(m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle())
-					m_pRenderer->getModel()->addRandomParticle(1);
+					m_pRenderer->getModel()->addRandomParticles(1);
 				break;
 			case 'Z': //more gravity
 				m_prevPos = m_pos;
