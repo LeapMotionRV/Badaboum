@@ -14,7 +14,7 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		initGround(ParticleManager::getNbStartedParticles());
+		initGround(50*ParticleManager::getNbStartedParticles());
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();

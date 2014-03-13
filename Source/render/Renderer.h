@@ -105,7 +105,6 @@ namespace render
 		double                      m_fLastUpdateTimeSeconds;
 		double                      m_fLastRenderTimeSeconds;
 		Leap::Matrix                m_mtxFrameTransform;
-		float                       m_fPointableRadius;
 		LeapUtil::RollingAverage<>  m_avgUpdateDeltaTime;
 		LeapUtil::RollingAverage<>  m_avgRenderDeltaTime;
 		/// accumulated rotation/translation and scale from Leap Motion API

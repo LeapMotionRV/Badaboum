@@ -8,7 +8,6 @@ namespace render
 		m_fLastUpdateTimeSeconds = Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks());
 		m_fLastRenderTimeSeconds = m_fLastUpdateTimeSeconds;
 		m_mtxFrameTransform = Leap::Matrix();
-		m_fPointableRadius = 0.05f;
 
 		//set the openGL context
 		setBounds(0, 0, width, height);
@@ -63,8 +62,7 @@ namespace render
 		m_pSkybox->createTexture();
 	}
 
-	void Renderer::openGLContextClosing()
-	{
+	void Renderer::openGLContextClosing(){
 	}
 
 	// affects model view matrix. Needs to be inside a glPush/glPop matrix block!
@@ -196,39 +194,37 @@ namespace render
 		LeapUtilGL::GLAttribScope colorScope( GL_CURRENT_BIT | GL_LINE_BIT );
 		const Leap::PointableList& pointables = frame.pointables();
 
-		glLineWidth( 3.0f );
+		glLineWidth( 5.f );
+		float pointableRadius = 0.05f;
+		glColor3f(1, 1, 1);
 
 		for (size_t i = 0, e = pointables.count(); i < e; i++){
 			const Leap::Pointable&  pointable   = pointables[i];
 			Leap::Vector            vStartPos   = m_mtxFrameTransform.transformPoint( pointable.tipPosition() * m_fFrameScale );
 			Leap::Vector            vEndPos     = m_mtxFrameTransform.transformDirection( pointable.direction() ) * -0.25f; //why -0.25f ?
-			const uint32_t          colorIndex  = static_cast<uint32_t>(pointable.id()) % kNumColors;
 
-			glColor3fv( m_avColors[colorIndex].toFloatPointer() );
-			{
-				LeapUtilGL::GLMatrixScope matrixScope;
-				//apply transformations to have the fingers at the center at any time
-				glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
-				glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
-				glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
-				//apply transformations to see several fingers
-				glTranslatef(vStartPos.x, vStartPos.y, vStartPos.z);
+			LeapUtilGL::GLMatrixScope matrixScope;
+			//apply transformations to have the fingers at the center at any time
+			glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
+			glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
+			glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
+			
+			//draw fingers
+			glTranslatef(vStartPos.x, vStartPos.y, vStartPos.z);
+			glBegin(GL_LINES);
+			glVertex3f( 0, 0, 0 );
+			glVertex3fv( vEndPos.toFloatPointer() );
+			glEnd();
 
-				glBegin(GL_LINES);
-				glVertex3f( 0, 0, 0 );
-				glVertex3fv( vEndPos.toFloatPointer() );
-				glEnd();
-
-				glScalef( m_fPointableRadius, m_fPointableRadius, m_fPointableRadius );
-
-				LeapUtilGL::drawArrow( LeapUtilGL::kAxis_X );
-			}
+			//draw end of fingers
+			glScalef( pointableRadius, pointableRadius, pointableRadius );
+			LeapUtilGL::drawSphere( LeapUtilGL::eStyle::kStyle_Solid, 15.f );
 		}
 	}
 
 	void Renderer::resetCamera(){
 		m_camera.SetOrbitTarget( Leap::Vector::zero() );
-		m_camera.SetPOVLookAt( Leap::Vector( 0, 4, 10 ), m_camera.GetOrbitTarget() );
+		m_camera.SetPOVLookAt( Leap::Vector( 0, 1, 10 ), m_camera.GetOrbitTarget() );
 	}
 
 	void Renderer::resetScene(){
