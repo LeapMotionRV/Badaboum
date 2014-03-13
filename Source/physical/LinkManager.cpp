@@ -1,11 +1,12 @@
 #include "LinkManager.h"
+#include "ParticleManager.h"
 #include <windows.h>
 
 
 namespace physical 
 {
-	const float		LinkManager::s_maxLenghtToCreateLink = 2.f;
-	const size_t	LinkManager::s_maxLinksPerParticle = 8;
+	const float		LinkManager::s_maxLenghtToCreateLink = 1.5f;
+	const size_t	LinkManager::s_maxLinksPerParticle = 4;
 	const glm::vec3	LinkManager::s_colorOfLinks = glm::vec3(0.97f, 0.97f, 1.f); //ghostwhite
 
 	LinkManager::LinkManager(ParticleManager* pm){
@@ -22,6 +23,7 @@ namespace physical
 	}
 
 	void LinkManager::addLinksForParticle(size_t idParticle){
+		//fixed particles don't create link
 		if(m_pParticleManager->isFixedParticle(idParticle))
 			return;
 		if(getNbLinkOfParticle(idParticle) >= s_maxLinksPerParticle)
@@ -40,7 +42,19 @@ namespace physical
 				continue;
 			if(isLinkExist(idParticle, currentIdParticle))
 				continue;
-			//check lenght
+			//if this is a end particle, we check that the particle tested has already a link with another one, otherwise it is impossible to create the link
+			if(m_pParticleManager->isEndedParticle(currentIdParticle)){
+				if(!isLinkExistedWithParticle(idParticle)){
+					OutputDebugString("The particle tested is an endedParticle\n");
+					continue;
+				}
+			}
+			//we don't create a link with the particle if she is not fixed and if she isn't linked to something
+			if(!m_pParticleManager->isFixedParticle(currentIdParticle) && !isLinkExistedWithParticle(currentIdParticle)){
+				continue;
+			}
+
+			//check length
 			glm::vec3 currentParticlePosition = m_pParticleManager->getPosition(currentIdParticle);
 			glm::vec3 currentVector = particleToAddLinksPosition - currentParticlePosition;
 			if(glm::length(currentVector) > s_maxLenghtToCreateLink)
@@ -90,7 +104,7 @@ namespace physical
 			if(nearestParticles[i] >= 0){
 				//check if both of particle can have a new link
 				if((getNbLinkOfParticle(idParticle) < s_maxLinksPerParticle) && (getNbLinkOfParticle(nearestParticles[i]) < s_maxLinksPerParticle)){
-					addLink(idParticle, nearestParticles[i]);
+						addLink(idParticle, nearestParticles[i]);
 				}
 			}
 		}
@@ -144,6 +158,19 @@ namespace physical
 		return nbLinkOfParticle;
 	}
 
+	//function checked if the particle is involved in a link
+	bool LinkManager::isLinkExistedWithParticle(size_t idParticle){
+		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
+			size_t idParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
+			size_t idParticle2 = m_linkArray[idLink]->getGraph()[0][0].second;
+			
+			if(idParticle == idParticle1 || idParticle == idParticle2)
+				return true;
+		}
+		return false;
+	}
+
+
 	bool LinkManager::isLinkExist(size_t idParticle1, size_t idParticle2) const {
 		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){
 			size_t linkIdParticle1 = m_linkArray[idLink]->getGraph()[0][0].first;
@@ -155,7 +182,6 @@ namespace physical
 		}
 		return false;
 	}
-
 	
 	bool LinkManager::isLinkExistWithAStartedParticle() const{
 		for(size_t idLink = 0; idLink < m_linkArray.size(); ++idLink){

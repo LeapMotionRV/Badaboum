@@ -41,6 +41,7 @@ namespace physical
 		ParticleManager*	getParticleManager() const {return m_pParticleManager;}
 		float				getRigidity(){return Link::getRigidity();}
 		float				getBrake(){return Link::getBrake();}
+		bool				isLinkExistedWithParticle(size_t idParticle);
 		bool				isLinkExist(size_t idParticle1, size_t idParticle2) const;
 		bool				isLinkExistWithAStartedParticle() const;
 		bool				isLinkExistWithAnEndedParticle() const;
