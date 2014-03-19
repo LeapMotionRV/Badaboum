@@ -155,7 +155,7 @@ namespace input
 		//Rotation
 		Leap::Vector coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticleInLeapSpace);
 		//Scale
-		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
+		//coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
 		//Translation
 		coordParticle = coordParticle - m_pRenderer->getTotalMotionTranslation();
 

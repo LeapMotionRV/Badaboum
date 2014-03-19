@@ -206,7 +206,7 @@ namespace render
 			LeapUtilGL::GLMatrixScope matrixScope;
 			//apply transformations to have the fingers at the center at any time
 			glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
-			glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
+			//glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
 			glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
 			
 			//draw fingers
