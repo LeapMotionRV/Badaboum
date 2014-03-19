@@ -34,7 +34,7 @@ namespace physical
 	}
 
 	void Ground::createTexture() {
-		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/textureGround.png");
+		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/lava.jpg");
 		if(!fileGround.existsAsFile()){
 			std::cout << "Error when loading texture of the ground." << std::endl;
 		}
