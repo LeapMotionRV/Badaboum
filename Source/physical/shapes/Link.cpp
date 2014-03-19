@@ -54,11 +54,12 @@ namespace physical
 		glm::vec3 p1 = pParticuleManager->getPositionArray()[m_graph[0][0].first];
 		glm::vec3 p2 = pParticuleManager->getPositionArray()[m_graph[0][0].second];
 		glColor3f(LinkManager::getColorOfLinks().x, LinkManager::getColorOfLinks().y, LinkManager::getColorOfLinks().z);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, 
+		/*LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, 
 			glm::vec3(p1.x-0.01f,p1.y-0.01f,p1.z-0.01f), 
 			glm::vec3(p1.x+0.01f,p1.y+0.01f,p1.z+0.01f), 
 			glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), 
 			glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f)
-			);
+			);*/
+		LeapUtilGL::drawCylinder(LeapUtilGL::eStyle::kStyle_Solid,p1, p2, 0.05);
 	}
 }

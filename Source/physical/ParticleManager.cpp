@@ -8,7 +8,7 @@ namespace physical
 {
 	const size_t	ParticleManager::s_nbStartedParticles = 5;
 	const size_t	ParticleManager::s_nbEndedParticles = 1;
-	const float		ParticleManager::s_massOfParticles = 1.f;
+	const float		ParticleManager::s_massOfParticles = 2.f;
 	const glm::vec3 ParticleManager::s_colorOfStartedParticles = glm::vec3(0.f, 0.f, 0.f); //blue
 	const glm::vec3 ParticleManager::s_colorOfEndedParticles = glm::vec3(1.f, 0.8f, 0.f); //gold
 	const glm::vec3 ParticleManager::s_colorOfParticles = glm::vec3(0.41f, 0.41f, 0.41f); //dimgrey
@@ -94,7 +94,7 @@ namespace physical
 				float massOfParticle = m_massArray[i];
 				//fixed particles are bigger than the others
 				if(isFixedParticle(i))
-					massOfParticle *= 5;
+					massOfParticle *= 2;
 				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massOfParticle);
 			}
 		}

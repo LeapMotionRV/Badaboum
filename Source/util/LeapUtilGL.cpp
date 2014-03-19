@@ -563,6 +563,53 @@ void drawCylinder(eStyle style, float size)
   }
 }
 
+void drawCylinder(eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, float radius)
+{
+  GLMatrixScope matrixScope;
+
+  switch ( style )
+  {
+   case kStyle_Outline:
+    gluQuadricDrawStyle(s_quadric, GLU_SILHOUETTE);
+    glPushAttrib( GL_LIGHTING_BIT );
+    glDisable(GL_LIGHTING);
+    break;
+
+   case kStyle_Solid:
+    gluQuadricDrawStyle(s_quadric, GLU_FILL);
+    break;
+  }
+
+	float vx = secondPoint.x-firstPoint.x;
+	float vy = secondPoint.y-firstPoint.y;
+	float vz = secondPoint.z-firstPoint.z;
+
+	//handle the degenerate case of z1 == z2 with an approximation
+	if(vz == 0)
+		vz = .0001;
+
+	float v = sqrt( vx*vx + vy*vy + vz*vz );
+	float ax = 57.2957795*acos( vz/v );
+	if ( vz < 0.0 )
+		ax = -ax;
+	float rx = -vy*vz;
+	float ry = vx*vz;
+	//draw the cylinder body
+	glTranslatef( firstPoint.x, firstPoint.y, firstPoint.z);
+	glRotatef(ax, rx, ry, 0.0);
+	gluCylinder( s_quadric, radius, radius, glm::length(secondPoint-firstPoint), 32, 32 );
+
+  switch ( style )
+  {
+   case kStyle_Outline:
+    glPopAttrib();
+    break;
+
+   case kStyle_Solid:
+    break;
+  }
+}
+
 void drawDisk( eStyle style, ePlane plane )
 {
   GLMatrixScope matrixScope;

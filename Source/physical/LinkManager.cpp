@@ -5,7 +5,7 @@
 
 namespace physical 
 {
-	const float		LinkManager::s_maxLenghtToCreateLink = 1.5f;
+	const float		LinkManager::s_maxLenghtToCreateLink = 2.f;
 	const size_t	LinkManager::s_maxLinksPerParticle = 4;
 	const glm::vec3	LinkManager::s_colorOfLinks = glm::vec3(0.97f, 0.97f, 1.f); //ghostwhite
 

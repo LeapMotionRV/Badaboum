@@ -46,6 +46,7 @@ void drawFacet( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::
 void drawBox( eStyle style, float size );
 void drawCylinder( eStyle style, eAxis axis );
 void drawCylinder( eStyle style, float size );
+void drawCylinder(eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, float radius);
 /// disk is double-side
 void drawDisk( eStyle style, ePlane plane );
 /// arrow is drawn with unlit colored lines.
