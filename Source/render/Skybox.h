@@ -15,6 +15,7 @@ namespace render
 
 		void createTexture();
 		void draw(Leap::Vector totalTranslation, float totalScale);
+		void draw(Leap::Matrix rotationMatrix, Leap::Vector totalTranslation, float totalScale);
 
 	private:
 		juce::OpenGLTexture* m_pSkyboxUp;

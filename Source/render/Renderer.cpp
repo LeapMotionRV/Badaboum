@@ -147,17 +147,29 @@ namespace render
 			// ******************** //
 			//   Draw OpenGL 3D     //
 			// ******************** //
-			LeapUtilGL::GLMatrixScope sceneMatrixScope;
 			setupScene();
-			set3DTransformations();
-
-			LeapUtilGL::drawAxes();
+			glPushMatrix();
+				//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
+				glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+				m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
+			glPopMatrix();
+			
+			//The scene is moreover subjected to translation and scale transformations : 
+			glPushMatrix();
+				glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
+				glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+				glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
+				//draw the scene (ground, axes, particles and links)
+				LeapUtilGL::drawAxes();
+				m_pModel->getGround()->draw();
+				m_pModel->getParticuleManager()->drawParticles();
+				m_pModel->getLinkManager()->drawLinks();
+			glPopMatrix();
+			//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
 			drawPointables(frame);
-			m_pSkybox->draw(m_vTotalMotionTranslation, m_fTotalMotionScale);
 
-			m_pModel->getGround()->draw();
-			m_pModel->getParticuleManager()->drawParticles();
-			m_pModel->getLinkManager()->drawLinks();
+
+			
 
 			// ******************** //
 			//   Draw OpenGL 2D     //
@@ -203,12 +215,8 @@ namespace render
 			Leap::Vector            vStartPos   = m_mtxFrameTransform.transformPoint( pointable.tipPosition() * m_fFrameScale );
 			Leap::Vector            vEndPos     = m_mtxFrameTransform.transformDirection( pointable.direction() ) * -0.25f; //why -0.25f ?
 
-			LeapUtilGL::GLMatrixScope matrixScope;
-			//apply transformations to have the fingers at the center at any time
-			glTranslatef(-m_vTotalMotionTranslation.x, -m_vTotalMotionTranslation.y, -m_vTotalMotionTranslation.z);
-			glScalef(1/m_fTotalMotionScale, 1/m_fTotalMotionScale, 1/m_fTotalMotionScale);
-			glMultMatrixf(m_mtxTotalMotionRotation.rigidInverse().toArray4x4());
-			
+			LeapUtilGL::GLMatrixScope fingersScope;
+
 			//draw fingers
 			glTranslatef(vStartPos.x, vStartPos.y, vStartPos.z);
 			glBegin(GL_LINES);

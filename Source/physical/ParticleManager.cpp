@@ -88,7 +88,7 @@ namespace physical
 		if(m_positionArray.size() > 0){
 			// draw each particles
 			for(uint32_t i = 0; i < m_positionArray.size(); ++i) {
-				LeapUtilGL::GLMatrixScope gridMatrixScope;
+				LeapUtilGL::GLMatrixScope particleMatrixScope;
 				glColor3f(m_colorArray[i].x, m_colorArray[i].y, m_colorArray[i].z);
 				glTranslatef(m_positionArray[i].x,  m_positionArray[i].y, m_positionArray[i].z);
 				float massOfParticle = m_massArray[i];

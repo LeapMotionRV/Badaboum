@@ -78,18 +78,17 @@ namespace render
 		}
 	}
 
-	void Skybox::draw(Leap::Vector totalTranslation, float totalScale){
+	//Warning to our situation, we moove the scene and not the camera, so the skybox has to be submitted to the rotation, but not to the translation of the scene and not to the scale ? 
+	//the skybox is submitted to the rotation like the scene, not scaled and translated like the scene.
+	void Skybox::draw(Leap::Matrix rotationMatrix, Leap::Vector totalTranslation, float totalScale){
 		//clear color
 		glColor3f(1, 1, 1);
 
-		LeapUtilGL::GLMatrixScope matrixScope;
-		//apply transformations to have the fingers at the center at any time
-		glTranslatef(-totalTranslation.x, -totalTranslation.y, -totalTranslation.z);
-		glScalef(1/totalScale, 1/totalScale, 1/totalScale);
-		
+		LeapUtilGL::GLMatrixScope skyboxScope;
+
 		int width = m_pSkyboxForward->getWidth();
 		int height = m_pSkyboxForward->getHeight();
-		float factor = 5.f;
+		float factor = 10.f;
 		// Forward
 		m_pSkyboxForward->bind();
 		glm::vec3 firstPoint = glm::vec3(width/2.f, -height/2.f, -width/2.f);

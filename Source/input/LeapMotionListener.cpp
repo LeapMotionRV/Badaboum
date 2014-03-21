@@ -147,17 +147,25 @@ namespace input
 
 	void  LeapMotionListener::createParticle(Leap::Gesture &gesture){
 		Leap::CircleGesture circle = gesture;
-		Leap::Vector coordParticleInLeapSpace = Leap::Vector(
+		//the getFrameScale allows to come back to the good position in our space
+		Leap::Vector coordParticle = Leap::Vector(
 															circle.center().x*m_pRenderer->getFrameScale(),
 															circle.center().y*m_pRenderer->getFrameScale(),
 															circle.center().z*m_pRenderer->getFrameScale()
 															);
-		//Rotation
-		Leap::Vector coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticleInLeapSpace);
-		//Scale
-		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
+
+		//Normally, we should just do tranformations during the drawing, but there is a little trick here because our hands, which
+		//create the particles, are not subjected to the same transformations than the scene and we have to create the particle at the good point !
+		//so we  do the inverse transformations of which made on the scene to came back to the basic repair of hands
+		
 		//Translation
 		coordParticle = coordParticle - m_pRenderer->getTotalMotionTranslation();
+		//Rotation
+		coordParticle = m_pRenderer->getTotalMotionRotation().rigidInverse().transformPoint(coordParticle);
+		//Scale
+		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
+
+
 
 		//Create particle
 		glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);

@@ -285,6 +285,8 @@ void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm
     break;
 
    case kStyle_Solid:
+	   glPushAttrib( GL_LIGHTING_BIT );
+    glDisable(GL_LIGHTING);
     break;
   }
 
@@ -334,6 +336,7 @@ void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm
     glPopAttrib();
     break;
   case kStyle_Solid:
+	  glPopAttrib();
     break;
   }
 }
