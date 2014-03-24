@@ -41,6 +41,7 @@ namespace physical
 		LeapfrogSolver*				m_pLeapfrogSolver;
 		std::vector<Polygon*>		m_polygonArray;
 		std::vector<PolygonForce*>	m_polygonForceArray;
+		juce::OpenGLTexture*		m_pGroundTexture;
 	};
 }
 
