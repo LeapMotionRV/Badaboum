@@ -6,7 +6,8 @@ namespace render
 	Renderer2D::Renderer2D(int width, int height){
 		m_width = width;
 		m_height = height;
-
+		m_humanNumber = 7000000000;
+		m_previousParticleNb=0;
 		//the font
 		m_fixedFont = Font("Courier New", 24, Font::plain );
 
@@ -32,6 +33,9 @@ namespace render
 		m_renderFPS = juce::String();
 		m_nbParticles = juce::String();
 		m_highestPosition = juce::String();
+		m_human =  String::formatted("%4.f human lives left", m_humanNumber);
+		//m_background = new DrawableRectangle();
+		//m_background->setRectangle(RelativeParallelogram(RelativePoint(0.0, 0.0), RelativePoint(5.0, 0.0), RelativePoint(0.0, 3.0)));
 	}
 
 	Renderer2D::~Renderer2D(){
@@ -87,6 +91,12 @@ namespace render
 									iMargin,
 									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 75,
 									bouds.getWidth()/4 );
+
+			g.setColour( Colours::green );
+			//g.drawRect(m_background);
+			g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep*8);
+
+
 		}
 	}
 }

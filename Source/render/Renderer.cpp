@@ -168,9 +168,6 @@ namespace render
 			//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
 			drawPointables(frame);
 
-
-			
-
 			// ******************** //
 			//   Draw OpenGL 2D     //
 			// ******************** //
@@ -184,6 +181,8 @@ namespace render
 			m_pRenderer2D->setRigidity(m_pModel->getLinkManager()->getRigidity());
 			m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
 			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
+			//Show humans still alive
+			m_pRenderer2D->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
 
 			// ******************** //
 			//  Physical simulation //

@@ -34,6 +34,15 @@ namespace render
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
 		void setBrake(float brake) {m_brake = String::formatted("Brake value : %4.5f",brake);}
+		void setHumanAlive(unsigned int nbParticles, int time){
+			if(m_previousParticleNb!=nbParticles){
+				++m_previousParticleNb;
+				m_humanNumber -= 100000000 + time;
+			}
+			else
+				m_humanNumber -= time;
+			m_human =  String::formatted("%4.f human lives left", m_humanNumber);
+		}
 
 		//draw the text overlay (the help)
 		void renderOpenGL2D(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
@@ -42,6 +51,8 @@ namespace render
 		//to have the good size to display
 		int				m_width;
 		int				m_height;
+		float			m_humanNumber;
+		unsigned int	m_previousParticleNb;
 		//the font
 		juce::Font		m_fixedFont;
 		//the help
@@ -58,6 +69,9 @@ namespace render
 		juce::String	m_gravity;
 		juce::String	m_rigidity;
 		juce::String	m_brake;
+		juce::String	m_human;
+
+		//juce::DrawableRectangle* m_background;
 	};
 }
 
