@@ -6,7 +6,8 @@ namespace render
 	Renderer2D::Renderer2D(int width, int height){
 		m_width = width;
 		m_height = height;
-
+		m_humanNumber = 7000000000;
+		m_previousParticleNb=0;
 		//the font
 		m_fixedFont = Font("Courier New", 24, Font::plain );
 
@@ -36,6 +37,10 @@ namespace render
 		else {
 			m_imageHelp = juce::ImageCache::getFromFile(fileHelp);
 		}
+		//data
+		m_human =  String::formatted("%4.f human lives left", m_humanNumber);
+		//m_background = new DrawableRectangle();
+		//m_background->setRectangle(RelativeParallelogram(RelativePoint(0.0, 0.0), RelativePoint(5.0, 0.0), RelativePoint(0.0, 3.0)));
 	}
 
 	Renderer2D::~Renderer2D(){
@@ -73,6 +78,9 @@ namespace render
 			g.drawSingleLineText(m_rigidity, iMargin, iBaseLine + iLineStep*7);
 			g.drawSingleLineText(m_brake, iMargin, iBaseLine + iLineStep*8);
 
+			//g.drawRect(m_background);
+			g.drawSingleLineText(m_human, m_width, iBaseLine + iLineStep);
+
 			g.setFont( m_fixedFont );
 			g.setColour( Colours::slateblue );
 
@@ -94,6 +102,31 @@ namespace render
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
 			g.drawImage(m_imageHelp, 0, 0, m_width, m_height, 0, 0, m_imageHelp.getWidth(), m_imageHelp.getHeight());
+		}
+	}
+
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds) {
+		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
+
+		// when enabled text draws poorly.
+		glDisable(GL_CULL_FACE);
+
+		juce::ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
+
+		if (glRenderer != nullptr){
+			juce::Graphics g(*glRenderer.get());
+
+			int iMargin   = 10;
+			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
+			int iLineStep = iFontSize + (iFontSize >> 2);
+			int iBaseLine = 20;
+			Font origFont = g.getCurrentFont();
+
+			g.setColour(juce::Colours::seagreen);
+			g.setFont( static_cast<float>(iFontSize) );
+
+			//g.drawRect(m_background);
+			g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep);
 		}
 	}
 }

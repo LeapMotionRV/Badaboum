@@ -36,11 +36,20 @@ namespace render
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
 		void setBrake(float brake) {m_brake = String::formatted("Brake value : %4.5f",brake);}
+		void setHumanAlive(unsigned int nbParticles, int time){
+			if(m_previousParticleNb!=nbParticles){
+				++m_previousParticleNb;
+				m_humanNumber -= 100000000 + time;
+			}
+			else
+				m_humanNumber -= time;
+			m_human =  String::formatted("%4.f human lives left", m_humanNumber);
+		}
 
-		//draw the text overlay (the debug for the programmer)
+		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
-		//draw the texture overlay (the help for the player)
 		void render2DHelp(OpenGLContext* pOpenGLContext);
+		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds);
 
 	private:
 		//to have the good size to display
@@ -49,7 +58,7 @@ namespace render
 		//the debug => for the programmer
 		juce::String	m_strDebug;
 		bool			m_bShowDebug;
-		//data for debug
+		//the font
 		juce::Font		m_fixedFont;
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
@@ -63,6 +72,11 @@ namespace render
 		//the help => for the player
 		bool			m_bShowHelp;
 		juce::Image		m_imageHelp;
+		//the human
+		juce::String	m_human;
+		float			m_humanNumber;
+		unsigned int	m_previousParticleNb;
+		//juce::DrawableRectangle* m_background;
 	};
 }
 

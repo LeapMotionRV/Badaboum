@@ -173,6 +173,12 @@ namespace render
 				//  Physical simulation //
 				// ******************** //
 				m_pModel->startSimulation(fPhysicsFPS);
+
+				// ******************** //
+				//   Draw 2D IN GAME    //
+				// ******************** //
+				m_pRenderer2D->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
+				m_pRenderer2D->render2DInGame(&m_openGLContext, getBounds());
 			}
 
 			if(m_pRenderer2D->isShowHelp()){
