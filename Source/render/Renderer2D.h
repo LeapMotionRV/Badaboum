@@ -41,7 +41,7 @@ namespace render
 		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
 		void render2DHelp(OpenGLContext* pOpenGLContext);
-		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial);
+		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial, int time);
 
 	private:
 		//to have the good size to display
@@ -68,6 +68,8 @@ namespace render
 		//the human
 		juce::String	m_human;
 		float			m_humanAlpha;
+		bool			up;
+		bool			down;
 	};
 }
 

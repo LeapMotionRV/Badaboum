@@ -28,6 +28,8 @@ namespace render
 
 		//the help
 		m_bShowHelp = false;
+		up = false;
+		down = true;
 		//create texture for the help
 		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/ApocaLeap.jpg");
 		if(!fileHelp.existsAsFile()){
@@ -104,7 +106,7 @@ namespace render
 		}
 	}
 
-	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial) {
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial, int time) {
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -123,21 +125,35 @@ namespace render
 
 			g.setFont( static_cast<float>(iFontSize) );
 
-			g.setColour( Colours::black);
-			g.fillRect(5, 5, 300, 25);
+			g.setColour(Colours::black);
 			g.setOpacity(0.5);
-
+			g.fillRect(5, 5, 300, 25);
 			if(nbHumanLeft<nbHumanInitial*0.5){
 				g.setColour( Colours::red);
-				//m_humanAlpha
+				if(up){
+					if(m_humanAlpha+0.2>=1){
+						up = false;
+						down = true;
+					}
+					else m_humanAlpha += 0.2;
+				}
+				if(down){
+					if(m_humanAlpha-0.2<=0){
+						up = true;
+						down = false;
+					}
+					else m_humanAlpha -= 0.2;
+				}
 			}
-			else if(nbHumanLeft<nbHumanInitial*0.75){
+			else if(nbHumanLeft<nbHumanInitial*0.50){
 				g.setColour( Colours::orange);
+				m_humanAlpha=1;
 			}
 			else{
 				g.setColour(juce::Colours::green);
+				m_humanAlpha=1;
 			}
-			g.setOpacity(1.0);
+			g.setOpacity(m_humanAlpha);
 			g.drawSingleLineText(m_human, 10, 25);
 
 		}
