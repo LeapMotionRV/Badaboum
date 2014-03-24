@@ -49,12 +49,13 @@ namespace render
 		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
 		void render2DHelp(OpenGLContext* pOpenGLContext);
-		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds);
+		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPlayerWin, bool isPlayerLoose);
 
 	private:
-		//to have the good size to display
 		int				m_width;
 		int				m_height;
+		juce::Image		m_imageWin;
+		juce::Image		m_imageLoose;
 		//the debug => for the programmer
 		juce::String	m_strDebug;
 		bool			m_bShowDebug;

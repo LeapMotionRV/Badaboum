@@ -5,7 +5,9 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_bIsGameEnded(false){
+	Model::Model(unsigned int countParticles):m_nbMaxParticle(100){
+		m_bIsPlayerWin = false;
+		m_bIsPlayerLoose = false;
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
 		//data of the scene
@@ -43,7 +45,8 @@ namespace physical
 	void Model::reset(){
 		m_pLinkManager->clear();
 		m_pParticleManager->clear();
-		m_bIsGameEnded = false;
+		m_bIsPlayerWin = false;
+		m_bIsPlayerLoose = false;
 		m_pParticleManager->initFixedParticles();
 	}
 
@@ -51,7 +54,7 @@ namespace physical
 	{
 		//the game
 		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle()){
-			m_bIsGameEnded = true;
+			m_bIsPlayerWin = true;
 		}
 		//links
 		m_pLinkManager->manageLinks();
@@ -80,7 +83,11 @@ namespace physical
 			ParticleManager::getColorOfParticles());
 	}
 
-	bool Model::isGameEnded() const {
-		return m_bIsGameEnded;
+	bool Model::isPlayerWin() const {
+		return m_bIsPlayerWin;
+	}
+
+	bool Model::isPlayerLoose() const {
+		return m_bIsPlayerLoose;
 	}
 }

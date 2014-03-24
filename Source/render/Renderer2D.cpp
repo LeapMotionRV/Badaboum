@@ -29,13 +29,27 @@ namespace render
 
 		//the help
 		m_bShowHelp = false;
-		//create texture for the help
+		//textures
 		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/ApocaLeap.jpg");
 		if(!fileHelp.existsAsFile()){
 			std::cout << "Error when loading texture of the help." << std::endl;
 		}
 		else {
 			m_imageHelp = juce::ImageCache::getFromFile(fileHelp);
+		}
+		juce::File fileWin = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/Win.jpg");
+		if(!fileWin.existsAsFile()){
+			std::cout << "Error when loading texture of the Win." << std::endl;
+		}
+		else {
+			m_imageWin = juce::ImageCache::getFromFile(fileWin);
+		}
+		juce::File fileLoose = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/Loose.jpg");
+		if(!fileLoose.existsAsFile()){
+			std::cout << "Error when loading texture of the Loose." << std::endl;
+		}
+		else {
+			m_imageLoose = juce::ImageCache::getFromFile(fileLoose);
 		}
 		//data
 		m_human =  String::formatted("%4.f human lives left", m_humanNumber);
@@ -105,7 +119,8 @@ namespace render
 		}
 	}
 
-	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds) {
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, 
+									bool isPlayerWin, bool isPlayerLoose) {
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -116,17 +131,25 @@ namespace render
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
 
-			int iMargin   = 10;
-			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
-			int iLineStep = iFontSize + (iFontSize >> 2);
-			int iBaseLine = 20;
-			Font origFont = g.getCurrentFont();
+			if(isPlayerWin){
+				g.drawImage(m_imageWin, 0, 0, m_width, m_height, 0, 0, m_imageWin.getWidth(), m_imageWin.getHeight());
+			}
+			else if(isPlayerLoose){
+				g.drawImage(m_imageLoose, 0, 0, m_width, m_height, 0, 0, m_imageLoose.getWidth(), m_imageLoose.getHeight());
+			}
+			else{
+				int iMargin   = 10;
+				int iFontSize = static_cast<int>(m_fixedFont.getHeight());
+				int iLineStep = iFontSize + (iFontSize >> 2);
+				int iBaseLine = 20;
+				Font origFont = g.getCurrentFont();
 
-			g.setColour(juce::Colours::seagreen);
-			g.setFont( static_cast<float>(iFontSize) );
+				g.setColour(juce::Colours::seagreen);
+				g.setFont( static_cast<float>(iFontSize) );
 
-			//g.drawRect(m_background);
-			g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep);
+				//g.drawRect(m_background);
+				g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep);
+			}
 		}
 	}
 }
