@@ -43,13 +43,15 @@ namespace physical
 		float							getNbHumanInitial(){return m_nbHumanInitial;}
 		float							getNbHumanLeft(){return m_nbHumanLeft;}
 
-		bool isGameEnded() const;
+		bool isPlayerWin() const;
+		bool isPlayerLoose() const;
 
 		/**
 		* Setters
 		*/
 		void setGravity(float gravity){ m_constantForceArray[0]->setForce(glm::vec3(0.f, gravity, 0.f));}
-		void isGameEnded(bool flag) {m_bIsGameEnded = flag;}
+		void isPlayerWin(bool flag) {m_bIsPlayerWin = flag;}
+		void isPlayerLoose(bool flag) {m_bIsPlayerLoose = flag;}
 
 		void setHumanAlive(unsigned int nbParticles, int time){
 			if(m_previousParticleNb!=nbParticles){
@@ -64,7 +66,8 @@ namespace physical
 		Model & operator=( const Model & ) {}
 
 	private:
-		bool							m_bIsGameEnded;
+		bool							m_bIsPlayerLoose;
+		bool							m_bIsPlayerWin;
 		LeapfrogSolver*					m_pLeapfrogSolver;
 		
 		//physical objects
@@ -79,8 +82,8 @@ namespace physical
 		const unsigned int				m_nbMaxParticle;
 
 		//human number controle
+		const float		m_nbHumanInitial;
 		float			m_nbHumanLeft;
-		float			m_nbHumanInitial;
 		unsigned int	m_previousParticleNb;
 	};
 }

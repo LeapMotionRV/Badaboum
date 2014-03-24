@@ -5,7 +5,9 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_bIsGameEnded(false){
+	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_nbHumanInitial(7000000000){
+		m_bIsPlayerWin = false;
+		m_bIsPlayerLoose = false;
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
 		//data of the scene
@@ -21,9 +23,8 @@ namespace physical
 		//add gravity
 		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f)));
 
-		m_nbHumanInitial = 7000000000;
 		m_nbHumanLeft = m_nbHumanInitial;
-		m_previousParticleNb=0;
+		m_previousParticleNb = 0;
 	}
 
 	Model::~Model(){
@@ -47,15 +48,21 @@ namespace physical
 	void Model::reset(){
 		m_pLinkManager->clear();
 		m_pParticleManager->clear();
-		m_bIsGameEnded = false;
+		m_bIsPlayerWin = false;
+		m_bIsPlayerLoose = false;
+		m_nbHumanLeft = m_nbHumanInitial;
+		m_previousParticleNb = 0;
 		m_pParticleManager->initFixedParticles();
 	}
 
 	void Model::startSimulation(float dt) 
 	{
 		//the game
-		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle()){
-			m_bIsGameEnded = true;
+		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle() && !m_bIsPlayerLoose){
+			m_bIsPlayerWin = true;
+		}
+		if(m_nbHumanLeft < 0){
+			m_bIsPlayerLoose = true;
 		}
 		//links
 		m_pLinkManager->manageLinks();
@@ -84,7 +91,11 @@ namespace physical
 			ParticleManager::getColorOfParticles());
 	}
 
-	bool Model::isGameEnded() const {
-		return m_bIsGameEnded;
+	bool Model::isPlayerWin() const {
+		return m_bIsPlayerWin;
+	}
+
+	bool Model::isPlayerLoose() const {
+		return m_bIsPlayerLoose;
 	}
 }

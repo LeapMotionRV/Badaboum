@@ -38,10 +38,20 @@ namespace render
 		else {
 			m_imageHelp = juce::ImageCache::getFromFile(fileHelp);
 		}
-		//data
-		//m_human =  String::formatted("%4.f human lives left", m_humanNumber);
-		//m_background = new DrawableRectangle();
-		//m_background->setRectangle(RelativeParallelogram(RelativePoint(0.0, 0.0), RelativePoint(5.0, 0.0), RelativePoint(0.0, 3.0)));
+		juce::File fileWin = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/Win.jpg");
+		if(!fileWin.existsAsFile()){
+			std::cout << "Error when loading texture of the Win." << std::endl;
+		}
+		else {
+			m_imageWin = juce::ImageCache::getFromFile(fileWin);
+		}
+		juce::File fileLoose = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/Loose.jpg");
+		if(!fileLoose.existsAsFile()){
+			std::cout << "Error when loading texture of the Loose." << std::endl;
+		}
+		else {
+			m_imageLoose = juce::ImageCache::getFromFile(fileLoose);
+		}
 	}
 
 	Renderer2D::~Renderer2D(){
@@ -106,7 +116,12 @@ namespace render
 		}
 	}
 
-	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial, int time) {
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext,
+									bool isPlayerWin,
+									bool isPlayerLoose,
+									float nbHumanLeft,
+									float nbHumanInitial){
+
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -125,37 +140,52 @@ namespace render
 
 			g.setFont( static_cast<float>(iFontSize) );
 
-			g.setColour(Colours::black);
-			g.setOpacity(0.5);
-			g.fillRect(5, 5, 300, 25);
-			if(nbHumanLeft<nbHumanInitial*0.5){
-				g.setColour( Colours::red);
-				if(up){
-					if(m_humanAlpha+0.2>=1){
-						up = false;
-						down = true;
-					}
-					else m_humanAlpha += 0.2;
-				}
-				if(down){
-					if(m_humanAlpha-0.2<=0){
-						up = true;
-						down = false;
-					}
-					else m_humanAlpha -= 0.2;
-				}
+			if(isPlayerWin){
+				g.drawImage(m_imageWin, 0, 0, m_width, m_height, 0, 0, m_imageWin.getWidth(), m_imageWin.getHeight());
 			}
-			else if(nbHumanLeft<nbHumanInitial*0.50){
-				g.setColour( Colours::orange);
-				m_humanAlpha=1;
+			else if(isPlayerLoose){
+				g.drawImage(m_imageLoose, 0, 0, m_width, m_height, 0, 0, m_imageLoose.getWidth(), m_imageLoose.getHeight());
 			}
 			else{
-				g.setColour(juce::Colours::green);
-				m_humanAlpha=1;
-			}
-			g.setOpacity(m_humanAlpha);
-			g.drawSingleLineText(m_human, 10, 25);
+				int iMargin   = 10;
+				int iFontSize = static_cast<int>(m_fixedFont.getHeight());
+				int iLineStep = iFontSize + (iFontSize >> 2);
+				int iBaseLine = 20;
+				Font origFont = g.getCurrentFont();
 
+				g.setFont( static_cast<float>(iFontSize) );
+
+				g.setColour(Colours::black);
+				g.setOpacity(0.5);
+				g.fillRect(5, 5, 300, 25);
+				if(nbHumanLeft<nbHumanInitial*0.25){
+					g.setColour( Colours::red);
+					if(up){
+						if(m_humanAlpha+0.2>=1){
+							up = false;
+							down = true;
+						}
+						else m_humanAlpha += 0.2;
+					}
+					if(down){
+						if(m_humanAlpha-0.2<=0){
+							up = true;
+							down = false;
+						}
+						else m_humanAlpha -= 0.2;
+					}
+				}
+				else if(nbHumanLeft<nbHumanInitial*0.50){
+					g.setColour( Colours::orange);
+					m_humanAlpha=1;
+				}
+				else{
+					g.setColour(juce::Colours::green);
+					m_humanAlpha=1;
+				}
+				g.setOpacity(m_humanAlpha);
+				g.drawSingleLineText(m_human, 10, 25);;
+			}
 		}
 	}
 }

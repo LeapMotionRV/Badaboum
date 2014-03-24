@@ -116,13 +116,6 @@ namespace render
 				return;
 		}
 
-		// ************************* //
-		//     Check game state      //
-		// ************************* //
-		if(m_pModel->isGameEnded()){
-			m_pModel->reset();
-		}
-
 		// ******************** //
 		//     Leap Motion      //
 		// ******************** //
@@ -179,7 +172,9 @@ namespace render
 				// ******************** //
 				m_pModel->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
 				m_pRenderer2D->setHumanAlive(m_pModel->getNbHumanLeft());
-				m_pRenderer2D->render2DInGame(&m_openGLContext, getBounds(), m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial(), curSysTimeSeconds);
+				m_pRenderer2D->render2DInGame(&m_openGLContext, 
+											  m_pModel->isPlayerWin(), m_pModel->isPlayerLoose(), 
+											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
 			if(m_pRenderer2D->isShowHelp()){

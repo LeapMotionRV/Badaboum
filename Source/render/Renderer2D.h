@@ -41,12 +41,13 @@ namespace render
 		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
 		void render2DHelp(OpenGLContext* pOpenGLContext);
-		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial, int time);
+		void render2DInGame(OpenGLContext* pOpenGLContext, bool isPlayerWin, bool isPlayerLoose, float nbHumanLeft, float nbHumanInitial);
 
 	private:
-		//to have the good size to display
 		int				m_width;
 		int				m_height;
+		juce::Image		m_imageWin;
+		juce::Image		m_imageLoose;
 		//the debug => for the programmer
 		juce::String	m_strDebug;
 		bool			m_bShowDebug;
@@ -64,7 +65,6 @@ namespace render
 		//the help => for the player
 		bool			m_bShowHelp;
 		juce::Image		m_imageHelp;
-
 		//the human
 		juce::String	m_human;
 		float			m_humanAlpha;

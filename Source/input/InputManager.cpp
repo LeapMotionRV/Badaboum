@@ -40,6 +40,12 @@ namespace input{
 			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + Leap::Vector(1, 0, 0));
 			return true;
 		}
+		//ENTER
+		if (iKeyCode == KeyPress::returnKey){
+			if(m_pRenderer->getModel()->isPlayerWin() || m_pRenderer->getModel()->isPlayerLoose())
+				m_pRenderer->getModel()->reset();
+			return true;
+		}
 		//Caracters
 		switch( iKeyCode ){
 			case ' ':
