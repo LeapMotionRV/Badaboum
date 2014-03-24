@@ -40,23 +40,23 @@ namespace input{
 			m_pRenderer->setTotalMotionTranslation(m_pRenderer->getTotalMotionTranslation() + Leap::Vector(1, 0, 0));
 			return true;
 		}
-		//ESCAPE
-		if ( iKeyCode == KeyPress::escapeKey ){
-			m_pRenderer->isPaused(!m_pRenderer->isPaused());
-			return true;
-		}
 		//Caracters
 		switch( iKeyCode ){
 			case ' ':
 				m_pRenderer->isPaused(!m_pRenderer->isPaused());
+				m_pRenderer->getRenderer2D()->isShowHelp(!m_pRenderer->getRenderer2D()->isShowHelp());
 				break;
 			case 'R':
 				m_pRenderer->resetCamera();
 				m_pRenderer->resetScene();
 				break;
 			case 'H':
-				m_pRenderer->getRenderer2D()->isShowHelp(!m_pRenderer->getRenderer2D()->isShowHelp());
+				m_pRenderer->getRenderer2D()->isShowDebug(!m_pRenderer->getRenderer2D()->isShowDebug());
 				break;
+
+			/***************************/
+			/*  Tools for developers   */
+			/***************************/
 			case 'P': //add a particle
 				if(m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle())
 					m_pRenderer->getModel()->addRandomParticles(1);
@@ -90,8 +90,6 @@ namespace input{
 		m_prevPos = e.getMouseDownScreenX();
 		m_pos = e.getMouseDownScreenX();
 	}
-
-
 
 	void InputManager::mouseDrag (const MouseEvent& e){
 		//100 is the keyCode for letter D

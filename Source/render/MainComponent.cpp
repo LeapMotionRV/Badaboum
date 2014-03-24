@@ -38,15 +38,16 @@ namespace render
 		delete m_pLeapMotionListener;
 	}
 
-	void MainComponent::paint (Graphics&) //g
+	void MainComponent::paint (Graphics& )//g
 	{
 		// An example of how to display text for a menu before the OpenGL scene
-		/*
-		g.fillAll (Colours::grey);
-		g.setFont (Font(16.0f));
-		g.setColour (Colours::black);
-		g.drawText ("Hello World!", getLocalBounds(), Justification::centred, true);
-		*/
+		/*if(m_pOpenGLRenderer->isPaused()){
+			g.fillAll (Colours::grey);
+			g.setFont (Font(16.0f));
+			g.setColour (Colours::black);
+			g.drawText ("Hello World!", getLocalBounds(), Justification::centred, true);
+		}*/
+		
 	}
 
 	void MainComponent::resized()

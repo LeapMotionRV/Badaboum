@@ -10,9 +10,9 @@ namespace render
 		//the font
 		m_fixedFont = Font("Courier New", 24, Font::plain );
 
-		//the help
-		m_bShowHelp = false;
-		m_strHelp = "ESC   - quit\n"
+		//the debug
+		m_bShowDebug = false;
+		m_strDebug = "ESC   - quit\n"
 					"h     - Toggle help and frame rate display\n"
 					"Space - Toggle pause\n"
 					"r     - Reset camera\n"
@@ -25,19 +25,65 @@ namespace render
 					"z/a  - In/Decrease gravity\n"
 					"q/s  - In/Decrease rigidity\n"
 					"w/x  - In/Decrease brake\n";
-		m_strPrompt = "Press 'h' for help";
 
-		//data
-		m_updateFPS = juce::String();
-		m_renderFPS = juce::String();
-		m_nbParticles = juce::String();
-		m_highestPosition = juce::String();
+		//the help
+		m_bShowHelp = false;
+		//create texture for the help
+		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/ApocaLeap.jpg");
+		if(!fileHelp.existsAsFile()){
+			std::cout << "Error when loading texture of the help." << std::endl;
+		}
+		else {
+			m_imageHelp = juce::ImageCache::getFromFile(fileHelp);
+		}
 	}
 
 	Renderer2D::~Renderer2D(){
 	}
 
-	void Renderer2D::renderOpenGL2D(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused) {
+	void Renderer2D::render2DDebug(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused) {
+		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
+
+		// when enabled text draws poorly.
+		glDisable(GL_CULL_FACE);
+
+		juce::ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
+
+		if (glRenderer != nullptr && m_bShowDebug){
+			juce::Graphics g(*glRenderer.get());
+
+			int iMargin   = 10;
+			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
+			int iLineStep = iFontSize + (iFontSize >> 2);
+			int iBaseLine = 20;
+			Font origFont = g.getCurrentFont();
+
+			g.setColour(juce::Colours::seagreen);
+			g.setFont( static_cast<float>(iFontSize) );
+
+			if ( !isPaused ){
+				g.drawSingleLineText(m_updateFPS, iMargin, iBaseLine);
+			}
+			g.drawSingleLineText(m_renderFPS, iMargin, iBaseLine + iLineStep);
+			g.drawSingleLineText(m_physicsFPS, iMargin, iBaseLine + iLineStep*2);
+			g.drawSingleLineText(m_nbParticles, iMargin, iBaseLine + iLineStep*3);
+			g.drawSingleLineText(m_nbParticlesLeft, iMargin, iBaseLine + iLineStep*4);
+			g.drawSingleLineText(m_highestPosition, iMargin, iBaseLine + iLineStep*5);
+			g.drawSingleLineText(m_gravity, iMargin, iBaseLine + iLineStep*6);
+			g.drawSingleLineText(m_rigidity, iMargin, iBaseLine + iLineStep*7);
+			g.drawSingleLineText(m_brake, iMargin, iBaseLine + iLineStep*8);
+
+			g.setFont( m_fixedFont );
+			g.setColour( Colours::slateblue );
+
+			g.drawMultiLineText(  m_strDebug,
+									iMargin,
+									iBaseLine + iLineStep * 9,
+									bouds.getWidth() - iMargin*2 );
+		}
+	}
+
+	void Renderer2D::render2DHelp(juce::OpenGLContext* pOpenGLContext) {
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -47,46 +93,7 @@ namespace render
 
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
-
-			int iMargin   = 10;
-			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
-			int iLineStep = iFontSize + (iFontSize >> 2);
-			int iBaseLine = 20;
-			Font origFont = g.getCurrentFont();
-
-			if ( m_bShowHelp ){
-				g.setColour(juce::Colours::seagreen);
-				g.setFont( static_cast<float>(iFontSize) );
-
-				if ( !isPaused ){
-					g.drawSingleLineText(m_updateFPS, iMargin, iBaseLine);
-				}
-				g.drawSingleLineText(m_renderFPS, iMargin, iBaseLine + iLineStep);
-				g.drawSingleLineText(m_physicsFPS, iMargin, iBaseLine + iLineStep*2);
-				g.drawSingleLineText(m_nbParticles, iMargin, iBaseLine + iLineStep*3);
-				g.drawSingleLineText(m_nbParticlesLeft, iMargin, iBaseLine + iLineStep*4);
-				g.drawSingleLineText(m_highestPosition, iMargin, iBaseLine + iLineStep*5);
-				g.drawSingleLineText(m_gravity, iMargin, iBaseLine + iLineStep*6);
-				g.drawSingleLineText(m_rigidity, iMargin, iBaseLine + iLineStep*7);
-				g.drawSingleLineText(m_brake, iMargin, iBaseLine + iLineStep*8);
-
-				g.setFont( m_fixedFont );
-				g.setColour( Colours::slateblue );
-
-				g.drawMultiLineText(  m_strHelp,
-										iMargin,
-										iBaseLine + iLineStep * 9,
-										bouds.getWidth() - iMargin*2 );
-			}
-
-			g.setFont( origFont );
-			g.setFont( static_cast<float>(iFontSize) );
-
-			g.setColour( Colours::salmon );
-			g.drawMultiLineText(  m_strPrompt,
-									iMargin,
-									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 75,
-									bouds.getWidth()/4 );
+			g.drawImage(m_imageHelp, 0, 0, m_width, m_height, 0, 0, m_imageHelp.getWidth(), m_imageHelp.getHeight());
 		}
 	}
 }
