@@ -6,10 +6,9 @@ namespace render
 	Renderer2D::Renderer2D(int width, int height){
 		m_width = width;
 		m_height = height;
-		m_humanNumber = 7000000000;
-		m_previousParticleNb=0;
 		//the font
 		m_fixedFont = Font("Courier New", 24, Font::plain );
+		m_humanAlpha = 1.0;
 
 		//the debug
 		m_bShowDebug = false;
@@ -52,7 +51,7 @@ namespace render
 			m_imageLoose = juce::ImageCache::getFromFile(fileLoose);
 		}
 		//data
-		m_human =  String::formatted("%4.f human lives left", m_humanNumber);
+		//m_human =  String::formatted("%4.f human lives left", m_humanNumber);
 		//m_background = new DrawableRectangle();
 		//m_background->setRectangle(RelativeParallelogram(RelativePoint(0.0, 0.0), RelativePoint(5.0, 0.0), RelativePoint(0.0, 3.0)));
 	}
@@ -119,8 +118,9 @@ namespace render
 		}
 	}
 
-	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, 
-									bool isPlayerWin, bool isPlayerLoose) {
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, 
+									bool isPlayerWin, bool isPlayerLoose,
+									float nbHumanLeft, float nbHumanInitial) {
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -144,11 +144,24 @@ namespace render
 				int iBaseLine = 20;
 				Font origFont = g.getCurrentFont();
 
-				g.setColour(juce::Colours::seagreen);
 				g.setFont( static_cast<float>(iFontSize) );
 
-				//g.drawRect(m_background);
-				g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep);
+				g.setColour( Colours::black);
+				g.fillRect(5, 5, 300, 25);
+				g.setOpacity(0.5);
+
+				if(nbHumanLeft<nbHumanInitial*0.5){
+					g.setColour( Colours::red);
+					//m_humanAlpha
+				}
+				else if(nbHumanLeft<nbHumanInitial*0.75){
+					g.setColour( Colours::orange);
+				}
+				else{
+					g.setColour(juce::Colours::green);
+				}
+				g.setOpacity(1.0);
+				g.drawSingleLineText(m_human, 10, 25);
 			}
 		}
 	}

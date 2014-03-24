@@ -22,6 +22,10 @@ namespace physical
 		m_constantForceArray = std::vector<ConstantForce*>();
 		//add gravity
 		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f)));
+
+		m_nbHumanInitial = 7000000000;
+		m_nbHumanLeft = m_nbHumanInitial;
+		m_previousParticleNb=0;
 	}
 
 	Model::~Model(){

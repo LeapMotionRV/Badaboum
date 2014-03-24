@@ -36,20 +36,12 @@ namespace render
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
 		void setBrake(float brake) {m_brake = String::formatted("Brake value : %4.5f",brake);}
-		void setHumanAlive(unsigned int nbParticles, int time){
-			if(m_previousParticleNb!=nbParticles){
-				++m_previousParticleNb;
-				m_humanNumber -= 100000000 + time;
-			}
-			else
-				m_humanNumber -= time;
-			m_human =  String::formatted("%4.f human lives left", m_humanNumber);
-		}
+		void setHumanAlive(float nbHumanLeft){m_human =  String::formatted("%4.f human lives left", nbHumanLeft);}
 
 		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
 		void render2DHelp(OpenGLContext* pOpenGLContext);
-		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPlayerWin, bool isPlayerLoose);
+		void render2DInGame(OpenGLContext* pOpenGLContext, bool isPlayerWin, bool isPlayerLoose, float nbHumanLeft, float nbHumanInitial);
 
 	private:
 		int				m_width;
@@ -75,9 +67,7 @@ namespace render
 		juce::Image		m_imageHelp;
 		//the human
 		juce::String	m_human;
-		float			m_humanNumber;
-		unsigned int	m_previousParticleNb;
-		//juce::DrawableRectangle* m_background;
+		float			m_humanAlpha;
 	};
 }
 

@@ -170,8 +170,11 @@ namespace render
 				// ******************** //
 				//   Draw 2D IN GAME    //
 				// ******************** //
-				m_pRenderer2D->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
-				m_pRenderer2D->render2DInGame(&m_openGLContext, getBounds(), m_pModel->isPlayerWin(), m_pModel->isPlayerLoose());
+				m_pModel->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
+				m_pRenderer2D->setHumanAlive(m_pModel->getNbHumanLeft());
+				m_pRenderer2D->render2DInGame(&m_openGLContext, 
+											  m_pModel->isPlayerWin(), m_pModel->isPlayerLoose(), 
+											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
 			if(m_pRenderer2D->isShowHelp()){
