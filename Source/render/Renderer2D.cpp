@@ -50,10 +50,6 @@ namespace render
 		else {
 			m_imageLoose = juce::ImageCache::getFromFile(fileLoose);
 		}
-		//data
-		//m_human =  String::formatted("%4.f human lives left", m_humanNumber);
-		//m_background = new DrawableRectangle();
-		//m_background->setRectangle(RelativeParallelogram(RelativePoint(0.0, 0.0), RelativePoint(5.0, 0.0), RelativePoint(0.0, 3.0)));
 	}
 
 	Renderer2D::~Renderer2D(){

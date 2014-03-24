@@ -69,7 +69,7 @@ namespace input
 	void LeapMotionListener::manageLeapMovements(Leap::Frame frame){
 		Leap::HandList hands = frame.hands();
 		Leap::FingerList fingers = frame.fingers();
-		for(size_t i = 0; i < hands.count(); ++i){
+		for(int i = 0; i < hands.count(); ++i){
 			if(!hands[i].isValid())
 				return;
 		}

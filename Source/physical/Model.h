@@ -82,8 +82,8 @@ namespace physical
 		const unsigned int				m_nbMaxParticle;
 
 		//human number controle
+		const float		m_nbHumanInitial;
 		float			m_nbHumanLeft;
-		float			m_nbHumanInitial;
 		unsigned int	m_previousParticleNb;
 	};
 }
