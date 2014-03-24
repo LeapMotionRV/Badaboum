@@ -92,9 +92,12 @@ namespace render
 									bouds.getBottom() - (iFontSize + iFontSize + iLineStep) + 75,
 									bouds.getWidth()/4 );
 
-			g.setColour( Colours::green );
-			//g.drawRect(m_background);
-			g.drawSingleLineText(m_human, iMargin, iBaseLine + iLineStep*8);
+			g.setColour( Colours::black);
+			g.setOpacity(0.5);
+			g.fillRect(5, 5, 300, 25);
+			g.setColour( Colours::green);
+			g.setOpacity(1.0);
+			g.drawSingleLineText(m_human, 10, 25);
 
 
 		}
