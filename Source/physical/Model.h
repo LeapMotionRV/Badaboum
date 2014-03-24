@@ -60,6 +60,8 @@ namespace physical
 			}
 			else
 				m_nbHumanLeft -= time;
+
+			if(m_nbHumanLeft<0) m_nbHumanLeft = 0;
 		}
 
 		//suppress warning
