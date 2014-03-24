@@ -43,7 +43,7 @@ namespace input
 	}
 
 	void LeapMotionListener::onFrame(const Leap::Controller& controller){
-		if ( !m_pRenderer->isPaused() ){
+		if ( !m_pRenderer->isPaused() && !m_pRenderer->getRenderer2D()->isShowHelp()){
 			Leap::Frame frame = controller.frame();
 			if(frame.isValid()){
 				update(frame);

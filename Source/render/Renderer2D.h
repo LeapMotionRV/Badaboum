@@ -8,7 +8,7 @@ namespace render
 	/**
 		This component is contained in the Render. This is where we display all 2D elements.
 	*/
-	class Renderer2D
+	class Renderer2D : public juce::OpenGLTexture
 	{
 	public:
 		Renderer2D(int width, int height);
@@ -18,10 +18,12 @@ namespace render
 		* Getters
 		*/
 		bool isShowHelp() const {return m_bShowHelp;}
+		bool isShowDebug() const {return m_bShowDebug;}
 		/**
 		* Setters
 		*/
 		void isShowHelp(bool flag) {m_bShowHelp = flag;}
+		void isShowDebug(bool flag) {m_bShowDebug = flag;}
 		//updateFPS => the update of the leap motion
 		void setUpdateFPS(float newUpdateFPS) {m_updateFPS = String::formatted("UpdateFPS : %4.2f", newUpdateFPS);}
 		//renderFPS => the update of the rendering
@@ -34,32 +36,22 @@ namespace render
 		void setGravity(float gravity) {m_gravity = String::formatted("Gravity value : %4.2f",gravity);}
 		void setRigidity(float rigidity) {m_rigidity = String::formatted("Rigidity value: %4.2f",rigidity);}
 		void setBrake(float brake) {m_brake = String::formatted("Brake value : %4.5f",brake);}
-		void setHumanAlive(unsigned int nbParticles, int time){
-			if(m_previousParticleNb!=nbParticles){
-				++m_previousParticleNb;
-				m_humanNumber -= 100000000 + time;
-			}
-			else
-				m_humanNumber -= time;
-			m_human =  String::formatted("%4.f human lives left", m_humanNumber);
-		}
+		void setHumanAlive(float nbHumanLeft){m_human =  String::formatted("%4.f human lives left", nbHumanLeft);}
 
-		//draw the text overlay (the help)
-		void renderOpenGL2D(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
+		//draw
+		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
+		void render2DHelp(OpenGLContext* pOpenGLContext);
+		void render2DInGame(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, float nbHumanLeft, float nbHumanInitial);
 
 	private:
 		//to have the good size to display
 		int				m_width;
 		int				m_height;
-		float			m_humanNumber;
-		unsigned int	m_previousParticleNb;
+		//the debug => for the programmer
+		juce::String	m_strDebug;
+		bool			m_bShowDebug;
 		//the font
 		juce::Font		m_fixedFont;
-		//the help
-		juce::String	m_strPrompt;
-		juce::String	m_strHelp;
-		bool			m_bShowHelp;
-		//data
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
 		juce::String	m_physicsFPS;
@@ -69,9 +61,13 @@ namespace render
 		juce::String	m_gravity;
 		juce::String	m_rigidity;
 		juce::String	m_brake;
-		juce::String	m_human;
+		//the help => for the player
+		bool			m_bShowHelp;
+		juce::Image		m_imageHelp;
 
-		//juce::DrawableRectangle* m_background;
+		//the human
+		juce::String	m_human;
+		float			m_humanAlpha;
 	};
 }
 

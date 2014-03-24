@@ -40,6 +40,8 @@ namespace physical
 		std::vector<ConstantForce*>		getConstantForceArray(){return m_constantForceArray;}
 		Ground*							getGround(){return m_pGround;}
 		unsigned int					getNbMaxParticle(){return m_nbMaxParticle;}
+		float							getNbHumanInitial(){return m_nbHumanInitial;}
+		float							getNbHumanLeft(){return m_nbHumanLeft;}
 
 		bool isGameEnded() const;
 
@@ -48,6 +50,15 @@ namespace physical
 		*/
 		void setGravity(float gravity){ m_constantForceArray[0]->setForce(glm::vec3(0.f, gravity, 0.f));}
 		void isGameEnded(bool flag) {m_bIsGameEnded = flag;}
+
+		void setHumanAlive(unsigned int nbParticles, int time){
+			if(m_previousParticleNb!=nbParticles){
+				++m_previousParticleNb;
+				m_nbHumanLeft -= 100000000 + time;
+			}
+			else
+				m_nbHumanLeft -= time;
+		}
 
 		//suppress warning
 		Model & operator=( const Model & ) {}
@@ -66,6 +77,11 @@ namespace physical
 		//getters - physical object + forces
 		Ground*							m_pGround;
 		const unsigned int				m_nbMaxParticle;
+
+		//human number controle
+		float			m_nbHumanLeft;
+		float			m_nbHumanInitial;
+		unsigned int	m_previousParticleNb;
 	};
 }
 

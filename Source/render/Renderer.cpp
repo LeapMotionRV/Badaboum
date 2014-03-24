@@ -23,7 +23,7 @@ namespace render
 		m_pSkybox = new Skybox();
 
 		//other renderer
-		m_pRenderer2D = new Renderer2D(getWidth(), getHeight());
+		m_pRenderer2D = new Renderer2D(Component::getWidth(), Component::getHeight());
 	}
 
 	Renderer::~Renderer(){
@@ -57,7 +57,7 @@ namespace render
 		glEnable(GL_LIGHTING);
 
 
-		//bind textures
+		//create textures
 		m_pModel->getGround()->createTexture();
 		m_pSkybox->createTexture();
 	}
@@ -69,7 +69,7 @@ namespace render
 	void Renderer::setupScene(){
 		OpenGLHelpers::clear(Colours::black.withAlpha(1.0f));
 
-		m_camera.SetAspectRatio( getWidth() / static_cast<float>(getHeight()) );
+		m_camera.SetAspectRatio( Component::getWidth() / static_cast<float>( Component::getHeight()) );
 		m_camera.SetupGLProjection();
 		m_camera.ResetGLView();
 
@@ -143,51 +143,67 @@ namespace render
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);
-
-			// ******************** //
-			//   Draw OpenGL 3D     //
-			// ******************** //
-			setupScene();
-			glPushMatrix();
-				//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
-				glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
-				m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
-			glPopMatrix();
 			
-			//The scene is moreover subjected to translation and scale transformations : 
-			glPushMatrix();
-				glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
-				glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
-				glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
-				//draw the scene (ground, axes, particles and links)
-				LeapUtilGL::drawAxes();
-				m_pModel->getGround()->draw();
-				m_pModel->getParticuleManager()->drawParticles();
-				m_pModel->getLinkManager()->drawLinks();
-			glPopMatrix();
-			//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
-			drawPointables(frame);
+			if(!isPaused()){
+				setupScene();
+				// ******************** //
+				//   Draw OpenGL 3D     //
+				// ******************** //
+				glPushMatrix();
+					//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
+					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+					m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
+				glPopMatrix();
+			
+				//The scene is moreover subjected to translation and scale transformations : 
+				glPushMatrix();
+					glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
+					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+					glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
+					//draw the scene (ground, axes, particles and links)
+					LeapUtilGL::drawAxes();
+					m_pModel->getGround()->draw();
+					m_pModel->getParticuleManager()->drawParticles();
+					m_pModel->getLinkManager()->drawLinks();
+				glPopMatrix();
+				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+				drawPointables(frame);
 
-			// ******************** //
-			//   Draw OpenGL 2D     //
-			// ******************** //
-			m_pRenderer2D->setUpdateFPS(fUpdateFPS);
-			m_pRenderer2D->setRenderFPS(fRenderFPS);
-			m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
-			m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
-			m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
-			m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
-			m_pRenderer2D->setGravity(m_pModel->getConstantForceArray()[0]->getForce());
-			m_pRenderer2D->setRigidity(m_pModel->getLinkManager()->getRigidity());
-			m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
-			m_pRenderer2D->renderOpenGL2D(&m_openGLContext, getBounds(), m_bPaused);
-			//Show humans still alive
-			m_pRenderer2D->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
+				// ******************** //
+				//  Physical simulation //
+				// ******************** //
+				m_pModel->startSimulation(fPhysicsFPS);
 
-			// ******************** //
-			//  Physical simulation //
-			// ******************** //
-			m_pModel->startSimulation(fPhysicsFPS);
+				// ******************** //
+				//   Draw 2D IN GAME    //
+				// ******************** //
+				m_pModel->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
+				m_pRenderer2D->setHumanAlive(m_pModel->getNbHumanLeft());
+				m_pRenderer2D->render2DInGame(&m_openGLContext, getBounds(), m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
+			}
+
+			if(m_pRenderer2D->isShowHelp()){
+				// ******************** //
+				//    Draw 2D HELP      //
+				// ******************** //
+				m_pRenderer2D->render2DHelp(&m_openGLContext);
+			}
+
+			if(m_pRenderer2D->isShowDebug()){
+				// ******************** //
+				//   Draw 2D DEBUG      //
+				// ******************** //
+				m_pRenderer2D->setUpdateFPS(fUpdateFPS);
+				m_pRenderer2D->setRenderFPS(fRenderFPS);
+				m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
+				m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
+				m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
+				m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
+				m_pRenderer2D->setGravity(m_pModel->getConstantForceArray()[0]->getForce());
+				m_pRenderer2D->setRigidity(m_pModel->getLinkManager()->getRigidity());
+				m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
+				m_pRenderer2D->render2DDebug(&m_openGLContext, getBounds(), m_bPaused);
+			}
 
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
@@ -279,6 +295,5 @@ namespace render
 		glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
 		glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 		glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
-		
 	}
 }
