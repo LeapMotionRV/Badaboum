@@ -6,8 +6,9 @@
 
 namespace input
 {
-	LeapMotionListener::LeapMotionListener(render::Renderer* pRenderer){
+	LeapMotionListener::LeapMotionListener(render::Renderer* pRenderer, sound::SoundManager* pSoundManager){
 		m_pRenderer = pRenderer;
+		m_pSoundManager = pSoundManager;
 	}
 
 	LeapMotionListener::~LeapMotionListener(){
@@ -165,10 +166,11 @@ namespace input
 		//Scale
 		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
 
-
-
 		//Create particle
 		glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);
 		m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
+
+		//Launch the sound
+		m_pSoundManager->playSound();
 	}
 }

@@ -7,6 +7,8 @@
 #include "Skybox.h"
 #include "Renderer2D.h"
 #include "../physical/Model.h"
+#include "../sound/SoundManager.h"
+
 
 namespace render
 {
@@ -60,6 +62,7 @@ namespace render
 		//setters
 		void							isPaused(bool flag) {m_bPaused = flag;}
 		void							setModel(physical::Model* newModel) {m_pModel = newModel;}
+		void							setSoundManager(sound::SoundManager* newSoundManager) {m_pSoundManager = newSoundManager;}
 		void							setLastFrame(Leap::Frame lastFrame) {m_lastFrame = lastFrame;}
 		void							setLastUpdateTimeSeconds(double lastUpdateTimeSeconds) {m_fLastUpdateTimeSeconds = lastUpdateTimeSeconds;}
 		void							setTotalMotionRotation(Leap::Matrix rotation) {m_mtxTotalMotionRotation = rotation;}
@@ -114,6 +117,9 @@ namespace render
 		
 		//var for physical
 		physical::Model*			m_pModel;
+
+		//var for the sound
+		sound::SoundManager*		m_pSoundManager;
 	};
 }
 

@@ -2,7 +2,9 @@
 #define LEAPMOTIONLISTENER_H
 
 #include <Leap.h>
+
 #include "../render/Renderer.h"
+#include "../sound/SoundManager.h"
 
 namespace input
 {
@@ -12,7 +14,7 @@ namespace input
 	class LeapMotionListener : public Leap::Listener
 	{
 	public:
-		LeapMotionListener(render::Renderer* pRenderer);
+		LeapMotionListener(render::Renderer* pRenderer, sound::SoundManager* pSoundManager);
 		~LeapMotionListener();
 
 		void update(Leap::Frame frame);
@@ -28,7 +30,8 @@ namespace input
 		virtual void onFrame(const Leap::Controller& controller);
 
 	private:
-		render::Renderer*	m_pRenderer;
+		render::Renderer*		m_pRenderer;
+		sound::SoundManager*	m_pSoundManager;
 	};
 }
 

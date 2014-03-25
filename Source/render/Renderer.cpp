@@ -31,6 +31,7 @@ namespace render
 
 		delete m_pRenderer2D;
 		delete m_pSkybox;
+		delete m_pSoundManager;
 	}
 
 	void Renderer::newOpenGLContextCreated(){
