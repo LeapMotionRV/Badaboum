@@ -21,9 +21,11 @@ namespace physical
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
-		//add gravity
-		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f))); //-0.9
 
+		//add gravity
+		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f))); //-0.9 (trop fort ptet)
+
+		//human data
 		m_nbHumanLeft = m_nbHumanInitial;
 		m_previousParticleNb = 0;
 	}
@@ -62,7 +64,7 @@ namespace physical
 		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle() && !m_bIsPlayerLoose){
 			m_bIsPlayerWin = true;
 		}
-		if(m_nbHumanLeft < 0){
+		if(m_nbHumanLeft <= 0){
 			m_bIsPlayerLoose = true;
 		}
 		//links

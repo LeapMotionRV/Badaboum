@@ -11,20 +11,29 @@ namespace sound
 	class SoundManager : public Component
 	{
 	public:
+		/*
+		* Represents the id of a specific sound in the array of sounds.
+		*/
+		enum SoundId{
+			BACKGROUND,
+			PARTICLE,
+			WIND
+		};
+
 		SoundManager();
 		~SoundManager();
 
-		void loadFileIntoTransport(const File& audioFile);
-		void playSound();
+		void loadFileIntoTransport(const File& audioFile, SoundId idOfSound);
+		void playSound(SoundId idOfSound);
 
 	private:
 		juce::AudioDeviceManager*				m_pDeviceManager;
 		juce::AudioFormatManager				m_formatManager;
 
-		juce::AudioSourcePlayer*				m_pAudioSourcePlayer;
-		juce::AudioTransportSource*				m_pTransportSource;
+		std::vector<juce::AudioSourcePlayer*>		m_audioSourcePlayerArray;
+		std::vector<juce::AudioTransportSource*>	m_transportSourceArray;
 
-		juce::ScopedPointer<juce::AudioFormatReaderSource> m_currentAudioFileSource;
+		std::vector<juce::ScopedPointer<juce::AudioFormatReaderSource>> m_currentAudioFileSourceArray;
 
 		 JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoundManager);
 	};

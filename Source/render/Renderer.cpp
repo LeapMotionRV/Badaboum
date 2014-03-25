@@ -133,12 +133,17 @@ namespace render
 		m_fLastRenderTimeSeconds = curSysTimeSeconds;
 		float	fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 
+		// ******************** //
+		//       SOUND          //
+		// ******************** //
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::BACKGROUND);
+
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);
-			
 			if(!isPaused()){
-				setupScene();
+			setupScene();
+				//setupScene();
 				// ******************** //
 				//   Draw OpenGL 3D     //
 				// ******************** //
@@ -178,11 +183,13 @@ namespace render
 											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
-			if(m_pRenderer2D->isShowHelp()){
+			if(isPaused() && !m_pModel->isPlayerWin() && !m_pModel->isPlayerLoose()){
 				// ******************** //
 				//    Draw 2D HELP      //
 				// ******************** //
 				m_pRenderer2D->render2DHelp(&m_openGLContext);
+				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+				//drawPointables(frame);
 			}
 
 			if(m_pRenderer2D->isShowDebug()){
@@ -204,7 +211,7 @@ namespace render
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
 				m_openGLContext.triggerRepaint();
-		}
+		 }
 	}
 
 	void Renderer::resized(){

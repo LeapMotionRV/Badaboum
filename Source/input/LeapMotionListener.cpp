@@ -34,7 +34,7 @@ namespace input
 		// configure swipe recognition
 		// Gesture.Swipe.MinLength | float | default value = 150 | mm
         // Gesture.Swipe.MinVelocity | float | default value = 1000 | mm/s
-		if(controller.config().setFloat("Gesture.Swipe.MinLength", 150) 
+		if(controller.config().setFloat("Gesture.Swipe.MinLength", 300) 
 			&& controller.config().setFloat("Gesture.Swipe.MinVelocity", 100)){
 			controller.config().save();
 		}
@@ -44,13 +44,11 @@ namespace input
 	}
 
 	void LeapMotionListener::onFrame(const Leap::Controller& controller){
-		if ( !m_pRenderer->isPaused() && !m_pRenderer->getRenderer2D()->isShowHelp()){
-			Leap::Frame frame = controller.frame();
-			if(frame.isValid()){
-				update(frame);
-				m_pRenderer->setLastFrame(frame);
-				m_pRenderer->getOpenGLContext()->triggerRepaint();
-			}
+		Leap::Frame frame = controller.frame();
+		if(frame.isValid()){
+			update(frame);
+			m_pRenderer->setLastFrame(frame);
+			m_pRenderer->getOpenGLContext()->triggerRepaint();
 		}
 	}
 
@@ -93,10 +91,22 @@ namespace input
 				}
 				//trigger wind
 				else if(fingersHand0.count() >= 3 && gesture.type() == Leap::Gesture::TYPE_SWIPE){
-					triggerWind(gesture);
+					if(m_pRenderer->getModel()->isPlayerWin() || m_pRenderer->getModel()->isPlayerLoose())
+						triggerGameBySwipe();
+					else
+						triggerWind(gesture);
 				}
 			}
 		}
+
+			if(hands.count() == 0){
+					m_pRenderer->getRenderer2D()->isShowHelp(true);
+					m_pRenderer->isPaused(true);
+				}
+				else{
+					m_pRenderer->getRenderer2D()->isShowHelp(false);
+					m_pRenderer->isPaused(false);
+				}
 	}
 
 	void  LeapMotionListener::manageCamera(Leap::Frame &frame){
@@ -144,6 +154,9 @@ namespace input
 									);
 		physical::ConstantForce wind = physical::ConstantForce(force);
 		wind.apply(m_pRenderer->getModel()->getParticuleManager());
+
+		//Launch the sound
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::WIND);
 	}
 
 	void  LeapMotionListener::createParticle(Leap::Gesture &gesture){
@@ -171,6 +184,10 @@ namespace input
 		m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
 
 		//Launch the sound
-		m_pSoundManager->playSound();
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::PARTICLE);
+	}
+
+	void LeapMotionListener::triggerGameBySwipe(){
+		m_pRenderer->getModel()->reset();
 	}
 }

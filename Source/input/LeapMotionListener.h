@@ -23,6 +23,8 @@ namespace input
 		void triggerWind(Leap::Gesture &gesture);
 		void createParticle(Leap::Gesture &gesture);
 
+		void triggerGameBySwipe();
+
 		//functions from the Listener
 		virtual void onInit(const Leap::Controller&);
 		virtual void onConnect(const Leap::Controller&);

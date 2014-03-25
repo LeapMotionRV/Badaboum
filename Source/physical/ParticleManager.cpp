@@ -38,7 +38,7 @@ namespace physical
 		float fNbEndedParticles = static_cast<float>(s_nbEndedParticles);
 		for(size_t i = 0; i < s_nbEndedParticles; ++i){
 			addParticle(
-				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 5.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
+				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 10.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
 				ParticleManager::getMassOfParticles(), 
 				glm::vec3(0.f, 0.f, 0.f), 
@@ -93,8 +93,10 @@ namespace physical
 				glTranslatef(m_positionArray[i].x,  m_positionArray[i].y, m_positionArray[i].z);
 				float massOfParticle = m_massArray[i];
 				//fixed particles are bigger than the others
-				if(isFixedParticle(i))
+				if(isStartedParticle(i))
 					massOfParticle *= 2;
+				else if(isEndedParticle(i))
+					massOfParticle *= 5;
 				LeapUtilGL::drawSphere(LeapUtilGL::eStyle::kStyle_Solid, massOfParticle);
 			}
 		}
