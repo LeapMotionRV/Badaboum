@@ -275,7 +275,7 @@ void drawFacet( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::
   }
 }
 
-void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 forthPoint )
+void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm::vec3 thirdPoint, glm::vec3 forthPoint, float numberOfRepetitionTexture )
 {
   switch ( style )
   {
@@ -291,21 +291,20 @@ void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm
   }
 
   //const float kfHalfSize = size/2.f;
-
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
   glNormal3f( 0, 0, 1 );
   glTexCoord2f( 0, 0 );
   glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
-  glTexCoord2f( 1, 0 );
+  glTexCoord2f( numberOfRepetitionTexture, 0 );
   glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );
-  glTexCoord2f( 1, 1 );
+  glTexCoord2f(numberOfRepetitionTexture, numberOfRepetitionTexture );
   glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
   glEnd();
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
-  glTexCoord2f( 1, 1 );
+  glTexCoord2f( numberOfRepetitionTexture, numberOfRepetitionTexture );
   glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
-  glTexCoord2f( 0, 1 );
+  glTexCoord2f( 0, numberOfRepetitionTexture );
   glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
   glTexCoord2f( 0, 0 );
   glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
@@ -315,16 +314,16 @@ void drawPolygon( eStyle style, glm::vec3 firstPoint, glm::vec3 secondPoint, glm
   glNormal3f( 0, 0, -1 );
   glTexCoord2f( 0, 0 );
   glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );
-  glTexCoord2f( 1, 0 );
+  glTexCoord2f( numberOfRepetitionTexture, 0 );
   glVertex3f( firstPoint.x, firstPoint.y, firstPoint.z );
-  glTexCoord2f( 1, 1 );
+  glTexCoord2f( numberOfRepetitionTexture, numberOfRepetitionTexture );
   glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
   glEnd();
 
   glBegin( style == kStyle_Outline ? GL_LINE_LOOP : GL_TRIANGLES );
-  glTexCoord2f( 1, 1 );
+  glTexCoord2f( numberOfRepetitionTexture, numberOfRepetitionTexture );
   glVertex3f( forthPoint.x, forthPoint.y, forthPoint.z );
-  glTexCoord2f( 0, 1 );
+  glTexCoord2f( 0, numberOfRepetitionTexture );
   glVertex3f(  thirdPoint.x, thirdPoint.y, thirdPoint.z );
   glTexCoord2f( 0, 0 );
   glVertex3f(  secondPoint.x, secondPoint.y, secondPoint.z );

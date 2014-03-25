@@ -79,7 +79,6 @@ namespace render
 	}
 
 	//Warning to our situation, we moove the scene and not the camera, so the skybox has to be submitted to the rotation, but not to the translation of the scene and not to the scale ? 
-	//the skybox is submitted to the rotation like the scene, not scaled and translated like the scene.
 	void Skybox::draw(Leap::Matrix rotationMatrix, Leap::Vector totalTranslation, float totalScale){
 		//clear color
 		glColor3f(1, 1, 1);
@@ -95,7 +94,7 @@ namespace render
 		glm::vec3 secondPoint = glm::vec3(-width/2.f, -height/2.f, -width/2.f);
 		glm::vec3 thirdPoint = glm::vec3(-width/2.f, height/2.f, -width/2.f);
 		glm::vec3 forthPoint = glm::vec3(width/2.f, height/2.f, -width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxForward->unbind();
 		// Back
 		m_pSkyboxBack->bind();
@@ -103,7 +102,7 @@ namespace render
 		secondPoint = glm::vec3(-width/2.f, -height/2.f, width/2.f);
 		thirdPoint = glm::vec3(-width/2.f, height/2.f, width/2.f);
 		forthPoint = glm::vec3(width/2.f, height/2.f, width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxBack->unbind();
 		// Left
 		m_pSkyboxLeft->bind();
@@ -111,7 +110,7 @@ namespace render
 		secondPoint = glm::vec3(-width/2.f, -height/2.f, -width/2.f);
 		thirdPoint = glm::vec3(-width/2.f, height/2.f, -width/2.f);
 		forthPoint = glm::vec3(-width/2.f, height/2.f, width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxLeft->unbind();
 		// Right
 		m_pSkyboxRight->bind();
@@ -119,7 +118,7 @@ namespace render
 		secondPoint = glm::vec3(width/2.f, -height/2.f, -width/2.f);
 		thirdPoint = glm::vec3(width/2.f, height/2.f, -width/2.f);
 		forthPoint = glm::vec3(width/2.f, height/2.f, width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxRight->unbind();
 		// Up
 		m_pSkyboxUp->bind();
@@ -127,7 +126,7 @@ namespace render
 		secondPoint = glm::vec3(-width/2.f, height/2.f, -width/2.f);
 		thirdPoint = glm::vec3(-width/2.f, height/2.f, width/2.f);
 		forthPoint = glm::vec3(width/2.f, height/2.f, width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxUp->unbind();
 		// Down
 		m_pSkyboxDown->bind();
@@ -135,7 +134,7 @@ namespace render
 		secondPoint = glm::vec3(-width/2.f, -height/2.f, -width/2.f);
 		thirdPoint = glm::vec3(-width/2.f, -height/2.f, width/2.f);
 		forthPoint = glm::vec3(width/2.f, -height/2.f, width/2.f);
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, firstPoint/factor, secondPoint/factor, thirdPoint/factor, forthPoint/factor, 1.0);
 		m_pSkyboxDown->unbind();
 	}
 }

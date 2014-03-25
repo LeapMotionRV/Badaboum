@@ -25,7 +25,8 @@ namespace physical
 		return m_pointArray;
 	}
 
-	void Polygon::draw() const {
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, m_pointArray[0], m_pointArray[1], m_pointArray[2], m_pointArray[3]);
+	void Polygon::draw(float numberOfRepetitionTexture) const {
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, m_pointArray[0], m_pointArray[1], m_pointArray[2], m_pointArray[3], numberOfRepetitionTexture
+			);
 	}
 }
