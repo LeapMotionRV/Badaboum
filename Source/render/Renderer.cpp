@@ -178,14 +178,13 @@ namespace render
 											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
-			if(isPaused()){
-
+			if(isPaused() && !m_pModel->isPlayerWin() && !m_pModel->isPlayerLoose()){
 				// ******************** //
 				//    Draw 2D HELP      //
 				// ******************** //
 				m_pRenderer2D->render2DHelp(&m_openGLContext);
-					//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
-				drawPointables(frame);
+				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+				//drawPointables(frame);
 			}
 
 			if(m_pRenderer2D->isShowDebug()){
