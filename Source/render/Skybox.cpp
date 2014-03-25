@@ -87,7 +87,7 @@ namespace render
 
 		int width = m_pSkyboxForward->getWidth();
 		int height = m_pSkyboxForward->getHeight();
-		float factor = 25.f;
+		float factor = 15.f;
 		// Forward
 		m_pSkyboxForward->bind();
 		glm::vec3 firstPoint = glm::vec3(width/2.f, -height/2.f, -width/2.f);
