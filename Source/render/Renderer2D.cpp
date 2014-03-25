@@ -27,7 +27,9 @@ namespace render
 
 		//the help
 		m_bShowHelp = false;
-		//textures
+		up = false;
+		down = true;
+		//create texture for the help
 		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/ApocaLeap.jpg");
 		if(!fileHelp.existsAsFile()){
 			std::cout << "Error when loading texture of the help." << std::endl;
@@ -113,9 +115,12 @@ namespace render
 		}
 	}
 
-	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext, 
-									bool isPlayerWin, bool isPlayerLoose,
-									float nbHumanLeft, float nbHumanInitial) {
+	void Renderer2D::render2DInGame(juce::OpenGLContext* pOpenGLContext,
+									bool isPlayerWin,
+									bool isPlayerLoose,
+									float nbHumanLeft,
+									float nbHumanInitial){
+
 		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
 
 		// when enabled text draws poorly.
@@ -125,6 +130,14 @@ namespace render
 
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
+
+			int iMargin   = 10;
+			int iFontSize = static_cast<int>(m_fixedFont.getHeight());
+			int iLineStep = iFontSize + (iFontSize >> 2);
+			int iBaseLine = 20;
+			Font origFont = g.getCurrentFont();
+
+			g.setFont( static_cast<float>(iFontSize) );
 
 			if(isPlayerWin){
 				g.drawImage(m_imageWin, 0, 0, m_width, m_height, 0, 0, m_imageWin.getWidth(), m_imageWin.getHeight());
@@ -141,22 +154,36 @@ namespace render
 
 				g.setFont( static_cast<float>(iFontSize) );
 
-				g.setColour( Colours::black);
-				g.fillRect(5, 5, 300, 25);
+				g.setColour(Colours::black);
 				g.setOpacity(0.5);
-
-				if(nbHumanLeft<nbHumanInitial*0.5){
+				g.fillRect(5, 5, 300, 25);
+				if(nbHumanLeft<nbHumanInitial*0.25){
 					g.setColour( Colours::red);
-					//m_humanAlpha
+					if(up){
+						if(m_humanAlpha+0.2>=1){
+							up = false;
+							down = true;
+						}
+						else m_humanAlpha += 0.2;
+					}
+					if(down){
+						if(m_humanAlpha-0.2<=0){
+							up = true;
+							down = false;
+						}
+						else m_humanAlpha -= 0.2;
+					}
 				}
-				else if(nbHumanLeft<nbHumanInitial*0.75){
+				else if(nbHumanLeft<nbHumanInitial*0.50){
 					g.setColour( Colours::orange);
+					m_humanAlpha=1;
 				}
 				else{
 					g.setColour(juce::Colours::green);
+					m_humanAlpha=1;
 				}
-				g.setOpacity(1.0);
-				g.drawSingleLineText(m_human, 10, 25);
+				g.setOpacity(m_humanAlpha);
+				g.drawSingleLineText(m_human, 10, 25);;
 			}
 		}
 	}

@@ -68,6 +68,8 @@ namespace render
 		//the human
 		juce::String	m_human;
 		float			m_humanAlpha;
+		bool			up;
+		bool			down;
 	};
 }
 
