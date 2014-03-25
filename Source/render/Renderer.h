@@ -101,7 +101,6 @@ namespace render
 		juce::CriticalSection       m_renderMutex;
 		Leap::Vector				m_avColors[kNumColors];
 		bool                        m_bPaused;
-		
 		//var for Leap Motion
 		float						m_fFrameScale;
 		Leap::Frame					m_lastFrame;
@@ -114,10 +113,8 @@ namespace render
 		Leap::Matrix                m_mtxTotalMotionRotation;
 		Leap::Vector                m_vTotalMotionTranslation;
 		float                       m_fTotalMotionScale;
-		
 		//var for physical
 		physical::Model*			m_pModel;
-
 		//var for the sound
 		sound::SoundManager*		m_pSoundManager;
 	};

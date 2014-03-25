@@ -34,7 +34,7 @@ namespace input
 		// configure swipe recognition
 		// Gesture.Swipe.MinLength | float | default value = 150 | mm
         // Gesture.Swipe.MinVelocity | float | default value = 1000 | mm/s
-		if(controller.config().setFloat("Gesture.Swipe.MinLength", 300) 
+		if(controller.config().setFloat("Gesture.Swipe.MinLength", 150) 
 			&& controller.config().setFloat("Gesture.Swipe.MinVelocity", 100)){
 			controller.config().save();
 		}
@@ -82,15 +82,18 @@ namespace input
 			//manage each gesture
 			for (int g = 0; g < gestures.count(); ++g){
 				Leap::Gesture gesture = gestures[g];
-				//create particle
+				//TYPE_CIRCLE
 				if(fingersHand0.count() == 1 && gesture.type() == Leap::Gesture::TYPE_CIRCLE){
 					if(m_pRenderer->getModel()->getParticuleManager()->getNbParticles() < m_pRenderer->getModel()->getNbMaxParticle()){
 						if(gesture.state() == Leap::Gesture::STATE_STOP)
 							createParticle(gesture);
 					}
 				}
-				//trigger wind
+				//TYPE_SWIPE
 				else if(fingersHand0.count() >= 3 && gesture.type() == Leap::Gesture::TYPE_SWIPE){
+					if(m_pRenderer->getModel()->isApplicationStarted())
+						m_pRenderer->getModel()->isApplicationStarted(false);
+
 					if(m_pRenderer->getModel()->isPlayerWin() || m_pRenderer->getModel()->isPlayerLoose())
 						triggerGameBySwipe();
 					else
@@ -99,14 +102,14 @@ namespace input
 			}
 		}
 
-			if(hands.count() == 0){
-					m_pRenderer->getRenderer2D()->isShowHelp(true);
-					m_pRenderer->isPaused(true);
-				}
-				else{
-					m_pRenderer->getRenderer2D()->isShowHelp(false);
-					m_pRenderer->isPaused(false);
-				}
+		if(hands.count() == 0){
+			m_pRenderer->getRenderer2D()->isShowHelp(true);
+			m_pRenderer->isPaused(true);
+		}
+		else{
+			m_pRenderer->getRenderer2D()->isShowHelp(false);
+			m_pRenderer->isPaused(false);
+		}
 	}
 
 	void  LeapMotionListener::manageCamera(Leap::Frame &frame){

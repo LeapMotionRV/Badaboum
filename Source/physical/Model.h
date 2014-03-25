@@ -42,7 +42,8 @@ namespace physical
 		unsigned int					getNbMaxParticle(){return m_nbMaxParticle;}
 		float							getNbHumanInitial(){return m_nbHumanInitial;}
 		float							getNbHumanLeft(){return m_nbHumanLeft;}
-
+		
+		bool isApplicationStarted() const;
 		bool isPlayerWin() const;
 		bool isPlayerLoose() const;
 
@@ -50,6 +51,7 @@ namespace physical
 		* Setters
 		*/
 		void setGravity(float gravity){ m_constantForceArray[0]->setForce(glm::vec3(0.f, gravity, 0.f));}
+		void isApplicationStarted(bool flag) {m_bIsApplicationStarted = flag;}
 		void isPlayerWin(bool flag) {m_bIsPlayerWin = flag;}
 		void isPlayerLoose(bool flag) {m_bIsPlayerLoose = flag;}
 
@@ -68,6 +70,7 @@ namespace physical
 		Model & operator=( const Model & ) {}
 
 	private:
+		bool							m_bIsApplicationStarted;
 		bool							m_bIsPlayerLoose;
 		bool							m_bIsPlayerWin;
 		LeapfrogSolver*					m_pLeapfrogSolver;

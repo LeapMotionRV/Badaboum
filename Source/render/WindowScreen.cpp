@@ -12,7 +12,13 @@ namespace render
 		setContentOwned(m_pMainComponent, true);
     
 		// Set an icon
-		//void 	setIcon (const Image &imageToUse)
+		juce::File fileIco = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/icon.ico");
+		if(!fileIco.existsAsFile()){
+			std::cout << "Error when loading texture of the ico." << std::endl;
+		}
+		else {
+			setIcon(juce::ImageCache::getFromFile(fileIco));
+		}
 
 		// Centre the window on the screen
 		centreWithSize(getWidth(), getHeight());

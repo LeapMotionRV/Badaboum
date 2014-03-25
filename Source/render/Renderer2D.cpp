@@ -29,7 +29,14 @@ namespace render
 		m_bShowHelp = false;
 		up = false;
 		down = true;
-		//create texture for the help
+		//create textures
+		juce::File fileHome = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/home.jpg");
+		if(!fileHome.existsAsFile()){
+			std::cout << "Error when loading texture of the home." << std::endl;
+		}
+		else {
+			m_imageHome = juce::ImageCache::getFromFile(fileHome);
+		}
 		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/pause.png");
 		if(!fileHelp.existsAsFile()){
 			std::cout << "Error when loading texture of the help." << std::endl;
@@ -111,6 +118,19 @@ namespace render
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
 			g.drawImage(m_imageHelp, 0, 0, m_width, m_height, 0, 0, m_imageHelp.getWidth(), m_imageHelp.getHeight());
+		}
+	}
+
+	void Renderer2D::render2DHome(juce::OpenGLContext* pOpenGLContext) {
+		LeapUtilGL::GLAttribScope attribScope(GL_ENABLE_BIT);
+
+		// when enabled text draws poorly.
+		glDisable(GL_CULL_FACE);
+
+		juce::ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
+		if (glRenderer != nullptr){
+			juce::Graphics g(*glRenderer.get());
+			g.drawImage(m_imageHome, 0, 0, m_width, m_height, 0, 0, m_imageHome.getWidth(), m_imageHome.getHeight());
 		}
 	}
 

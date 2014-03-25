@@ -141,71 +141,77 @@ namespace render
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);
-			if(!isPaused()){
-			setupScene();
-				//setupScene();
-				// ******************** //
-				//   Draw OpenGL 3D     //
-				// ******************** //
-				glPushMatrix();
-					//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
-					glTranslatef(0, 3, 0);
-					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
-					m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
-				glPopMatrix();
+
+			if(m_pModel->isApplicationStarted()){
+				// ****************** //
+				//     Draw HOME      //
+				// ****************** //
+				m_pRenderer2D->render2DHome(&m_openGLContext);
+			}
+			else{
+				if(!isPaused()){
+					setupScene();
+					// ******************** //
+					//   Draw OpenGL 3D     //
+					// ******************** //
+					glPushMatrix();
+						//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
+						glTranslatef(0, 3, 0);
+						glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+						m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
+					glPopMatrix();
 			
-				//The scene is moreover subjected to translation and scale transformations : 
-				glPushMatrix();
-					glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
-					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
-					glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
-					//draw the scene (ground, axes, particles and links)
-					LeapUtilGL::drawAxes();
-					m_pModel->getGround()->draw();
-					m_pModel->getParticuleManager()->drawParticles();
-					m_pModel->getLinkManager()->drawLinks();
-				glPopMatrix();
-				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
-				drawPointables(frame);
+					//The scene is moreover subjected to translation and scale transformations : 
+					glPushMatrix();
+						glTranslatef(m_vTotalMotionTranslation.x, m_vTotalMotionTranslation.y, m_vTotalMotionTranslation.z);
+						glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
+						glScalef(m_fTotalMotionScale, m_fTotalMotionScale, m_fTotalMotionScale);
+						//draw the scene (ground, axes, particles and links)
+						LeapUtilGL::drawAxes();
+						m_pModel->getGround()->draw();
+						m_pModel->getParticuleManager()->drawParticles();
+						m_pModel->getLinkManager()->drawLinks();
+					glPopMatrix();
+					//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+					drawPointables(frame);
 
-				// ******************** //
-				//  Physical simulation //
-				// ******************** //
-				m_pModel->startSimulation(fPhysicsFPS);
+					// ******************** //
+					//  Physical simulation //
+					// ******************** //
+					m_pModel->startSimulation(fPhysicsFPS);
 
-				// ******************** //
-				//   Draw 2D IN GAME    //
-				// ******************** //
-				m_pModel->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
-				m_pRenderer2D->setHumanAlive(m_pModel->getNbHumanLeft());
-				m_pRenderer2D->render2DInGame(&m_openGLContext, 
-											  m_pModel->isPlayerWin(), m_pModel->isPlayerLoose(), 
-											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
-			}
+					// ******************** //
+					//   Draw 2D IN GAME    //
+					// ******************** //
+					m_pModel->setHumanAlive(m_pModel->getParticuleManager()->getNbPlayerParticles(), curSysTimeSeconds);
+					m_pRenderer2D->setHumanAlive(m_pModel->getNbHumanLeft());
+					m_pRenderer2D->render2DInGame(&m_openGLContext, 
+												  m_pModel->isPlayerWin(), m_pModel->isPlayerLoose(), 
+												  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
+				}
 
-			if(isPaused() && !m_pModel->isPlayerWin() && !m_pModel->isPlayerLoose()){
-				// ******************** //
-				//    Draw 2D HELP      //
-				// ******************** //
-				m_pRenderer2D->render2DHelp(&m_openGLContext);
-				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
-				//drawPointables(frame);
-			}
+				if(isPaused() && !m_pModel->isPlayerWin() && !m_pModel->isPlayerLoose()){
+					// ******************** //
+					//    Draw 2D HELP      //
+					// ******************** //
+					m_pRenderer2D->render2DHelp(&m_openGLContext);
+				}
 
-			if(m_pRenderer2D->isShowDebug()){
-				// ******************** //
-				//   Draw 2D DEBUG      //
-				// ******************** //
-				m_pRenderer2D->setUpdateFPS(fUpdateFPS);
-				m_pRenderer2D->setRenderFPS(fRenderFPS);
-				m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
-				m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
-				m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
-				m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
-				m_pRenderer2D->setGravity(m_pModel->getConstantForceArray()[0]->getForce());
-				m_pRenderer2D->setRigidity(m_pModel->getLinkManager()->getRigidity());
-				m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
-				m_pRenderer2D->render2DDebug(&m_openGLContext, getBounds(), m_bPaused);
+				if(m_pRenderer2D->isShowDebug()){
+					// ******************** //
+					//   Draw 2D DEBUG      //
+					// ******************** //
+					m_pRenderer2D->setUpdateFPS(fUpdateFPS);
+					m_pRenderer2D->setRenderFPS(fRenderFPS);
+					m_pRenderer2D->setPhysicsFPS(fPhysicsFPS);
+					m_pRenderer2D->setNbParticles(m_pModel->getParticuleManager()->getNbPlayerParticles());
+					m_pRenderer2D->setNbParticlesLeft(m_pModel->getNbMaxParticle()-m_pModel->getParticuleManager()->getNbPlayerParticles());
+					m_pRenderer2D->setHighestPosition(m_pModel->getParticuleManager()->getHighestPosition());
+					m_pRenderer2D->setGravity(m_pModel->getConstantForceArray()[0]->getForce());
+					m_pRenderer2D->setRigidity(m_pModel->getLinkManager()->getRigidity());
+					m_pRenderer2D->setBrake(m_pModel->getLinkManager()->getBrake());
+					m_pRenderer2D->render2DDebug(&m_openGLContext, getBounds(), m_bPaused);
+				}
 			}
 
 			//draw the scene even if there is not Leap Motion

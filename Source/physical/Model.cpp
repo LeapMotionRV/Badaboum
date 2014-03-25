@@ -5,9 +5,12 @@
 
 namespace physical 
 {
-	Model::Model(unsigned int countParticles):m_nbMaxParticle(100), m_nbHumanInitial(7000000000){
+	Model::Model(unsigned int countParticles) : m_nbMaxParticle(100), m_nbHumanInitial(7000000000){
+		m_bIsApplicationStarted = true;
+		
 		m_bIsPlayerWin = false;
 		m_bIsPlayerLoose = false;
+
 		m_pLeapfrogSolver = new LeapfrogSolver();
 
 		//data of the scene
@@ -21,8 +24,6 @@ namespace physical
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();
-
-		//add gravity
 		m_constantForceArray.push_back(new ConstantForce(glm::vec3(0.f, -0.05f, 0.f))); //-0.9 (trop fort ptet)
 
 		//human data
@@ -92,6 +93,10 @@ namespace physical
 			ParticleManager::getMassOfParticles(), 
 			glm::vec3(0.f, 0.f, 0.f), 
 			ParticleManager::getColorOfParticles());
+	}
+
+	bool Model::isApplicationStarted() const {
+		return m_bIsApplicationStarted;
 	}
 
 	bool Model::isPlayerWin() const {

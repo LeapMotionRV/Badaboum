@@ -41,17 +41,18 @@ namespace render
 		//draw
 		void render2DDebug(OpenGLContext* pOpenGLContext, const juce::Rectangle<int>& bouds, bool isPaused);
 		void render2DHelp(OpenGLContext* pOpenGLContext);
+		void render2DHome(OpenGLContext* pOpenGLContext);
 		void render2DInGame(OpenGLContext* pOpenGLContext, bool isPlayerWin, bool isPlayerLoose, float nbHumanLeft, float nbHumanInitial);
 
 	private:
 		int				m_width;
 		int				m_height;
+		juce::Image		m_imageHome;
 		juce::Image		m_imageWin;
 		juce::Image		m_imageLoose;
 		//the debug => for the programmer
 		juce::String	m_strDebug;
 		bool			m_bShowDebug;
-		//the font
 		juce::Font		m_fixedFont;
 		juce::String	m_updateFPS;
 		juce::String	m_renderFPS;
