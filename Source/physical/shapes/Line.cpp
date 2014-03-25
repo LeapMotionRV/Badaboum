@@ -77,7 +77,7 @@ namespace physical
 		glm::vec3 p2 = pParticuleManager->getPositionArray()[m_part2];
 		glm::vec3 p3 = pParticuleManager->getPositionArray()[m_part3];
 		
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, glm::vec3(p1.x-0.01f,p1.y-0.01f,p1.z-0.01f), glm::vec3(p1.x+0.01f,p1.y+0.01f,p1.z+0.01f), glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f));
-		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f), glm::vec3(p3.x-0.01f,p3.y-0.01f,p3.z-0.01f), glm::vec3(p3.x+0.01f,p3.y+0.01f,p3.z+0.01f));
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, glm::vec3(p1.x-0.01f,p1.y-0.01f,p1.z-0.01f), glm::vec3(p1.x+0.01f,p1.y+0.01f,p1.z+0.01f), glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f), 1.0);
+		LeapUtilGL::drawPolygon(LeapUtilGL::eStyle::kStyle_Solid, glm::vec3(p2.x-0.01f,p2.y-0.01f,p2.z-0.01f), glm::vec3(p2.x+0.01f,p2.y+0.01f,p2.z+0.01f), glm::vec3(p3.x-0.01f,p3.y-0.01f,p3.z-0.01f), glm::vec3(p3.x+0.01f,p3.y+0.01f,p3.z+0.01f), 1.0);
 	}
 }
