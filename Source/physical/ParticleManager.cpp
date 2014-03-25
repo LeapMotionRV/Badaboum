@@ -38,7 +38,7 @@ namespace physical
 		float fNbEndedParticles = static_cast<float>(s_nbEndedParticles);
 		for(size_t i = 0; i < s_nbEndedParticles; ++i){
 			addParticle(
-				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 10.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
+				glm::vec3(glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f), 7.f, glm::linearRand(-fNbEndedParticles/2.f, fNbEndedParticles/2.f)), 
 				glm::vec3(0.f, 0.f, 0.f), 
 				ParticleManager::getMassOfParticles(), 
 				glm::vec3(0.f, 0.f, 0.f), 
