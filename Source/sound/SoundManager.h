@@ -15,6 +15,7 @@ namespace sound
 		* Represents the id of a specific sound in the array of sounds.
 		*/
 		enum SoundId{
+			BACKGROUND,
 			PARTICLE,
 			WIND
 		};
@@ -31,6 +32,8 @@ namespace sound
 
 		std::vector<juce::AudioSourcePlayer*>		m_audioSourcePlayerArray;
 		std::vector<juce::AudioTransportSource*>	m_transportSourceArray;
+
+		juce::TimeSliceThread m_thread;
 
 		std::vector<juce::ScopedPointer<juce::AudioFormatReaderSource>> m_currentAudioFileSourceArray;
 

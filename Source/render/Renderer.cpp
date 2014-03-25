@@ -133,6 +133,11 @@ namespace render
 		m_fLastRenderTimeSeconds = curSysTimeSeconds;
 		float	fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 
+		// ******************** //
+		//       SOUND          //
+		// ******************** //
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::BACKGROUND);
+
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);
@@ -144,7 +149,7 @@ namespace render
 				// ******************** //
 				glPushMatrix();
 					//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
-					glTranslatef(0, 5, 0);
+					glTranslatef(0, 3, 0);
 					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 					m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
 				glPopMatrix();
@@ -178,14 +183,13 @@ namespace render
 											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
-			if(isPaused()){
-
+			if(isPaused() && !m_pModel->isPlayerWin() && !m_pModel->isPlayerLoose()){
 				// ******************** //
 				//    Draw 2D HELP      //
 				// ******************** //
 				m_pRenderer2D->render2DHelp(&m_openGLContext);
-					//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
-				drawPointables(frame);
+				//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+				//drawPointables(frame);
 			}
 
 			if(m_pRenderer2D->isShowDebug()){

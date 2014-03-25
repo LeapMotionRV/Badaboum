@@ -34,7 +34,7 @@ namespace input
 		// configure swipe recognition
 		// Gesture.Swipe.MinLength | float | default value = 150 | mm
         // Gesture.Swipe.MinVelocity | float | default value = 1000 | mm/s
-		if(controller.config().setFloat("Gesture.Swipe.MinLength", 150) 
+		if(controller.config().setFloat("Gesture.Swipe.MinLength", 300) 
 			&& controller.config().setFloat("Gesture.Swipe.MinVelocity", 100)){
 			controller.config().save();
 		}
