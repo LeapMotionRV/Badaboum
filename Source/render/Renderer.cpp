@@ -133,6 +133,11 @@ namespace render
 		m_fLastRenderTimeSeconds = curSysTimeSeconds;
 		float	fRenderFPS = (fRenderDT > 0) ? 1.0f/fRenderDT : 0.0f;
 
+		// ******************** //
+		//       SOUND          //
+		// ******************** //
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::BACKGROUND);
+
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);

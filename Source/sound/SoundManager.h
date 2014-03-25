@@ -15,6 +15,7 @@ namespace sound
 		* Represents the id of a specific sound in the array of sounds.
 		*/
 		enum SoundId{
+			BACKGROUND,
 			PARTICLE,
 			WIND
 		};
