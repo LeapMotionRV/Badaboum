@@ -23,14 +23,14 @@ namespace render
 					"p    - Create a random particle\n"
 					"z/a  - In/Decrease gravity\n"
 					"q/s  - In/Decrease rigidity\n"
-					"w/x  - In/Decrease brake\n";
+					"w/x  - In/Decrease brake\n"; 
 
 		//the help
 		m_bShowHelp = false;
 		up = false;
 		down = true;
 		//create texture for the help
-		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/ApocaLeap.jpg");
+		juce::File fileHelp = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/pause.png");
 		if(!fileHelp.existsAsFile()){
 			std::cout << "Error when loading texture of the help." << std::endl;
 		}
@@ -108,7 +108,6 @@ namespace render
 		glDisable(GL_CULL_FACE);
 
 		juce::ScopedPointer<LowLevelGraphicsContext> glRenderer (createOpenGLGraphicsContext (*pOpenGLContext, m_width, m_height));
-
 		if (glRenderer != nullptr){
 			juce::Graphics g(*glRenderer.get());
 			g.drawImage(m_imageHelp, 0, 0, m_width, m_height, 0, 0, m_imageHelp.getWidth(), m_imageHelp.getHeight());

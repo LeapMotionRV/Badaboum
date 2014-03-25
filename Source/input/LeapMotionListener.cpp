@@ -44,13 +44,11 @@ namespace input
 	}
 
 	void LeapMotionListener::onFrame(const Leap::Controller& controller){
-		if ( !m_pRenderer->isPaused() && !m_pRenderer->getRenderer2D()->isShowHelp()){
-			Leap::Frame frame = controller.frame();
-			if(frame.isValid()){
-				update(frame);
-				m_pRenderer->setLastFrame(frame);
-				m_pRenderer->getOpenGLContext()->triggerRepaint();
-			}
+		Leap::Frame frame = controller.frame();
+		if(frame.isValid()){
+			update(frame);
+			m_pRenderer->setLastFrame(frame);
+			m_pRenderer->getOpenGLContext()->triggerRepaint();
 		}
 	}
 
@@ -100,6 +98,15 @@ namespace input
 				}
 			}
 		}
+
+			if(hands.count() == 0){
+					m_pRenderer->getRenderer2D()->isShowHelp(true);
+					m_pRenderer->isPaused(true);
+				}
+				else{
+					m_pRenderer->getRenderer2D()->isShowHelp(false);
+					m_pRenderer->isPaused(false);
+				}
 	}
 
 	void  LeapMotionListener::manageCamera(Leap::Frame &frame){
