@@ -5,6 +5,7 @@
 #include <JuceHeader.h>
 
 #include "../physical/Model.h"
+#include "../sound/SoundManager.h"
 #include "Renderer.h"
 #include "../input/InputManager.h"
 #include "../input/LeapMotionListener.h"
@@ -31,6 +32,7 @@ namespace render
 		static const unsigned int	m_HEIGHT = 600;
 
 		physical::Model*			m_pModel;
+		sound::SoundManager*		m_pSoundManager;
 		Renderer*					m_pOpenGLRenderer;
 		input::InputManager*		m_pInputManager;
 		input::LeapMotionListener*	m_pLeapMotionListener;

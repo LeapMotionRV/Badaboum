@@ -9,7 +9,6 @@ namespace render
 		//the font
 		m_fixedFont = Font("Courier New", 24, Font::plain );
 		m_humanAlpha = 1.0;
-
 		//the debug
 		m_bShowDebug = false;
 		m_strDebug = "ESC   - quit\n"

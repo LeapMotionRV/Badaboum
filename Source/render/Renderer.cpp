@@ -31,6 +31,7 @@ namespace render
 
 		delete m_pRenderer2D;
 		delete m_pSkybox;
+		delete m_pSoundManager;
 	}
 
 	void Renderer::newOpenGLContextCreated(){
@@ -55,7 +56,6 @@ namespace render
 		glShadeModel(GL_SMOOTH);
 
 		glEnable(GL_LIGHTING);
-
 
 		//create textures
 		m_pModel->getGround()->createTexture();
@@ -144,6 +144,7 @@ namespace render
 				// ******************** //
 				glPushMatrix();
 					//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
+					glTranslatef(0, 5, 0);
 					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 					m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
 				glPopMatrix();

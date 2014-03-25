@@ -6,8 +6,9 @@
 
 namespace input
 {
-	LeapMotionListener::LeapMotionListener(render::Renderer* pRenderer){
+	LeapMotionListener::LeapMotionListener(render::Renderer* pRenderer, sound::SoundManager* pSoundManager){
 		m_pRenderer = pRenderer;
+		m_pSoundManager = pSoundManager;
 	}
 
 	LeapMotionListener::~LeapMotionListener(){
@@ -90,7 +91,10 @@ namespace input
 				}
 				//trigger wind
 				else if(fingersHand0.count() >= 3 && gesture.type() == Leap::Gesture::TYPE_SWIPE){
-					triggerWind(gesture);
+					if(m_pRenderer->getModel()->isPlayerWin() || m_pRenderer->getModel()->isPlayerLoose())
+						triggerGameBySwipe();
+					else
+						triggerWind(gesture);
 				}
 			}
 		}
@@ -150,6 +154,9 @@ namespace input
 									);
 		physical::ConstantForce wind = physical::ConstantForce(force);
 		wind.apply(m_pRenderer->getModel()->getParticuleManager());
+
+		//Launch the sound
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::WIND);
 	}
 
 	void  LeapMotionListener::createParticle(Leap::Gesture &gesture){
@@ -172,10 +179,15 @@ namespace input
 		//Scale
 		coordParticle = 1/m_pRenderer->getTotalMotionScale() * coordParticle;
 
-
-
 		//Create particle
 		glm::vec3 particlePosition = glm::vec3(coordParticle.x, coordParticle.y, coordParticle.z);
 		m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
+
+		//Launch the sound
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::PARTICLE);
+	}
+
+	void LeapMotionListener::triggerGameBySwipe(){
+		m_pRenderer->getModel()->reset();
 	}
 }

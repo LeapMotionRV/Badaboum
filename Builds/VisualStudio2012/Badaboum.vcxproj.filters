@@ -310,6 +310,9 @@
     <Filter Include="Badaboum\Source\input">
       <UniqueIdentifier>{9f6eb09e-de97-4d9c-815c-77ee0f6ed731}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Badaboum\Source\sound">
+      <UniqueIdentifier>{ba73f139-a8c2-4f2b-a867-522ec06ec888}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1502,6 +1505,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\input\InputManager.cpp">
       <Filter>Badaboum\Source\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\sound\SoundManager.cpp">
+      <Filter>Badaboum\Source\sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2887,6 +2893,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\physical\intersections.h">
       <Filter>Badaboum\Source\physical</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\sound\SoundManager.h">
+      <Filter>Badaboum\Source\sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

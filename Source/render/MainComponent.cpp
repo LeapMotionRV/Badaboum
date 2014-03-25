@@ -15,13 +15,17 @@ namespace render
 		m_pModel = new physical::Model();
 		m_pOpenGLRenderer->setModel(m_pModel);
 
+		//create the sound, and add it to the renderer and the Leap Motion
+		m_pSoundManager = new sound::SoundManager();
+		m_pOpenGLRenderer->setSoundManager(m_pSoundManager);
+
 		//add manager for classic inputs (mouse and keyboard)
 		m_pInputManager = new input::InputManager(m_pOpenGLRenderer);
 		m_pOpenGLRenderer->addMouseListener(m_pInputManager, false);
 		m_pOpenGLRenderer->addKeyListener(m_pInputManager);
 
 		//add the listener to the controller (Leap Motion)
-		m_pLeapMotionListener = new input::LeapMotionListener(m_pOpenGLRenderer);
+		m_pLeapMotionListener = new input::LeapMotionListener(m_pOpenGLRenderer, m_pSoundManager);
 		Leap::Controller controller = BadaboumWindow::getController();
 		controller.addListener(*m_pLeapMotionListener);
 	}
