@@ -140,6 +140,10 @@ namespace render
 
 			if(isPlayerWin){
 				g.drawImage(m_imageWin, 0, 0, m_width, m_height, 0, 0, m_imageWin.getWidth(), m_imageWin.getHeight());
+				g.setColour(juce::Colours::blue);
+				g.drawSingleLineText(String::formatted("You have rescued %4.0f human beings from a cruel death.\n", nbHumanLeft), 200, 260);
+				g.drawSingleLineText(String::formatted("Now you are a new god for them and have to guide them through their new life.", nbHumanLeft), 120, 280);
+				g.drawSingleLineText(String::formatted("Good luck my friend !"), 425, 300);
 			}
 			else if(isPlayerLoose){
 				g.drawImage(m_imageLoose, 0, 0, m_width, m_height, 0, 0, m_imageLoose.getWidth(), m_imageLoose.getHeight());
@@ -182,7 +186,7 @@ namespace render
 					m_humanAlpha=1;
 				}
 				g.setOpacity(m_humanAlpha);
-				g.drawSingleLineText(m_human, 10, 25);;
+				g.drawSingleLineText(m_human, 10, 25);
 			}
 		}
 	}
