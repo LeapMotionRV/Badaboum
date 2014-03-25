@@ -56,10 +56,6 @@ namespace render
 
 		glEnable(GL_LIGHTING);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-
 		//bind textures
 		m_pModel->getGround()->createTexture();
 		m_pSkybox->createTexture();
@@ -153,6 +149,7 @@ namespace render
 			setupScene();
 			glPushMatrix();
 				//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
+				glTranslatef(0, 5, 0);
 				glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 				m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
 			glPopMatrix();

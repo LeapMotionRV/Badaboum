@@ -79,7 +79,6 @@ namespace render
 	}
 
 	//Warning to our situation, we moove the scene and not the camera, so the skybox has to be submitted to the rotation, but not to the translation of the scene and not to the scale ? 
-	//the skybox is submitted to the rotation like the scene, not scaled and translated like the scene.
 	void Skybox::draw(Leap::Matrix rotationMatrix, Leap::Vector totalTranslation, float totalScale){
 		//clear color
 		glColor3f(1, 1, 1);

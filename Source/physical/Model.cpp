@@ -14,7 +14,8 @@ namespace physical
 		m_pParticleManager->addRandomParticles(countParticles);
 		
 		m_pGround = new Ground(m_pLeapfrogSolver);
-		initGround(50);//initGround(10*ParticleManager::getNbStartedParticles());
+		//initGround changes the size of the ground, but the texture repetition is managed in draw function of Ground
+		initGround(100);//initGround(10*ParticleManager::getNbStartedParticles());
 
 		//forces
 		m_constantForceArray = std::vector<ConstantForce*>();

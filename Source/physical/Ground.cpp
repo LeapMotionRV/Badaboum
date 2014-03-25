@@ -34,7 +34,7 @@ namespace physical
 	}
 
 	void Ground::createTexture() {
-		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/lavaRepeat.jpg");
+		juce::File fileGround = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/lavaGrise512.jpg");
 		if(!fileGround.existsAsFile()){
 			std::cout << "Error when loading texture of the ground." << std::endl;
 		}
@@ -50,9 +50,11 @@ namespace physical
 		for(unsigned int i = 0; i <= m_polygonForceArray.size()-1; ++i){
 			bind();
 			//const float kfHalfSize = size/2.f;
-			
-
-			m_polygonArray[i]->draw(1.0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			m_polygonArray[i]->draw(50.0);
 			unbind();
 		}
 	}
