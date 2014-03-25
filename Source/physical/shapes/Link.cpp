@@ -5,9 +5,9 @@
 namespace physical
 {
 	//rigidity
-	float Link::s_K = 2.f;
+	float Link::s_K = 2.f; //35.f
 	//brake
-	float Link::s_V = 0.0001f;
+	float Link::s_V = 0.0001f;//0.001f
 
 	Link::Link(ParticleManager* pm, size_t idParticle1, size_t idParticle2){
 		//create links
