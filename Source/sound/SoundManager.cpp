@@ -2,7 +2,9 @@
 
 namespace sound
 {
-	SoundManager::SoundManager(){
+	SoundManager::SoundManager() : m_thread ("audio file preview") {
+		m_thread.startThread(3);
+
 		m_pDeviceManager = new juce::AudioDeviceManager();
 		m_pDeviceManager->initialise(0, 2, nullptr, true);
 		m_formatManager.registerBasicFormats();
@@ -63,7 +65,10 @@ namespace sound
 			m_currentAudioFileSourceArray.insert(m_currentAudioFileSourceArray.begin() + idOfSound, 
 												 new AudioFormatReaderSource(reader, true));
             //plug it into our transport source
-            m_transportSourceArray.at(idOfSound)->setSource(m_currentAudioFileSourceArray.at(idOfSound));
+            m_transportSourceArray.at(idOfSound)->setSource(m_currentAudioFileSourceArray.at(idOfSound),
+									  32768,                   // tells it to buffer this many samples ahead
+                                      &m_thread,               // this is the background thread to use for reading-ahead
+                                      reader->sampleRate);     // allows for sample rate correction
         }
     }
 

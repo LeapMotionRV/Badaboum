@@ -33,6 +33,8 @@ namespace sound
 		std::vector<juce::AudioSourcePlayer*>		m_audioSourcePlayerArray;
 		std::vector<juce::AudioTransportSource*>	m_transportSourceArray;
 
+		juce::TimeSliceThread m_thread;
+
 		std::vector<juce::ScopedPointer<juce::AudioFormatReaderSource>> m_currentAudioFileSourceArray;
 
 		 JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoundManager);
