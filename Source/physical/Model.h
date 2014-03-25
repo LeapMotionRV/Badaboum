@@ -54,13 +54,14 @@ namespace physical
 		void isPlayerLoose(bool flag) {m_bIsPlayerLoose = flag;}
 
 		void setHumanAlive(unsigned int nbParticles, int time){
-			if(m_previousParticleNb!=nbParticles){
-				++m_previousParticleNb;
-				m_nbHumanLeft -= 100000000 + time;
+			if(!m_bIsPlayerWin && !m_bIsPlayerLoose){
+				if(m_previousParticleNb!=nbParticles){
+					++m_previousParticleNb;
+					m_nbHumanLeft -= 100000000 + time;
+				}
+				else
+					m_nbHumanLeft -= time;
 			}
-			else
-				m_nbHumanLeft -= time;
-
 			if(m_nbHumanLeft < 0) m_nbHumanLeft = 0;
 		}
 
