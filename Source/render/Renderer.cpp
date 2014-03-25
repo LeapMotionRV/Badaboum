@@ -144,7 +144,7 @@ namespace render
 				// ******************** //
 				glPushMatrix();
 					//The skybox is only subjected to the same rotation as the scene (it is the same comportement as if you moved your camera)
-					glTranslatef(0, 5, 0);
+					glTranslatef(0, 3, 0);
 					glMultMatrixf(m_mtxTotalMotionRotation.toArray4x4());
 					m_pSkybox->draw(m_mtxTotalMotionRotation, m_vTotalMotionTranslation, m_fTotalMotionScale);
 				glPopMatrix();

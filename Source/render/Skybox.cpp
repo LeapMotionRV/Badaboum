@@ -41,7 +41,7 @@ namespace render
 			m_pSkyboxDown->loadImage(imageSkyboxDown);
 		}
 		//Left
-		juce::File fileSkyboxLeft = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellLeft.jpg");
+		juce::File fileSkyboxLeft = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellLeft2.jpg");
 		if(!fileSkyboxLeft.existsAsFile()){
 			std::cout << "Error when loading texture of the skyboxLeft." << std::endl;
 		}
@@ -50,7 +50,7 @@ namespace render
 			m_pSkyboxLeft->loadImage(imageSkyboxLeft);
 		}
 		//Right
-		juce::File fileSkyboxRight = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellRight.jpg");
+		juce::File fileSkyboxRight = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellRight2.jpg");
 		if(!fileSkyboxRight.existsAsFile()){
 			std::cout << "Error when loading texture of the skyboxRight." << std::endl;
 		}
@@ -59,7 +59,7 @@ namespace render
 			m_pSkyboxRight->loadImage(imageSkyboxRight);
 		}
 		//Forward
-		juce::File fileSkyboxForward = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellFront.jpg");
+		juce::File fileSkyboxForward = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellFront2.jpg");
 		if(!fileSkyboxForward.existsAsFile()){
 			std::cout << "Error when loading texture of the skyboxForward." << std::endl;
 		}
@@ -68,7 +68,7 @@ namespace render
 			m_pSkyboxForward->loadImage(imageSkyboxForward);
 		}
 		//Back
-		juce::File fileSkyboxBack = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellBack.jpg");
+		juce::File fileSkyboxBack = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/hellBack2.jpg");
 		if(!fileSkyboxBack.existsAsFile()){
 			std::cout << "Error when loading texture of the skyboxBack." << std::endl;
 		}
@@ -87,7 +87,7 @@ namespace render
 
 		int width = m_pSkyboxForward->getWidth();
 		int height = m_pSkyboxForward->getHeight();
-		float factor = 10.f;
+		float factor = 25.f;
 		// Forward
 		m_pSkyboxForward->bind();
 		glm::vec3 firstPoint = glm::vec3(width/2.f, -height/2.f, -width/2.f);
