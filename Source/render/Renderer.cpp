@@ -136,9 +136,9 @@ namespace render
 		{
 			//!!! lock sensitive data !!!
 			juce::ScopedLock sceneLock(m_renderMutex);
-			
 			if(!isPaused()){
-				setupScene();
+			setupScene();
+				//setupScene();
 				// ******************** //
 				//   Draw OpenGL 3D     //
 				// ******************** //
@@ -177,11 +177,14 @@ namespace render
 											  m_pModel->getNbHumanLeft(), m_pModel->getNbHumanInitial());
 			}
 
-			if(m_pRenderer2D->isShowHelp()){
+			if(isPaused()){
+
 				// ******************** //
 				//    Draw 2D HELP      //
 				// ******************** //
 				m_pRenderer2D->render2DHelp(&m_openGLContext);
+					//Fingers are always drawn in the middle of our window they are not subjected to translation, rotation and scaled
+				drawPointables(frame);
 			}
 
 			if(m_pRenderer2D->isShowDebug()){
@@ -203,7 +206,7 @@ namespace render
 			//draw the scene even if there is not Leap Motion
 			if(!BadaboumWindow::getController().isConnected()) 
 				m_openGLContext.triggerRepaint();
-		}
+		 }
 	}
 
 	void Renderer::resized(){

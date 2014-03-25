@@ -46,11 +46,12 @@ namespace input{
 				m_pRenderer->getModel()->reset();
 			return true;
 		}
+
 		//Caracters
 		switch( iKeyCode ){
 			case ' ':
-				m_pRenderer->isPaused(!m_pRenderer->isPaused());
-				m_pRenderer->getRenderer2D()->isShowHelp(!m_pRenderer->getRenderer2D()->isShowHelp());
+				//m_pRenderer->isPaused(!m_pRenderer->isPaused());
+				//m_pRenderer->getRenderer2D()->isShowHelp(!m_pRenderer->getRenderer2D()->isShowHelp());
 				break;
 			case 'R':
 				m_pRenderer->resetCamera();
