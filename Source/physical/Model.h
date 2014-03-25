@@ -56,10 +56,10 @@ namespace physical
 		void setHumanAlive(unsigned int nbParticles, int time){
 			if(m_previousParticleNb!=nbParticles){
 				++m_previousParticleNb;
-				m_nbHumanLeft -= 100000000 + time;
+				m_nbHumanLeft -= 200000000;
 			}
 			else
-				m_nbHumanLeft -= time;
+				m_nbHumanLeft -= 5*time;
 
 			if(m_nbHumanLeft < 0) m_nbHumanLeft = 0;
 		}
