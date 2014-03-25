@@ -144,6 +144,9 @@ namespace input
 									);
 		physical::ConstantForce wind = physical::ConstantForce(force);
 		wind.apply(m_pRenderer->getModel()->getParticuleManager());
+
+		//Launch the sound
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::WIND);
 	}
 
 	void  LeapMotionListener::createParticle(Leap::Gesture &gesture){
@@ -171,6 +174,6 @@ namespace input
 		m_pRenderer->getModel()->addParticleWhereLeapIs(particlePosition);
 
 		//Launch the sound
-		m_pSoundManager->playSound();
+		m_pSoundManager->playSound(sound::SoundManager::SoundId::PARTICLE);
 	}
 }

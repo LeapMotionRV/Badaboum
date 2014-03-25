@@ -3,51 +3,65 @@
 namespace sound
 {
 	SoundManager::SoundManager(){
-		m_pDeviceManager = new AudioDeviceManager();
+		m_pDeviceManager = new juce::AudioDeviceManager();
 		m_pDeviceManager->initialise(0, 2, nullptr, true);
 		m_formatManager.registerBasicFormats();
 		
-		m_pTransportSource = new juce::AudioTransportSource();
-		m_pTransportSource->setGain(50);
-		juce::File fileSound = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/sound/particle.mp3");
-		if(!fileSound.existsAsFile()){
-			std::cout << "Error when loading texture of the sound." << std::endl;
+		//particle sound
+		m_transportSourceArray.insert(m_transportSourceArray.begin() + SoundId::PARTICLE, new juce::AudioTransportSource());
+		juce::File fileParticleSound = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/sound/particle.mp3");
+		if(!fileParticleSound.existsAsFile()){
+			std::cout << "Error when loading texture of the sound for the particle." << std::endl;
 		}
-		loadFileIntoTransport(fileSound);
+		loadFileIntoTransport(fileParticleSound, SoundId::PARTICLE);
+		m_audioSourcePlayerArray.insert(m_audioSourcePlayerArray.begin() + SoundId::PARTICLE, new juce::AudioSourcePlayer());
+		m_pDeviceManager->addAudioCallback(m_audioSourcePlayerArray.at(SoundId::PARTICLE));
+		m_audioSourcePlayerArray.at(SoundId::PARTICLE)->setSource(m_transportSourceArray.at(SoundId::PARTICLE));
 
-		m_pAudioSourcePlayer = new AudioSourcePlayer();
-        m_pDeviceManager->addAudioCallback(m_pAudioSourcePlayer);
-        m_pAudioSourcePlayer->setSource(m_pTransportSource);
+		//wind sound
+		m_transportSourceArray.insert(m_transportSourceArray.begin() + SoundId::WIND, new juce::AudioTransportSource());
+		juce::File fileWindSound = juce::File::getCurrentWorkingDirectory().getChildFile("../../data/sound/wind.mp3");
+		if(!fileWindSound.existsAsFile()){
+			std::cout << "Error when loading texture of the sound for the wind." << std::endl;
+		}
+		loadFileIntoTransport(fileWindSound, SoundId::WIND);
+		m_audioSourcePlayerArray.insert(m_audioSourcePlayerArray.begin() + SoundId::WIND, new juce::AudioSourcePlayer());
+		m_pDeviceManager->addAudioCallback(m_audioSourcePlayerArray.at(SoundId::WIND));
+		m_audioSourcePlayerArray.at(SoundId::WIND)->setSource(m_transportSourceArray.at(SoundId::WIND));
 	}
 
 	SoundManager::~SoundManager(){
-        m_pTransportSource->setSource(nullptr);
-        m_pAudioSourcePlayer->setSource(nullptr);
-        m_pDeviceManager->removeAudioCallback(m_pAudioSourcePlayer);
-		delete m_pTransportSource;
-		delete m_pAudioSourcePlayer;
+		for(size_t i = 0; i < m_transportSourceArray.size(); ++i){
+			m_transportSourceArray.at(i)->setSource(nullptr);
+			m_audioSourcePlayerArray.at(i)->setSource(nullptr);
+			m_pDeviceManager->removeAudioCallback(m_audioSourcePlayerArray.at(i));
+			delete m_audioSourcePlayerArray.at(i);
+			delete m_transportSourceArray.at(i);
+		}
 		delete m_pDeviceManager;
 	}
 
-	void SoundManager::loadFileIntoTransport(const File& audioFile) {
+	void SoundManager::loadFileIntoTransport(const File& audioFile, SoundId idOfSound) {
         // unload the previous file source and delete it..
-        m_pTransportSource->stop();
-        m_pTransportSource->setSource(nullptr);
-        m_currentAudioFileSource = nullptr;
+        m_transportSourceArray.at(idOfSound)->stop();
+        m_transportSourceArray.at(idOfSound)->setSource(nullptr);
 
         AudioFormatReader* reader = m_formatManager.createReaderFor(audioFile);
 
-        if (reader != nullptr)
-        {
-            m_currentAudioFileSource = new AudioFormatReaderSource(reader, true);
-
-            // ..and plug it into our transport source
-            m_pTransportSource->setSource(m_currentAudioFileSource);
+        if (reader != nullptr) {
+			m_currentAudioFileSourceArray.insert(m_currentAudioFileSourceArray.begin() + idOfSound, 
+												 new AudioFormatReaderSource(reader, true));
+            //plug it into our transport source
+            m_transportSourceArray.at(idOfSound)->setSource(m_currentAudioFileSourceArray.at(idOfSound));
         }
     }
 
-	void SoundManager::playSound(){
-		m_pTransportSource->setPosition(0);
-		m_pTransportSource->start();
+	void SoundManager::playSound(SoundId idOfSound){
+		for(size_t i = 0; i < m_transportSourceArray.size(); ++i){
+			m_transportSourceArray.at(i)->setPosition(0);
+			m_transportSourceArray.at(i)->stop();
+		}
+		m_transportSourceArray.at(idOfSound)->setPosition(0);
+		m_transportSourceArray.at(idOfSound)->start();
 	}
 }
