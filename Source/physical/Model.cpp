@@ -62,7 +62,7 @@ namespace physical
 		if(m_pLinkManager->isPathExistFromAStartedParticleToAnEndedParticle() && !m_bIsPlayerLoose){
 			m_bIsPlayerWin = true;
 		}
-		if(m_nbHumanLeft < 0){
+		if(m_nbHumanLeft <= 0){
 			m_bIsPlayerLoose = true;
 		}
 		//links

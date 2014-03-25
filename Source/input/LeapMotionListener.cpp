@@ -93,7 +93,10 @@ namespace input
 				}
 				//trigger wind
 				else if(fingersHand0.count() >= 3 && gesture.type() == Leap::Gesture::TYPE_SWIPE){
-					triggerWind(gesture);
+					if(m_pRenderer->getModel()->isPlayerWin() || m_pRenderer->getModel()->isPlayerLoose())
+						triggerGameBySwipe();
+					else
+						triggerWind(gesture);
 				}
 			}
 		}
@@ -175,5 +178,9 @@ namespace input
 
 		//Launch the sound
 		m_pSoundManager->playSound(sound::SoundManager::SoundId::PARTICLE);
+	}
+
+	void LeapMotionListener::triggerGameBySwipe(){
+		m_pRenderer->getModel()->reset();
 	}
 }
